@@ -7,6 +7,7 @@ app = Flask(__name__)
 @app.route("/test", methods=['POST'])
 def test():
     client = boto3.client("bedrock-runtime", region_name="us-east-1")
+    
     data = request.get_json()
     prompt = data["prompt"]
     
