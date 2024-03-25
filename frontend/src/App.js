@@ -1,23 +1,38 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react'
 import './App.css';
 
-function App() {
+import { TranscribeStreamingClient } from "@aws-sdk/client-transcribe-streaming";
+
+import LiveTranscriptions from './components/LiveTranscriptions';
+
+
+const App = () => {
+  const [currentCredentials, setCurrentCredentials] = useState({
+		accessKeyId: "",
+		authenticated: false,
+		expiration: undefined,
+		identityId: "",
+		secretAccessKey: "",
+		sessionToken: ""
+	});
+	const [transcriptionClient, setTranscriptionClient] = useState(null);
+	const [transcribeStatus, setTranscribeStatus] = useState(false);
+	const [transcript, setTranscript] = useState();
+	const [lines, setLines] = useState([]);
+	const [currentLine, setCurrentLine] = useState([]);
+	const [mediaRecorder, setMediaRecorder] = useState();
+	
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <LiveTranscriptions
+										currentCredentials={currentCredentials}
+										mediaRecorder={mediaRecorder}
+										setMediaRecorder={setMediaRecorder}
+										setTranscriptionClient={setTranscriptionClient}
+										transcriptionClient={transcriptionClient}
+										transcribeStatus={transcribeStatus}
+										setTranscript={setTranscript}
+									/>
     </div>
   );
 }
