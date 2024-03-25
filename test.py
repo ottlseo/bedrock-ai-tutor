@@ -8,8 +8,7 @@ headers = {
 }
 
 request = {
-    "name": "yoonseo",
-    "age": 25
+    "prompt": "What is your name?"
 } 
 data = json.dumps(request)
 response = requests.post(
