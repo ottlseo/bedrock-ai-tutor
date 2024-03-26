@@ -22,14 +22,15 @@ import LiveTranscriptions from './components/LiveTranscriptions';
 import '@aws-amplify/ui-react/styles.css';
 import { TranscribeStreamingClient } from "@aws-sdk/client-transcribe-streaming";
 
-const accessKeyId = import.meta.env.ACCESS_KEY_ID;
-const secretAccessKey = import.meta.env.SECRET_ACCESS_KEY;
-const region = "us-east-1";
+// const accessKeyId = process.env.ACCESS_KEY_ID as string;
+// const secretAccessKey = process.env.SECRET_ACCESS_KEY as string;
+
+const region: string = "us-east-1";
 
 function App() {
 	const currentCredentials: CredentialsDataType = {
-		accessKeyId: accessKeyId,
-		secretAccessKey: secretAccessKey
+		accessKeyId: process.env.ACCESS_KEY_ID as string,
+		secretAccessKey: process.env.SECRET_ACCESS_KEY as string
 	};
 	
 	const [transcriptionClient, setTranscriptionClient] = useState<TranscribeStreamingClient | null>(null);
