@@ -13,7 +13,6 @@
     "react-scripts": "^5.0.1",
     "web-vitals": "^2.1.4",
     "buffer": "^6.0.3",
-    "process": "^0.11.10",
     "stream-browserify": "^3.0.0",
     "react-app-rewired": "^2.2.1"
   },
