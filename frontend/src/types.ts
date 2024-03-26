@@ -8,7 +8,7 @@ export interface Transcript {
 }
 
 export interface LiveTranscriptionProps {
-  currentCredentials: ICredentials,
+  currentCredentials: CredentialsDataType,
   mediaRecorder: AudioWorkletNode | undefined,
   setMediaRecorder: (m: AudioWorkletNode) => void,
   setTranscriptionClient: (a: TranscribeStreamingClient) => void,
@@ -17,6 +17,10 @@ export interface LiveTranscriptionProps {
   setTranscript: (t: Transcript) => void,
 }
 
+export type CredentialsDataType = {
+  accessKeyId: string, 
+  secretAccessKey: string
+};
 
 export type RecordingProperties = {
   numberOfChannels: number,

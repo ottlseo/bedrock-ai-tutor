@@ -6,13 +6,13 @@ import {
   StartStreamTranscriptionCommand,
   LanguageCode
 } from '@aws-sdk/client-transcribe-streaming';
-import { ICredentials } from "@aws-amplify/core";
 import pEvent from 'p-event';
 
 import {
   RecordingProperties,
   MessageDataType,
-  LiveTranscriptionProps
+  LiveTranscriptionProps,
+  CredentialsDataType
 } from "../types";
 
 
@@ -20,13 +20,9 @@ const sampleRate = 48000;
 const language = "en-US";
 const audiosource = "ScreenCapture";
 
-// const sampleRate = import.meta.env.VITE_TRANSCRIBE_SAMPLING_RATE;
-// const language = import.meta.env.VITE_TRANSCRIBE_LANGUAGE_CODE as LanguageCode;
-// const audiosource = import.meta.env.VITE_TRANSCRIBE_AUDIO_SOURCE;
-
 const startStreaming = async (
   handleTranscribeOutput: (data: string, partial: boolean, transcriptionClient: TranscribeStreamingClient, mediaRecorder: AudioWorkletNode) => void,
-  currentCredentials: ICredentials,
+  currentCredentials: CredentialsDataType
 ) => {
 
   const audioContext = new window.AudioContext();
@@ -95,7 +91,7 @@ const startStreaming = async (
   };
   const transcribeClient = new TranscribeStreamingClient({
     region: 'us-east-1',
-    credentials: currentCredentials,
+    credentials: currentCredentials
   });
 
   const command = new StartStreamTranscriptionCommand({

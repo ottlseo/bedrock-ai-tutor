@@ -15,38 +15,22 @@ import {
 } from '@cloudscape-design/components';
 import '@cloudscape-design/global-styles/index.css';
 
-import awsExports from './aws-exports';
 import './App.css'
-import { Transcript } from './types';
+import { Transcript, CredentialsDataType } from './types';
 import LiveTranscriptions from './components/LiveTranscriptions';
 
-import { Auth } from 'aws-amplify';
-import { ICredentials } from "@aws-amplify/core";
-import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-
 import { TranscribeStreamingClient } from "@aws-sdk/client-transcribe-streaming";
 
-async function signOut() {
-  try {
-      await Auth.signOut();
-  } catch (error) {
-      console.log('error signing out: ', error);
-  }
-}
-
-Auth.configure(awsExports)
+const accessKeyId = import.meta.env.ACCESS_KEY_ID;
+const secretAccessKey = import.meta.env.SECRET_ACCESS_KEY;
+const region = "us-east-1";
 
 function App() {
-	const [currentCredentials, setCurrentCredentials] = useState<ICredentials>({
-		accessKeyId: "",
-		authenticated: false,
-		expiration: undefined,
-		identityId: "",
-		secretAccessKey: "",
-		sessionToken: ""
-	});
-	// const [currentSession, setCurrentSession] = useState<CognitoUserSession>();
+	const currentCredentials: CredentialsDataType = {
+		accessKeyId: accessKeyId,
+		secretAccessKey: secretAccessKey
+	};
 	
 	const [transcriptionClient, setTranscriptionClient] = useState<TranscribeStreamingClient | null>(null);
 	const [transcribeStatus, setTranscribeStatus] = useState<boolean>(false);
@@ -54,18 +38,6 @@ function App() {
 	const [lines, setLines] = useState<Transcript[]>([]);
 	const [currentLine, setCurrentLine] = useState<Transcript[]>([]);
 	const [mediaRecorder, setMediaRecorder] = useState<AudioWorkletNode>();
-
-	useEffect(() => {
-		async function getAuth() {
-			const currCreds = await Auth.currentUserCredentials()
-			return currCreds
-		}
-
-		getAuth().then((res) => {
-			const currCreds = res;
-			setCurrentCredentials(currCreds);
-		});
-	}, []);
 
 	useEffect(() => {
 		if (transcript) {
@@ -110,9 +82,7 @@ function App() {
 
 	return (
 		<Router>
-			<Authenticator loginMechanisms={['email']} formFields={formFields}>
-				{() => (
-					<>
+				<>
 						<Routes>
 							<Route path="/" element={<>
 									<ContentLayout
@@ -127,9 +97,6 @@ function App() {
 																{ transcribeStatus ? "Stop Transcription" : "Start Transcription" } 
 															</Button>
 
-															<Button variant='primary' onClick={signOut}>
-																Sign out
-															</Button>
 														</SpaceBetween>
 													}
 												>
@@ -186,8 +153,7 @@ function App() {
 							}/>
 						</Routes>
 					</>
-				)}
-			</Authenticator>
+				
 		</Router>
 	);
 }
