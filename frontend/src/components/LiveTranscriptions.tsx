@@ -16,6 +16,10 @@ import {
 } from "../types";
 
 
+// const sampleRate = 48000;
+// const language = "en-US";
+// const audiosource = "ScreenCapture";
+
 const sampleRate = import.meta.env.VITE_TRANSCRIBE_SAMPLING_RATE;
 const language = import.meta.env.VITE_TRANSCRIBE_LANGUAGE_CODE as LanguageCode;
 const audiosource = import.meta.env.VITE_TRANSCRIBE_AUDIO_SOURCE;
@@ -224,9 +228,9 @@ const LiveTranscriptions = (props: LiveTranscriptionProps) => {
     toggleTranscribe();
   }, [transcribeStatus]);
 
-  return `
+  return (
     <></>
-  `;
+  );
 }
 
 export default LiveTranscriptions;

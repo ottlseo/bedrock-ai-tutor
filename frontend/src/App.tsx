@@ -18,7 +18,6 @@ import '@cloudscape-design/global-styles/index.css';
 
 import { Auth } from 'aws-amplify';
 import { ICredentials } from "@aws-amplify/core";
-
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
