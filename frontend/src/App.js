@@ -1,10 +1,10 @@
-import StartTranscriptionButton from './components/StartTranscriptionButton';
+import RecordingButtonSet from './components/RecordingButtonSet';
 import './App.css';
 
 const App = () => {
   return (
     <div className="App">
-      <StartTranscriptionButton />
+      <RecordingButtonSet />
     </div>
   );
 }

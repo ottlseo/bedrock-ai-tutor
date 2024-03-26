@@ -1,4 +1,4 @@
-import useState from "react";
+import { useState } from "react";
 
 import {
   TranscribeStreamingClient,
@@ -7,11 +7,19 @@ import {
 import MicrophoneStream from "microphone-stream";
 import { Buffer } from "buffer";
 
-const StartTranscriptionButton = () => {
-  const AWS_REGION = process.env.AWS_REGION;
-  const AWS_ACCESS_KEY_ID = process.env.ACCESS_KEY_ID;
-  const AWS_SECRET_ACCESS_KEY = process.env.SECRET_ACCESS_KEY;
-  
+window.Buffer = Buffer;
+// window.process = {
+//   env: {
+//     ACCESS_KEY_ID: 'ASIAYS2NVD7TEF2FRXFI',
+//     SECRET_ACCESS_KEY: 'VEoUK1i/6bZ+e/5d8YEL5MoYe3U8snZ7wmEHm89F'
+//   }
+// } 
+
+const RecordingButtonSet = () => {
+  const region = "us-east-1";
+  const accessKeyId = "ASIAYS2NVD7TEF2FRXFI";
+  const secretAccessKey = "VEoUK1i/6bZ+e/5d8YEL5MoYe3U8snZ7wmEHm89F";
+
   let microphoneStream = undefined;
   let transcribeClient = undefined;
   const language = "en-US";
@@ -31,10 +39,10 @@ const StartTranscriptionButton = () => {
   
   const createTranscribeClient = () => {
     transcribeClient = new TranscribeStreamingClient({
-      region: AWS_REGION,
+      region: region,
       credentials: {
-        accessKeyId: AWS_ACCESS_KEY_ID,
-        secretAccessKey: AWS_SECRET_ACCESS_KEY,
+        accessKeyId: accessKeyId,
+        secretAccessKey: secretAccessKey,
       },
     });
   };
@@ -82,7 +90,7 @@ const StartTranscriptionButton = () => {
   };
   
   const startRecording = async (callback) => {
-    if (!AWS_REGION || !AWS_ACCESS_KEY_ID || !AWS_SECRET_ACCESS_KEY) {
+    if (!region || !accessKeyId || !secretAccessKey) {
       alert("Set AWS env variables first.");
       return false;
     }
@@ -95,31 +103,31 @@ const StartTranscriptionButton = () => {
     await startStreaming(language, callback);
   };
   
-  const stopRecording = function () {
+  const stopRecording = () => {
     if (microphoneStream) {
       microphoneStream.stop();
       microphoneStream.destroy();
       microphoneStream = undefined;
     }
   };
-  const startR = async () => {
-    await startRecording((text) => {
-    setTranscription(transcription + text);
-    });
-  };
-      
-  const endR = () => {
-    stopRecording();
-    setTranscription("");
-  };
 
   return (
     <div>
-      <button onclick={startR}>
+      <button onClick={async () => {
+        await startRecording((text) => {
+          console.log("STARTED");
+          console.log(text);
+          setTranscription(text); // need fix
+        });
+      }}>
       START BUTTON
       </button>
       
-      <button onclick={endR}>
+      <button onClick={() => {
+        console.log("STOPPED");
+        stopRecording();
+        setTranscription("");
+      }}>
       STOP BUTTON
       </button>
       
@@ -127,4 +135,4 @@ const StartTranscriptionButton = () => {
     </div>
   );
 }
-export default StartTranscriptionButton;
+export default RecordingButtonSet;
