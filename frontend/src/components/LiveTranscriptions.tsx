@@ -16,14 +16,13 @@ import {
 } from "../types";
 
 
-// const sampleRate = 48000;
-// const language = "en-US";
-// const audiosource = "ScreenCapture";
+const sampleRate = 48000;
+const language = "en-US";
+const audiosource = "ScreenCapture";
 
-const sampleRate = import.meta.env.VITE_TRANSCRIBE_SAMPLING_RATE;
-const language = import.meta.env.VITE_TRANSCRIBE_LANGUAGE_CODE as LanguageCode;
-const audiosource = import.meta.env.VITE_TRANSCRIBE_AUDIO_SOURCE;
-
+// const sampleRate = import.meta.env.VITE_TRANSCRIBE_SAMPLING_RATE;
+// const language = import.meta.env.VITE_TRANSCRIBE_LANGUAGE_CODE as LanguageCode;
+// const audiosource = import.meta.env.VITE_TRANSCRIBE_AUDIO_SOURCE;
 
 const startStreaming = async (
   handleTranscribeOutput: (data: string, partial: boolean, transcriptionClient: TranscribeStreamingClient, mediaRecorder: AudioWorkletNode) => void,

@@ -15,6 +15,10 @@ import {
 } from '@cloudscape-design/components';
 import '@cloudscape-design/global-styles/index.css';
 
+import awsExports from './aws-exports';
+import './App.css'
+import { Transcript } from './types';
+import LiveTranscriptions from './components/LiveTranscriptions';
 
 import { Auth } from 'aws-amplify';
 import { ICredentials } from "@aws-amplify/core";
@@ -30,12 +34,6 @@ async function signOut() {
       console.log('error signing out: ', error);
   }
 }
-
-import awsExports from './aws-exports';
-import './App.css'
-import { Transcript } from './types';
-import LiveTranscriptions from './components/LiveTranscriptions';
-
 
 Auth.configure(awsExports)
 
