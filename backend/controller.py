@@ -32,12 +32,12 @@ def test():
     response_body = json.loads(response["body"].read())
     completion = response_body["completion"].strip()
 
-    response = {
+    response = jsonify({
         "result": completion
-    }
+    })
     response.headers["Access-Control-Allow-Origin"] = "*" # fix CORS error
     
-    return jsonify(response)
+    return response
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=8080)
