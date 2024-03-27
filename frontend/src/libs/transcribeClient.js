@@ -22,7 +22,7 @@ export const startRecording = async (callback) => {
     await startStreaming(callback);
 };
 
-export const stopRecording = function () {
+export const stopRecording = () => {
   if (microphoneStream) {
     microphoneStream.stop();
     microphoneStream.destroy();

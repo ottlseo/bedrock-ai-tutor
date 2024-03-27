@@ -1,21 +1,7 @@
-// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-// SPDX-License-Identifier: Apache-2.0
-
-/*
-ABOUT THIS NODE.JS EXAMPLE: This example works with the AWS SDK for JavaScript version 3 (v3),
-which is available at https://github.com/aws/aws-sdk-js-v3.
-
-Purpose:
-index.js is part of a tutorial demonstrating how to:
-- Transcribe speech in real-time using Amazon Transcribe
-- Send the transcription and translation by email using Amazon Simple Email Service (Amazon SES)
-*/
-
-// snippet-start:[transcribe.JavaScript.streaming.indexv3]
 import * as TranscribeClient from "./libs/transcribeClient.js";
+import * as BedrockClient from "./libs/bedrockClient.js";
 
 const recordButton = document.getElementById("record");
-const inputLanguageList = document.getElementById("inputLanguageList");
 const transcribedText = document.getElementById("transcribedText");
 
 window.onRecordPress = () => {
@@ -41,7 +27,7 @@ const onTranscriptionDataReceived = (data) => {
   transcribedText.insertAdjacentHTML("beforeend", data);
 }
 
-const stopRecording = function () {
+const stopRecording = () => {
   recordButton.setAttribute("class", "recordInactive");
   TranscribeClient.stopRecording();
 };
