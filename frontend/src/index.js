@@ -27,9 +27,10 @@ const onTranscriptionDataReceived = (data) => {
   transcribedText.insertAdjacentHTML("beforeend", data);
 }
 
-const stopRecording = () => {
+const stopRecording = async () => {
   recordButton.setAttribute("class", "recordInactive");
   TranscribeClient.stopRecording();
+  await BedrockClient.callApi(transcribedText);
 };
 
 window.clearTranscription = () => {
