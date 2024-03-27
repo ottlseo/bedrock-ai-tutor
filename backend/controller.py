@@ -35,6 +35,8 @@ def test():
     response = {
         "result": completion
     }
+    response.headers["Access-Control-Allow-Origin"] = "*" # fix CORS error
+    
     return jsonify(response)
 
 if __name__ == "__main__":
