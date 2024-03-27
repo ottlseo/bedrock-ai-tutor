@@ -1,17 +1,53 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+/*
+ABOUT THIS NODE.JS EXAMPLE: This example works with the AWS SDK for JavaScript version 3 (v3),
+which is available at https://github.com/aws/aws-sdk-js-v3.
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+Purpose:
+index.js is part of a tutorial demonstrating how to:
+- Transcribe speech in real-time using Amazon Transcribe
+- Send the transcription and translation by email using Amazon Simple Email Service (Amazon SES)
+*/
+
+// snippet-start:[transcribe.JavaScript.streaming.indexv3]
+import * as TranscribeClient from "./libs/transcribeClient.js";
+
+const recordButton = document.getElementById("record");
+const inputLanguageList = document.getElementById("inputLanguageList");
+const transcribedText = document.getElementById("transcribedText");
+
+window.onRecordPress = () => {
+  if (recordButton.getAttribute("class") === "recordInactive") {
+    startRecording();
+  } else {
+    stopRecording();
+  }
+};
+
+const startRecording = async() => {
+  window.clearTranscription();
+  recordButton.setAttribute("class", "recordActive");
+  try {
+    await TranscribeClient.startRecording(onTranscriptionDataReceived);
+  } catch(error) {
+    alert("An error occurred while recording: " + error.message);
+    stopRecording();
+  }
+};
+
+const onTranscriptionDataReceived = (data) => {
+  transcribedText.insertAdjacentHTML("beforeend", data);
+}
+
+const stopRecording = function () {
+  recordButton.setAttribute("class", "recordInactive");
+  TranscribeClient.stopRecording();
+};
+
+window.clearTranscription = () => {
+  transcribedText.innerHTML = "";
+};
+
+// snippet-end:[transcribe.JavaScript.streaming.indexv3]
