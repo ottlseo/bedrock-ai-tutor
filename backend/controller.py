@@ -1,8 +1,12 @@
 from flask import Flask, request, json, jsonify
 import boto3
+import logging
+from flask_cors import CORS
+
 # from bedrock import generate_correction
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/test", methods=['POST'])
 def test():
@@ -36,6 +40,9 @@ def test():
         "result": completion
     })
     response.headers["Access-Control-Allow-Origin"] = "*" # fix CORS error
+    
+    logging.warning("HOHIHIHOIHOLH")
+    logging.warning(response.headers)
     
     return response
 
