@@ -3,6 +3,9 @@ import * as BedrockClient from "./libs/bedrockClient.js";
 
 const recordButton = document.getElementById("record");
 const transcribedText = document.getElementById("transcribedText");
+const correctedText = document.getElementById("correctedText");
+let fullText = "";
+let bedrockResponse = "";
 
 window.onRecordPress = () => {
   if (recordButton.getAttribute("class") === "recordInactive") {
@@ -25,16 +28,17 @@ const startRecording = async() => {
 
 const onTranscriptionDataReceived = (data) => {
   transcribedText.insertAdjacentHTML("beforeend", data);
+  fullText += data;
 }
 
 const stopRecording = async () => {
   recordButton.setAttribute("class", "recordInactive");
   TranscribeClient.stopRecording();
-  await BedrockClient.callApi(transcribedText);
+  console.log("Full sentence:", fullText); // 
+  bedrockResponse = await BedrockClient.callApi(fullText);
+  correctedText.insertAdjacentHTML("beforeend", bedrockResponse?.data?.result); // need fix
 };
 
 window.clearTranscription = () => {
   transcribedText.innerHTML = "";
 };
-
-// snippet-end:[transcribe.JavaScript.streaming.indexv3]
