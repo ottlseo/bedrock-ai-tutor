@@ -36,7 +36,7 @@ const stopRecording = async () => {
   TranscribeClient.stopRecording();
   console.log("Full sentence:", fullText); // 
   bedrockResponse = await BedrockClient.callApi(fullText);
-  correctedText.insertAdjacentHTML("beforeend", bedrockResponse?.data?.result); // need fix
+  correctedText.insertAdjacentHTML("beforeend", JSON.parse(bedrockResponse).data?.result);
 };
 
 window.clearTranscription = () => {

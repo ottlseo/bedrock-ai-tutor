@@ -41,9 +41,6 @@ def test():
     })
     response.headers["Access-Control-Allow-Origin"] = "*" # fix CORS error
     
-    logging.warning("HOHIHIHOIHOLH")
-    logging.warning(response.headers)
-    
     return response
 
 if __name__ == "__main__":
