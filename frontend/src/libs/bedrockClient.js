@@ -8,8 +8,9 @@ export const callApi = async (prompt) => {
             "prompt": prompt
         };
         const response = await axios.post(apiEndpoint, request);
-        console.log(request);
-        console.log(response);
+        return response
+        // console.log(request);
+        // console.log(response);
     } catch {
         console.log("error");
     }

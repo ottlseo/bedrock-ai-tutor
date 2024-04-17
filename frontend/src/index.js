@@ -55,7 +55,8 @@ const stopRecording = async () => {
   if (languageScoresResult.EN > languageScoresResult.KO) {
     console.log("=== Calling Bedrock... ===")
     bedrockResponse = await BedrockClient.callApi(fullText);
-    correctedText.insertAdjacentHTML("beforeend", JSON.parse(bedrockResponse).data?.result);
+    let bedrockText = bedrockResponse.data.result ?? "";
+    correctedText.insertAdjacentHTML("beforeend", bedrockText);
   } else {
     alert("Please speak in English!");
   }
@@ -64,4 +65,5 @@ const stopRecording = async () => {
 
 window.clearTranscription = () => {
   transcribedText.innerHTML = "";
+  correctedText.innerHTML = "";
 };
