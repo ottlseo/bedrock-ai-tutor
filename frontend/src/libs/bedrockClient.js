@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { API_URL } from "./cred.js";
 
-const apiEndpoint = API_URL+"/test"; // "http://localhost:8080/test" // 
+const apiEndpoint = API_URL+"/test/business";
 export const callApi = async (prompt) => {
     try {
         const request = {

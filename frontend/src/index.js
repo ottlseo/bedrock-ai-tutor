@@ -53,10 +53,11 @@ const stopRecording = async () => {
   console.log("Korean score: ", languageScoresResult.KO);
 
   if (languageScoresResult.EN > languageScoresResult.KO) {
+    console.log("=== Calling Bedrock... ===")
     bedrockResponse = await BedrockClient.callApi(fullText);
     correctedText.insertAdjacentHTML("beforeend", JSON.parse(bedrockResponse).data?.result);
   } else {
-    alert("=== Please speak in English ===");
+    alert("Please speak in English!");
   }
   
 };

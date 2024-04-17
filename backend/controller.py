@@ -47,8 +47,8 @@ def test():
     
     return response
 
-@app.route("/test/business", methods=['POST'])
-def test_business():
+@app.route("/business", methods=['POST'])
+def business():
     client = boto3.client("bedrock-runtime", region_name="us-east-1")
     
     data = request.get_json()
@@ -82,8 +82,8 @@ def test_business():
     
     return response
 
-@app.route("/test/casual", methods=['POST'])
-def test_casual():
+@app.route("/casual", methods=['POST'])
+def casual():
     client = boto3.client("bedrock-runtime", region_name="us-east-1")
     
     data = request.get_json()
