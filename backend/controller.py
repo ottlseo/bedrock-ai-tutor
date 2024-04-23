@@ -1,16 +1,73 @@
 from flask import Flask, request, json, jsonify
 import boto3
+import botocore
 import logging
 from flask_cors import CORS
-
 # from bedrock import generate_correction
 
 app = Flask(__name__)
 CORS(app)
 
-pre_prompt = "Please correct the following sentence grammatically and provide only the corrected sentence as the output, without any explanation - "
-pre_prompt_business = "If I provide an incorrect English sentence, please correct it grammatically and modify the vocabulary to make it suitable for business conversation. Provide only the corrected sentence as the output, without any explanation - "
-pre_prompt_casual = "If I provide an incorrect English sentence, please correct it grammatically and modify the vocabulary to make it natural and suitable for casual conversation. Provide only the corrected sentence as the output, without any explanation - "
+def generate_prompt(input):
+    return """z
+        Human: Please correct the sentence in <sentence> XML tags grammatically 
+        and provide the corrected sentence in <corrected> XML tags without any explanation. 
+        <sentence>{}</sentence>\n
+        Assistant: <corrected>
+        """.format(input)
+
+def generate_prompt_business_ver(input):
+    return """
+        Human: Please correct the sentence in <sentence> XML tags grammatically 
+        and make it suitable for business conversation. 
+        Provide the corrected sentence in <corrected> XML tags without any explanation. 
+        <sentence>{}</sentence>\n
+        Assistant: <corrected>
+        """.format(input)
+
+def generate_prompt_casual_ver(input):
+    return """
+        Human: Please correct the sentence in <sentence> XML tags grammatically 
+        and make it natural and suitable for casual conversation. 
+        Provide the corrected sentence in <corrected> XML tags without any explanation. 
+        <sentence>{}</sentence>\n
+        Assistant: <corrected>
+        """.format(input)
+
+@app.route("/haiku", methods=['POST'])
+def haiku():
+
+    data = request.get_json()
+    prompt = generate_prompt(data["prompt"])
+
+    body = json.dumps({
+        "max_tokens": 2000,
+        "messages": [{"role": "user", "content": prompt}],
+        "anthropic_version": "bedrock-2023-05-31"
+    })
+    modelId = "anthropic.claude-3-haiku-20240307-v1:0" #"anthropic.claude-3-sonnet-20240229-v1:0"
+    metadata = "application/json"
+
+    try:
+        client = boto3.client("bedrock-runtime", region_name="us-east-1")
+    
+        response = client.invoke_model(
+            body=body, modelId=modelId, accept=metadata, contentType=metadata
+        )
+        response_body = json.loads(response.get("body").read())
+        completion = response_body["completion"].strip()
+        response = jsonify({
+            "result": completion
+        })
+        response.headers["Access-Control-Allow-Origin"] = "*" # fix CORS error
+        
+        return response
+    
+    except botocore.exceptions.ClientError as error:
+        if error.response['Error']['Code'] == 'AccessDeniedException':
+            print(error.response['Error']['Message'])
+        else:
+            raise error
 
 @app.route("/test", methods=['POST'])
 def test():
@@ -18,14 +75,11 @@ def test():
     
     data = request.get_json()
     prompt = data["prompt"]
-    
-    print("Request: ", prompt)
-    
     #completion = generate_correction(client, prompt)
     
     body = json.dumps(
         {
-            "prompt": "Human: " + pre_prompt + prompt + "\n\nAssistant:",
+            "prompt": generate_prompt(prompt),
             "max_tokens_to_sample": 200,
         }
     ).encode()
@@ -52,15 +106,12 @@ def business():
     client = boto3.client("bedrock-runtime", region_name="us-east-1")
     
     data = request.get_json()
-    prompt = data["prompt"]
-    
-    print("Request: ", prompt)
-    
-    #completion = generate_correction(client, prompt)
+    input_sentence = data["prompt"]
+    #completion = generate_correction(client, input_sentence)
     
     body = json.dumps(
         {
-            "prompt": "Human: " + pre_prompt_business + prompt + "\n\nAssistant:",
+            "prompt": generate_prompt_business_ver(input_sentence),
             "max_tokens_to_sample": 200,
         }
     ).encode()
@@ -87,15 +138,12 @@ def casual():
     client = boto3.client("bedrock-runtime", region_name="us-east-1")
     
     data = request.get_json()
-    prompt = data["prompt"]
-    
-    print("Request: ", prompt)
-    
-    #completion = generate_correction(client, prompt)
+    input_sentence = data["prompt"]
+    #completion = generate_correction(client, input_sentence)
     
     body = json.dumps(
         {
-            "prompt": "Human: " + pre_prompt_casual + prompt + "\n\nAssistant:",
+            "prompt": generate_prompt_casual_ver(input_sentence),
             "max_tokens_to_sample": 200,
         }
     ).encode()
@@ -118,4 +166,4 @@ def casual():
     return response
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=8080)
+    app.run(debug=True, host='0.0.0.0', port=8081)
