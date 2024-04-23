@@ -8,31 +8,31 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-def generate_prompt(input):
-    return """z
+def generate_prompt(sentence):
+    return """\n\n
         Human: Please correct the sentence in <sentence> XML tags grammatically 
         and provide the corrected sentence in <corrected> XML tags without any explanation. 
         <sentence>{}</sentence>\n
         Assistant: <corrected>
-        """.format(input)
+        """.format(sentence)
 
-def generate_prompt_business_ver(input):
-    return """
+def generate_prompt_business_ver(sentence):
+    return """\n\n
         Human: Please correct the sentence in <sentence> XML tags grammatically 
         and make it suitable for business conversation. 
         Provide the corrected sentence in <corrected> XML tags without any explanation. 
         <sentence>{}</sentence>\n
         Assistant: <corrected>
-        """.format(input)
+        """.format(sentence)
 
-def generate_prompt_casual_ver(input):
-    return """
+def generate_prompt_casual_ver(sentence):
+    return """\n\n
         Human: Please correct the sentence in <sentence> XML tags grammatically 
         and make it natural and suitable for casual conversation. 
         Provide the corrected sentence in <corrected> XML tags without any explanation. 
         <sentence>{}</sentence>\n
         Assistant: <corrected>
-        """.format(input)
+        """.format(sentence)
 
 @app.route("/haiku", methods=['POST'])
 def haiku():
