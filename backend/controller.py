@@ -11,21 +11,17 @@ CORS(app)
 BUSINESS = 'business'
 CASUAL = 'casual'
 
-system_prompt_1 = "System: Please correct the given sentence grammatically" 
-system_prompt_2 = ". Provide the corrected sentence in <corrected> XML tags without any explanation."
-system_prompt_business = "and make it suitable for business conversation"
-system_prompt_casual = "and make it natural and suitable for casual conversation"
+def generate_system_prompt(option=None):
+    if option == BUSINESS:
+        additional_prompt = " and make it suitable for business conversation"
+    elif option == CASUAL:
+        additional_prompt = " and make it natural and suitable for casual conversation"
+    else: 
+        additional_prompt = ""
+    return "System: Please correct the given sentence grammatically{}. Provide the corrected sentence in <corrected> XML tags without any explanation.".format(additional_prompt)
 
 def generate_prompt(sentence, option=None):
-    system_prompt = system_prompt_1
-    if option == BUSINESS:
-        system_prompt += system_prompt_business
-    elif option == CASUAL:
-        system_prompt += system_prompt_casual
-    else: 
-        pass
-    system_prompt += system_prompt_2
-    
+    system_prompt = generate_system_prompt(option=option)
     return system_prompt+ "\n\nHuman: "+ sentence +"\n\nAssistant: <corrected>"
 
 @app.route("/haiku", methods=['POST'])
