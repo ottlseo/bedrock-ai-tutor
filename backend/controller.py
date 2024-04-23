@@ -18,7 +18,10 @@ def generate_system_prompt(option=None):
         additional_prompt = " and make it natural and suitable for casual conversation"
     else: 
         additional_prompt = ""
-    return "System: Please correct the given sentence grammatically{}. Provide the corrected sentence in <corrected> XML tags without any explanation.".format(additional_prompt)
+    return """
+        System: Please correct the given sentence grammatically{}. Provide the corrected sentence in <corrected> XML tags without any explanation. 
+        If the given sentence is correct, just return the original sentence in <corrected> XML tags and include <isCorrect>true</isCorrect>. 
+        """.format(additional_prompt)
 
 def generate_prompt(sentence, option=None):
     system_prompt = generate_system_prompt(option=option)
@@ -97,8 +100,6 @@ def business():
     
     data = request.get_json()
     input_sentence = data["prompt"]
-    #completion = generate_correction(client, input_sentence)
-    
     body = json.dumps(
         {
             "prompt": generate_prompt(input_sentence, option=BUSINESS),
@@ -129,8 +130,6 @@ def casual():
     
     data = request.get_json()
     input_sentence = data["prompt"]
-    #completion = generate_correction(client, input_sentence)
-    
     body = json.dumps(
         {
             "prompt": generate_prompt(input_sentence, option=CASUAL),
