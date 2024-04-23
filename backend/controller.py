@@ -20,7 +20,7 @@ def generate_system_prompt(option=None):
         additional_prompt = ""
     return """
         System: Please correct the given sentence grammatically{}. Provide the corrected sentence in <corrected> XML tags without any explanation. 
-        If the given sentence is correct, just return the original sentence in <corrected> XML tags and include <isCorrect>true</isCorrect>. 
+        If the sentence is grammatically correct and appropriate for the given context, return it enclosed in <corrected> XML tags and include <isCorrect>true</isCorrect>.
         """.format(additional_prompt)
 
 def generate_prompt(sentence, option=None):
@@ -48,9 +48,9 @@ def haiku():
             body=body, modelId=modelId, accept=metadata, contentType=metadata
         )
         response_body = json.loads(response.get("body").read())
-        completion = response_body["completion"].strip()
+        # completion = response_body["completion"].strip()
         response = jsonify({
-            "result": completion
+            "result": response_body
         })
         response.headers["Access-Control-Allow-Origin"] = "*" # fix CORS error
         
