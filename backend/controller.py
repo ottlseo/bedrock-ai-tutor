@@ -5,34 +5,24 @@ import logging
 from flask_cors import CORS
 # from bedrock import generate_correction
 
+BUSINESS = 'business'
+CASUAL = 'casual'
+
 app = Flask(__name__)
 CORS(app)
 
-def generate_prompt(sentence):
-    return """\n\n
-        Human: Please correct the sentence in <sentence> XML tags grammatically 
-        and provide the corrected sentence in <corrected> XML tags without any explanation. 
-        <sentence>{}</sentence>\n
-        Assistant: <corrected>
-        """.format(sentence)
+system_prompt_default = "Please correct the given sentence grammatically and provide the corrected sentence in <corrected> XML tags without any explanation."
+system_prompt_business = "Please correct the given sentence grammatically and make it suitable for business conversation. Provide the corrected sentence in <corrected> XML tags without any explanation."
+system_prompt_casual = "Please correct the given sentence grammatically and make it natural and suitable for casual conversation. Provide the corrected sentence in <corrected> XML tags without any explanation."
 
-def generate_prompt_business_ver(sentence):
-    return """\n\n
-        Human: Please correct the sentence in <sentence> XML tags grammatically 
-        and make it suitable for business conversation. 
-        Provide the corrected sentence in <corrected> XML tags without any explanation. 
-        <sentence>{}</sentence>\n
-        Assistant: <corrected>
-        """.format(sentence)
-
-def generate_prompt_casual_ver(sentence):
-    return """\n\n
-        Human: Please correct the sentence in <sentence> XML tags grammatically 
-        and make it natural and suitable for casual conversation. 
-        Provide the corrected sentence in <corrected> XML tags without any explanation. 
-        <sentence>{}</sentence>\n
-        Assistant: <corrected>
-        """.format(sentence)
+def generate_prompt(sentence, option=None):
+    if option == BUSINESS:
+        system_prompt = system_prompt_business
+    elif option == CASUAL:
+        system_prompt = system_prompt_casual
+    else: 
+        system_prompt = system_prompt_default
+    return system_prompt+ "\n\nHuman: "+ sentence +"\n\nAssistant: <corrected>"
 
 @app.route("/haiku", methods=['POST'])
 def haiku():
@@ -111,7 +101,7 @@ def business():
     
     body = json.dumps(
         {
-            "prompt": generate_prompt_business_ver(input_sentence),
+            "prompt": generate_prompt(input_sentence, option=BUSINESS),
             "max_tokens_to_sample": 200,
         }
     ).encode()
@@ -143,7 +133,7 @@ def casual():
     
     body = json.dumps(
         {
-            "prompt": generate_prompt_casual_ver(input_sentence),
+            "prompt": generate_prompt(input_sentence, option=CASUAL),
             "max_tokens_to_sample": 200,
         }
     ).encode()
