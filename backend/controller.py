@@ -5,23 +5,27 @@ import logging
 from flask_cors import CORS
 # from bedrock import generate_correction
 
-BUSINESS = 'business'
-CASUAL = 'casual'
-
 app = Flask(__name__)
 CORS(app)
 
-system_prompt_default = "Please correct the given sentence grammatically and provide the corrected sentence in <corrected> XML tags without any explanation."
-system_prompt_business = "Please correct the given sentence grammatically and make it suitable for business conversation. Provide the corrected sentence in <corrected> XML tags without any explanation."
-system_prompt_casual = "Please correct the given sentence grammatically and make it natural and suitable for casual conversation. Provide the corrected sentence in <corrected> XML tags without any explanation."
+BUSINESS = 'business'
+CASUAL = 'casual'
+
+system_prompt_1 = "System: Please correct the given sentence grammatically" 
+system_prompt_2 = ". Provide the corrected sentence in <corrected> XML tags without any explanation."
+system_prompt_business = "and make it suitable for business conversation"
+system_prompt_casual = "and make it natural and suitable for casual conversation"
 
 def generate_prompt(sentence, option=None):
+    system_prompt = system_prompt_1
     if option == BUSINESS:
-        system_prompt = system_prompt_business
+        system_prompt += system_prompt_business
     elif option == CASUAL:
-        system_prompt = system_prompt_casual
+        system_prompt += system_prompt_casual
     else: 
-        system_prompt = system_prompt_default
+        pass
+    system_prompt += system_prompt_2
+    
     return system_prompt+ "\n\nHuman: "+ sentence +"\n\nAssistant: <corrected>"
 
 @app.route("/haiku", methods=['POST'])
