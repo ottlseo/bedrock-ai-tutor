@@ -61,7 +61,8 @@
   border-radius: 15px;
 }
 
-#correctedTextByHaiku {
+#correctedTextByHaiku,
+#correctedTextBySonnet {
   width: 360px;
   min-height: 150px;
   padding: 20px;
@@ -70,13 +71,12 @@
   border-radius: 15px;
 }
 
-#correctedTextBySonnet {
-  width: 360px;
-  min-height: 150px;
-  padding: 20px;
-  background-color: rgb(240, 240, 240);
-  border: 1px solid darkgray;
-  border-radius: 15px;
+orig {
+  color: green;
+}
+
+corrected {
+  color: red;
 }
 
 .button {
