@@ -24,7 +24,7 @@ def generate_system_prompt(option=None):
     else: 
         assigning_role_prompt = "You are an English teacher who corrects students' English sentences to be grammatically correct. "
         additional_prompt = ""
-        
+
     return assigning_role_prompt + """
         If the English sentence I send you has a grammatical error, correct the grammar {} and return the corrected sentence enclosed in <corrected> XML tags. 
         If the English sentence I send is not erroneous, rephrase it into a better (more natural) sentence with the same meaning and return it enclosed in <orig> XML tags. 
@@ -35,23 +35,17 @@ def generate_prompt(sentence, option=None):
     system_prompt = generate_system_prompt(option=option)
     return "System: "+ system_prompt + "\n\nHuman: "+ sentence +"\n\nAssistant: "
 
-@app.route("/haiku", methods=['POST'])
-def haiku():
-
-    data = request.get_json()
-    prompt = generate_prompt(data["prompt"])
-
+def call_claude_v3(prompt, model=HAIKU):
     body = json.dumps({
         "max_tokens": 2000,
         "messages": [{"role": "user", "content": prompt}],
         "anthropic_version": "bedrock-2023-05-31"
     })
-    modelId = HAIKU
+    modelId = model
     metadata = "application/json"
 
     try:
         client = boto3.client("bedrock-runtime", region_name="us-east-1")
-    
         response = client.invoke_model(
             body=body, modelId=modelId, accept=metadata, contentType=metadata
         )
@@ -60,56 +54,56 @@ def haiku():
             "result": response_body
         })
         response.headers["Access-Control-Allow-Origin"] = "*" # fix CORS error
-        
         return response
     
     except botocore.exceptions.ClientError as error:
         if error.response['Error']['Code'] == 'AccessDeniedException':
-            print(error.response['Error']['Message'])
+            return error.response['Error']['Message']
         else:
             raise error
+
+
+@app.route("/haiku", methods=['POST'])
+def haiku():
+    data = request.get_json()
+    response = call_claude_v3(
+        model=HAIKU,
+        prompt=generate_prompt(data["prompt"])
+        )
+    return response
 
 @app.route("/sonnet", methods=['POST'])
 def sonnet():
-
     data = request.get_json()
-    prompt = generate_prompt(data["prompt"])
-
-    body = json.dumps({
-        "max_tokens": 2000,
-        "messages": [{"role": "user", "content": prompt}],
-        "anthropic_version": "bedrock-2023-05-31"
-    })
-    modelId = SONNET
-    metadata = "application/json"
-
-    try:
-        client = boto3.client("bedrock-runtime", region_name="us-east-1")
-    
-        response = client.invoke_model(
-            body=body, modelId=modelId, accept=metadata, contentType=metadata
+    response = call_claude_v3(
+        model=SONNET,
+        prompt=generate_prompt(data["prompt"])
         )
-        response_body = json.loads(response.get("body").read())
-        response = jsonify({
-            "result": response_body
-        })
-        response.headers["Access-Control-Allow-Origin"] = "*" # fix CORS error
-        
-        return response
-    
-    except botocore.exceptions.ClientError as error:
-        if error.response['Error']['Code'] == 'AccessDeniedException':
-            print(error.response['Error']['Message'])
-        else:
-            raise error
+    return response
+
+@app.route("/business", methods=['POST'])
+def business():
+    data = request.get_json()
+    response = call_claude_v3(
+        model=SONNET,
+        prompt=generate_prompt(data["prompt"], option=BUSINESS)
+        )
+    return response
+
+@app.route("/casual", methods=['POST'])
+def casual():
+    data = request.get_json()
+    response = call_claude_v3(
+        model=SONNET,
+        prompt=generate_prompt(data["prompt"], option=CASUAL)
+        )
+    return response
 
 @app.route("/claude_v2", methods=['POST'])
-def claude_v2():
+def call_claude_v2():
     client = boto3.client("bedrock-runtime", region_name="us-east-1")
-    
     data = request.get_json()
     prompt = data["prompt"]
-    #completion = generate_correction(client, prompt)
     
     body = json.dumps(
         {
@@ -124,70 +118,8 @@ def claude_v2():
         accept="application/json",
         contentType="application/json",
     )
-    
     response_body = json.loads(response["body"].read())
     completion = response_body["completion"].strip()
-
-    response = jsonify({
-        "result": completion
-    })
-    response.headers["Access-Control-Allow-Origin"] = "*" # fix CORS error
-    
-    return response
-
-@app.route("/business", methods=['POST'])
-def business():
-    client = boto3.client("bedrock-runtime", region_name="us-east-1")
-    
-    data = request.get_json()
-    input_sentence = data["prompt"]
-    body = json.dumps(
-        {
-            "prompt": generate_prompt(input_sentence, option=BUSINESS),
-            "max_tokens_to_sample": 200,
-        }
-    ).encode()
-    
-    response = client.invoke_model(
-        body=body,
-        modelId="anthropic.claude-v2",
-        accept="application/json",
-        contentType="application/json",
-    )
-    
-    response_body = json.loads(response["body"].read())
-    completion = response_body["completion"].strip()
-
-    response = jsonify({
-        "result": completion
-    })
-    response.headers["Access-Control-Allow-Origin"] = "*" # fix CORS error
-    
-    return response
-
-@app.route("/casual", methods=['POST'])
-def casual():
-    client = boto3.client("bedrock-runtime", region_name="us-east-1")
-    
-    data = request.get_json()
-    input_sentence = data["prompt"]
-    body = json.dumps(
-        {
-            "prompt": generate_prompt(input_sentence, option=CASUAL),
-            "max_tokens_to_sample": 200,
-        }
-    ).encode()
-    
-    response = client.invoke_model(
-        body=body,
-        modelId="anthropic.claude-v2",
-        accept="application/json",
-        contentType="application/json",
-    )
-    
-    response_body = json.loads(response["body"].read())
-    completion = response_body["completion"].strip()
-
     response = jsonify({
         "result": completion
     })
