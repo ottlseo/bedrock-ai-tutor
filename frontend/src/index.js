@@ -22,6 +22,7 @@ const recordButton = document.getElementById("record");
 const transcribedText = document.getElementById("transcribedText");
 const correctedTextByHaiku = document.getElementById("correctedTextByHaiku");
 const correctedTextBySonnet = document.getElementById("correctedTextBySonnet");
+
 const priceHaiku = document.getElementById("priceHaiku");
 const priceSonnet = document.getElementById("priceSonnet");
 const priceHaikuEasier = document.getElementById("priceHaikuEasier");
