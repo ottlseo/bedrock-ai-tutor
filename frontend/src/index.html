@@ -3,14 +3,14 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Streaming Speech to Text</title>
+    <title>AnyCompany AI Tutor</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
     <script type="text/javascript" src="./main.js"></script>
   </head>
 
   <body>
     <div id="mainContainer">
-      <h1>Streaming Speech to Text</h1>
+      <h1>AnyCompany AI Tutor</h1>
       <div id="recordButtonContainer">
         <button id="record" class="recordInactive" onclick="onRecordPress()">
           ◉
@@ -27,14 +27,16 @@
       <div id="outputSection">
         <div id="headerText">
           <h2>Corrected by Amazon Bedrock (Haiku)</h2>
-          <div id="priceCallingHaiku"></div>
+          <div id="priceHaiku"></div>
+          <div id="priceHaikuEasier"></div>
         </div>
         <div id="correctedTextByHaiku"></div>
       </div>
       <div id="outputSection">
         <div id="headerText">
           <h2>Corrected by Amazon Bedrock (Sonnet)</h2>
-          <div id="priceCallingSonnet"></div>
+          <div id="priceSonnet"></div>
+          <div id="priceSonnetEasier"></div>
         </div>
         <div id="correctedTextBySonnet"></div>
       </div>

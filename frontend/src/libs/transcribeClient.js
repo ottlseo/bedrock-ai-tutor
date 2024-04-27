@@ -5,7 +5,7 @@ import { StartStreamTranscriptionCommand } from "@aws-sdk/client-transcribe-stre
 import { Buffer } from "buffer";
 import { REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY } from "./cred.js";
 
-const SAMPLE_RATE = 32000;
+const SAMPLE_RATE = 44100;
 let microphoneStream = undefined;
 let transcribeClient = undefined;
 

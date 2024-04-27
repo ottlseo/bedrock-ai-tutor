@@ -16,13 +16,16 @@ const HAIKU_PRICE_PER_INPUT_TOKEN = 0.00000025; // = 0.00025 / 1K
 const HAIKU_PRICE_PER_OUTPUT_TOKEN = 0.00000125; // = 0.00125 / 1K
 const SONNET_PRICE_PER_INPUT_TOKEN = 0.000003; // = 0.003 / 1K
 const SONNET_PRICE_PER_OUTPUT_TOKEN = 0.000015; // = 0.015 / 1K
+const MILLION = 1000000;
 
 const recordButton = document.getElementById("record");
 const transcribedText = document.getElementById("transcribedText");
 const correctedTextByHaiku = document.getElementById("correctedTextByHaiku");
 const correctedTextBySonnet = document.getElementById("correctedTextBySonnet");
-const priceCallingHaiku = document.getElementById("priceCallingHaiku");
-const priceCallingSonnet = document.getElementById("priceCallingSonnet");
+const priceHaiku = document.getElementById("priceHaiku");
+const priceSonnet = document.getElementById("priceSonnet");
+const priceHaikuEasier = document.getElementById("priceHaikuEasier");
+const priceSonnetEasier = document.getElementById("priceSonnetEasier");
 
 let fullText = "";
 let languageScoresResult = {
@@ -31,6 +34,7 @@ let languageScoresResult = {
   // Add something
 };
 let haikuResponse = "";
+let sonnetResponse = "";
 
 window.onRecordPress = () => {
   if (recordButton.getAttribute("class") === "recordInactive") {
@@ -69,30 +73,39 @@ const stopRecording = async () => {
   console.log("Korean score: ", languageScoresResult.KO);
 
   if (languageScoresResult.EN > languageScoresResult.KO) {
-    console.log("=== Calling Bedrock... ===")
-    haikuResponse = await BedrockClient.callApi(fullText, HAIKU);
+    console.log("=== Calling Bedrock... ===");
     sonnetResponse = await BedrockClient.callApi(fullText, SONNET);
+    haikuResponse = await BedrockClient.callApi(fullText, HAIKU);
 
-    let correctedByHaiku = haikuResponse.data.result.content[0].text ?? "";
+    let correctedByHaiku = haikuResponse.data.result.content[0].text ?? "no response";
     correctedTextByHaiku.insertAdjacentHTML("beforeend", correctedByHaiku);
-    let totalPriceCallingHaiku = 
-          haikuResponse.data.usage.input_tokens * HAIKU_PRICE_PER_INPUT_TOKEN 
-          + haikuResponse.data.usage.output_tokens * HAIKU_PRICE_PER_OUTPUT_TOKEN;
-    priceCallingHaiku.insertAdjacentHTML("beforeend", totalPriceCallingHaiku);
+    let totalpriceHaiku = (
+      haikuResponse.data.result.usage.input_tokens * HAIKU_PRICE_PER_INPUT_TOKEN +
+      haikuResponse.data.result.usage.output_tokens * HAIKU_PRICE_PER_OUTPUT_TOKEN
+      ).toFixed(8);
+    priceHaiku.insertAdjacentHTML("beforeend", `Total price = $ ${totalpriceHaiku}`); 
+    priceHaikuEasier.insertAdjacentHTML("beforeend", `(Total price *1000000 = $ ${totalpriceHaiku*MILLION})`); 
+    console.log("Corrected by Haiku: ", correctedByHaiku); //
     
-    let correctedBySonnet = sonnetResponse.data.result.content[0].text ?? "";
+    let correctedBySonnet = sonnetResponse.data.result.content[0].text ?? "no response";
     correctedTextBySonnet.insertAdjacentHTML("beforeend", correctedBySonnet);
-    let totalPriceCallingSonnet =
-          sonnetResponse.data.usage.input_tokens * SONNET_PRICE_PER_INPUT_TOKEN 
-          + sonnetResponse.data.usage.output_tokens * SONNET_PRICE_PER_OUTPUT_TOKEN;
-    priceCallingSonnet.insertAdjacentHTML("beforeend", totalPriceCallingSonnet);
+    let totalpriceSonnet = (
+      sonnetResponse.data.result.usage.input_tokens * SONNET_PRICE_PER_INPUT_TOKEN + 
+      sonnetResponse.data.result.usage.output_tokens * SONNET_PRICE_PER_OUTPUT_TOKEN
+      ).toFixed(6);
+    priceSonnet.insertAdjacentHTML("beforeend", `Total price = $ ${totalpriceSonnet}`);
+    priceSonnetEasier.insertAdjacentHTML("beforeend", `(Total price *1000000 = $ ${totalpriceSonnet*MILLION})`); 
+    console.log("Corrected by Sonnet: ", correctedBySonnet); //
     
-  } else {
+  } else if (languageScoresResult.EN < languageScoresResult.KO) {
     alert("Please speak in English!");
+  } else {
+    console.log("Try again");
   }
 };
 
 window.clearTranscription = () => {
   transcribedText.innerHTML = "";
   correctedTextByHaiku.innerHTML = "";
+  correctedTextBySonnet.innerHTML = "";
 };
