@@ -66,6 +66,42 @@ def haiku():
         else:
             raise error
 
+@app.route("/sonnet", methods=['POST'])
+def sonnet():
+
+    data = request.get_json()
+    prompt = generate_prompt(data["prompt"])
+
+    body = json.dumps({
+        "max_tokens": 2000,
+        "messages": [{"role": "user", "content": prompt}],
+        "anthropic_version": "bedrock-2023-05-31"
+    })
+    modelId = SONNET
+    metadata = "application/json"
+
+    try:
+        client = boto3.client("bedrock-runtime", region_name="us-east-1")
+    
+        response = client.invoke_model(
+            body=body, modelId=modelId, accept=metadata, contentType=metadata
+        )
+        response_body = json.loads(response.get("body").read())
+        corrected_sentence = response_body["content"][0]["text"]
+        
+        response = jsonify({
+            "result": corrected_sentence
+        })
+        response.headers["Access-Control-Allow-Origin"] = "*" # fix CORS error
+        
+        return response
+    
+    except botocore.exceptions.ClientError as error:
+        if error.response['Error']['Code'] == 'AccessDeniedException':
+            print(error.response['Error']['Message'])
+        else:
+            raise error
+
 @app.route("/claude_v2", methods=['POST'])
 def claude_v2():
     client = boto3.client("bedrock-runtime", region_name="us-east-1")
