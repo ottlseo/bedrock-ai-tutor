@@ -16,19 +16,24 @@ SONNET = "anthropic.claude-3-sonnet-20240229-v1:0"
 
 def generate_system_prompt(option=None):
     if option == BUSINESS:
-        additional_prompt = " and make it suitable for business conversation"
+        assigning_role_prompt = "You are an English teacher who corrects students' English sentences to be suitable for business conversations. "
+        additional_prompt = "and make it suitable for business conversation"
     elif option == CASUAL:
-        additional_prompt = " and make it natural and suitable for casual conversation"
+        assigning_role_prompt = "You are an English teacher who corrects students' English sentences to be comfortable and natural for everyday casual conversations. "
+        additional_prompt = "and make it natural and suitable for casual conversation"
     else: 
+        assigning_role_prompt = "You are an English teacher who corrects students' English sentences to be grammatically correct. "
         additional_prompt = ""
-    return """
-        System: Please correct the given sentence grammatically{}. Provide the corrected sentence in <corrected> XML tags without any explanation. 
-        If the sentence is grammatically correct and appropriate for the given context, return it enclosed in <corrected> XML tags and include <isCorrect>true</isCorrect>.
+        
+    return assigning_role_prompt + """
+        If the English sentence I send you has a grammatical error, correct the grammar {} and return the corrected sentence enclosed in <corrected> XML tags. 
+        If the English sentence I send is not erroneous, rephrase it into a better (more natural) sentence with the same meaning and return it enclosed in <orig> XML tags. 
+        Always just send the corrected sentence without any additional explanation.
         """.format(additional_prompt)
 
 def generate_prompt(sentence, option=None):
     system_prompt = generate_system_prompt(option=option)
-    return system_prompt+ "\n\nHuman: "+ sentence +"\n\nAssistant: <corrected>"
+    return "System: "+ system_prompt + "\n\nHuman: "+ sentence +"\n\nAssistant: "
 
 @app.route("/haiku", methods=['POST'])
 def haiku():
@@ -51,8 +56,6 @@ def haiku():
             body=body, modelId=modelId, accept=metadata, contentType=metadata
         )
         response_body = json.loads(response.get("body").read())
-        # corrected_sentence = response_body["content"][0]["text"]
-        
         response = jsonify({
             "result": response_body
         })
@@ -87,8 +90,6 @@ def sonnet():
             body=body, modelId=modelId, accept=metadata, contentType=metadata
         )
         response_body = json.loads(response.get("body").read())
-        # corrected_sentence = response_body["content"][0]["text"]
-        
         response = jsonify({
             "result": response_body
         })
