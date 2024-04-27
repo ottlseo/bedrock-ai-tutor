@@ -51,10 +51,10 @@ def haiku():
             body=body, modelId=modelId, accept=metadata, contentType=metadata
         )
         response_body = json.loads(response.get("body").read())
-        corrected_sentence = response_body["content"][0]["text"]
+        # corrected_sentence = response_body["content"][0]["text"]
         
         response = jsonify({
-            "result": corrected_sentence
+            "result": response_body
         })
         response.headers["Access-Control-Allow-Origin"] = "*" # fix CORS error
         
@@ -87,10 +87,10 @@ def sonnet():
             body=body, modelId=modelId, accept=metadata, contentType=metadata
         )
         response_body = json.loads(response.get("body").read())
-        corrected_sentence = response_body["content"][0]["text"]
+        # corrected_sentence = response_body["content"][0]["text"]
         
         response = jsonify({
-            "result": corrected_sentence
+            "result": response_body
         })
         response.headers["Access-Control-Allow-Origin"] = "*" # fix CORS error
         

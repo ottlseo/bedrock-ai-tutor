@@ -73,14 +73,14 @@ const stopRecording = async () => {
     haikuResponse = await BedrockClient.callApi(fullText, HAIKU);
     sonnetResponse = await BedrockClient.callApi(fullText, SONNET);
 
-    let correctedByHaiku = haikuResponse.data.result.content.text ?? "";
+    let correctedByHaiku = haikuResponse.data.result.content[0].text ?? "";
     correctedTextByHaiku.insertAdjacentHTML("beforeend", correctedByHaiku);
     let totalPriceCallingHaiku = 
           haikuResponse.data.usage.input_tokens * HAIKU_PRICE_PER_INPUT_TOKEN 
           + haikuResponse.data.usage.output_tokens * HAIKU_PRICE_PER_OUTPUT_TOKEN;
     priceCallingHaiku.insertAdjacentHTML("beforeend", totalPriceCallingHaiku);
     
-    let correctedBySonnet = sonnetResponse.data.result.content.text ?? "";
+    let correctedBySonnet = sonnetResponse.data.result.content[0].text ?? "";
     correctedTextBySonnet.insertAdjacentHTML("beforeend", correctedBySonnet);
     let totalPriceCallingSonnet =
           sonnetResponse.data.usage.input_tokens * SONNET_PRICE_PER_INPUT_TOKEN 
