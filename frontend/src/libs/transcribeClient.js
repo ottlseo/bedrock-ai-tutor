@@ -1,12 +1,11 @@
 
-import { LanguageCode, TranscribeStreamingClient } from "@aws-sdk/client-transcribe-streaming";
+import { TranscribeStreamingClient } from "@aws-sdk/client-transcribe-streaming";
 import MicrophoneStream from "microphone-stream";
 import { StartStreamTranscriptionCommand } from "@aws-sdk/client-transcribe-streaming";
 import { Buffer } from "buffer";
 import { REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY } from "./cred.js";
-import { EN, KO } from "../index.js";
 
-const SAMPLE_RATE = 44100;
+const SAMPLE_RATE = 32000;
 let microphoneStream = undefined;
 let transcribeClient = undefined;
 

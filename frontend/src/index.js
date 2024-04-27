@@ -5,16 +5,32 @@ import * as BedrockClient from "./libs/bedrockClient.js";
 export const EN = "en-US"
 export const KO = "ko-KR"
 
+// bedrock options
+export const HAIKU = "haiku"; 
+export const SONNET = "sonnet"; 
+export const BUSINESS = "business";
+export const CASUAL = "casual";
+
+// bedrock model pricing($) per token
+const HAIKU_PRICE_PER_INPUT_TOKEN = 0.00000025; // = 0.00025 / 1K
+const HAIKU_PRICE_PER_OUTPUT_TOKEN = 0.00000125; // = 0.00125 / 1K
+const SONNET_PRICE_PER_INPUT_TOKEN = 0.000003; // = 0.003 / 1K
+const SONNET_PRICE_PER_OUTPUT_TOKEN = 0.000015; // = 0.015 / 1K
+
 const recordButton = document.getElementById("record");
 const transcribedText = document.getElementById("transcribedText");
-const correctedText = document.getElementById("correctedText");
+const correctedTextByHaiku = document.getElementById("correctedTextByHaiku");
+const correctedTextBySonnet = document.getElementById("correctedTextBySonnet");
+const priceCallingHaiku = document.getElementById("priceCallingHaiku");
+const priceCallingSonnet = document.getElementById("priceCallingSonnet");
+
 let fullText = "";
 let languageScoresResult = {
   EN: 0.0,
   KO: 0.0,
   // Add something
 };
-let bedrockResponse = "";
+let haikuResponse = "";
 
 window.onRecordPress = () => {
   if (recordButton.getAttribute("class") === "recordInactive") {
@@ -54,16 +70,29 @@ const stopRecording = async () => {
 
   if (languageScoresResult.EN > languageScoresResult.KO) {
     console.log("=== Calling Bedrock... ===")
-    bedrockResponse = await BedrockClient.callApi(fullText);
-    let bedrockText = bedrockResponse.data.result ?? "";
-    correctedText.insertAdjacentHTML("beforeend", bedrockText);
+    haikuResponse = await BedrockClient.callApi(fullText, HAIKU);
+    sonnetResponse = await BedrockClient.callApi(fullText, SONNET);
+
+    let correctedByHaiku = haikuResponse.data.result.content.text ?? "";
+    correctedTextByHaiku.insertAdjacentHTML("beforeend", correctedByHaiku);
+    let totalPriceCallingHaiku = 
+          haikuResponse.data.usage.input_tokens * HAIKU_PRICE_PER_INPUT_TOKEN 
+          + haikuResponse.data.usage.output_tokens * HAIKU_PRICE_PER_OUTPUT_TOKEN;
+    priceCallingHaiku.insertAdjacentHTML("beforeend", totalPriceCallingHaiku);
+    
+    let correctedBySonnet = sonnetResponse.data.result.content.text ?? "";
+    correctedTextBySonnet.insertAdjacentHTML("beforeend", correctedBySonnet);
+    let totalPriceCallingSonnet =
+          sonnetResponse.data.usage.input_tokens * SONNET_PRICE_PER_INPUT_TOKEN 
+          + sonnetResponse.data.usage.output_tokens * SONNET_PRICE_PER_OUTPUT_TOKEN;
+    priceCallingSonnet.insertAdjacentHTML("beforeend", totalPriceCallingSonnet);
+    
   } else {
     alert("Please speak in English!");
   }
-  
 };
 
 window.clearTranscription = () => {
   transcribedText.innerHTML = "";
-  correctedText.innerHTML = "";
+  correctedTextByHaiku.innerHTML = "";
 };

@@ -1,7 +1,7 @@
 import requests
 import json
 
-url = "http://3.84.24.30:8081/test"
+url = "http://3.84.24.30:8081/haiku"
 
 print("Question to AI tutor: ")
 input_sentence = input()

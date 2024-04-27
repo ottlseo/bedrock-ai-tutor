@@ -61,7 +61,16 @@
   border-radius: 15px;
 }
 
-#correctedText {
+#correctedTextByHaiku {
+  width: 360px;
+  min-height: 150px;
+  padding: 20px;
+  background-color: rgb(240, 240, 240);
+  border: 1px solid darkgray;
+  border-radius: 15px;
+}
+
+#correctedTextBySonnet {
   width: 360px;
   min-height: 150px;
   padding: 20px;

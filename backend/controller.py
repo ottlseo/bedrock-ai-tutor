@@ -11,6 +11,9 @@ CORS(app)
 BUSINESS = 'business'
 CASUAL = 'casual'
 
+HAIKU = "anthropic.claude-3-haiku-20240307-v1:0" 
+SONNET = "anthropic.claude-3-sonnet-20240229-v1:0"
+
 def generate_system_prompt(option=None):
     if option == BUSINESS:
         additional_prompt = " and make it suitable for business conversation"
@@ -38,7 +41,7 @@ def haiku():
         "messages": [{"role": "user", "content": prompt}],
         "anthropic_version": "bedrock-2023-05-31"
     })
-    modelId = "anthropic.claude-3-haiku-20240307-v1:0" #"anthropic.claude-3-sonnet-20240229-v1:0"
+    modelId = HAIKU
     metadata = "application/json"
 
     try:
@@ -48,9 +51,10 @@ def haiku():
             body=body, modelId=modelId, accept=metadata, contentType=metadata
         )
         response_body = json.loads(response.get("body").read())
-        # completion = response_body["completion"].strip()
+        corrected_sentence = response_body["content"][0]["text"]
+        
         response = jsonify({
-            "result": response_body
+            "result": corrected_sentence
         })
         response.headers["Access-Control-Allow-Origin"] = "*" # fix CORS error
         
@@ -62,8 +66,8 @@ def haiku():
         else:
             raise error
 
-@app.route("/test", methods=['POST'])
-def test():
+@app.route("/claude_v2", methods=['POST'])
+def claude_v2():
     client = boto3.client("bedrock-runtime", region_name="us-east-1")
     
     data = request.get_json()
