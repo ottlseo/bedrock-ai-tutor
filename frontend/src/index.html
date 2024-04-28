@@ -17,30 +17,33 @@
         </button>
       </div>
 
-      <div id="outputSection">
+      <div id="transcriptionOutputSection">
         <div id="headerText">
           <h2>Transcription</h2>
         </div>
         <div id="transcribedText"></div>
       </div>
 
-      <div id="outputSection">
-        <div id="headerText">
-          <h2>Corrected by Amazon Bedrock (Haiku)</h2>
-          <div id="priceHaiku"></div>
-          <div id="priceHaikuEasier"></div>
-        </div>
-        <div id="correctedTextByHaiku"></div>
+      <div id="bedrockOutputSection">
+          <div id="outputSection">
+            <div id="headerText">
+              <h2>Corrected by Amazon Bedrock (Haiku)</h2>
+              <div id="priceHaiku"></div>
+              <div id="priceHaikuEasier"></div>
+            </div>
+            <div id="correctedTextByHaiku"></div>
+          </div>
+          <div id="outputSection">
+            <div id="headerText">
+              <h2>Corrected by Amazon Bedrock (Sonnet)</h2>
+              <div id="priceSonnet"></div>
+              <div id="priceSonnetEasier"></div>
+            </div>
+            <div id="correctedTextBySonnet"></div>
+          </div>
       </div>
-      <div id="outputSection">
-        <div id="headerText">
-          <h2>Corrected by Amazon Bedrock (Sonnet)</h2>
-          <div id="priceSonnet"></div>
-          <div id="priceSonnetEasier"></div>
-        </div>
-        <div id="correctedTextBySonnet"></div>
-      </div>
-
+      
+    </div>
     <script type="text/javascript" src="./main.js"></script>
   </body>
 </html>
