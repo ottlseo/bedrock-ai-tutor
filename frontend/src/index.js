@@ -47,6 +47,7 @@ window.onRecordPress = () => {
 
 const startRecording = async() => {
   window.clearTranscription();
+  fullText = "";
   recordButton.setAttribute("class", "recordActive");
   try {
     await TranscribeClient.startRecording(onTranscriptionDataReceived);
