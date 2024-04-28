@@ -5,7 +5,10 @@ import { StartStreamTranscriptionCommand } from "@aws-sdk/client-transcribe-stre
 import { Buffer } from "buffer";
 import { REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY } from "./cred.js";
 
-const SAMPLE_RATE = 48000; // 24000; // 16000;
+// const SAMPLE_RATE = 9600; // 48000; // 24000; // 16000;
+const CHUNK_SIZE = 100; // 청크 크기 (ms)
+const SAMPLE_RATE = 48000; // 오디오 샘플링 레이트
+const CHUNK_LENGTH = (CHUNK_SIZE / 1000) * SAMPLE_RATE * 2; // 청크 길이 (바이트)
 let microphoneStream = undefined;
 let transcribeClient = undefined;
 
@@ -94,15 +97,29 @@ const startStreaming = async (callback) => {
 }
 
 const getAudioStream = async function* () {
+  let buffer = Buffer.alloc(0); // 버퍼 초기화
+
   for await (const chunk of microphoneStream) {
-    if (chunk.length <= SAMPLE_RATE) {
+    buffer = Buffer.concat([buffer, chunk]); // 청크를 버퍼에 추가
+
+    while (buffer.length >= CHUNK_LENGTH) {
+      const audioChunk = buffer.slice(0, CHUNK_LENGTH); // 청크 길이만큼 버퍼에서 잘라내기
+      buffer = buffer.slice(CHUNK_LENGTH); // 버퍼에서 청크 길이만큼 제거
+
       yield {
         AudioEvent: {
-          AudioChunk: encodePCMChunk(chunk),
+          AudioChunk: encodePCMChunk(audioChunk),
         },
       };
     }
   }
+    // if (chunk.length <= SAMPLE_RATE) {
+    //   yield {
+    //     AudioEvent: {
+    //       AudioChunk: encodePCMChunk(chunk),
+    //     },
+    //   };
+    // }
 };
 
 const encodePCMChunk = (chunk) => {
