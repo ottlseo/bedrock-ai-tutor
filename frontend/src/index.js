@@ -45,9 +45,16 @@ window.onRecordPress = () => {
   }
 };
 
-const startRecording = async() => {
+const resetSetting = () => {
   window.clearTranscription();
   fullText = "";
+  languageScoresResult = {
+    EN: 0.0,
+    KO: 0.0,
+  };
+}
+const startRecording = async() => {
+  resetSetting();
   recordButton.setAttribute("class", "recordActive");
   try {
     await TranscribeClient.startRecording(onTranscriptionDataReceived);

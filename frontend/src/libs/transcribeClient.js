@@ -5,14 +5,14 @@ import { StartStreamTranscriptionCommand } from "@aws-sdk/client-transcribe-stre
 import { Buffer } from "buffer";
 import { REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY } from "./cred.js";
 
-const SAMPLE_RATE = 48000;
+const SAMPLE_RATE = 48000; // 24000; // 16000;
 let microphoneStream = undefined;
 let transcribeClient = undefined;
 
 // credentials
 const currentCredentials = {
-  'accessKeyId':AWS_ACCESS_KEY_ID,
-  'secretAccessKey':AWS_SECRET_ACCESS_KEY
+  'accessKeyId': AWS_ACCESS_KEY_ID,
+  'secretAccessKey': AWS_SECRET_ACCESS_KEY
 };
 
 export const startRecording = async (callback) => {
