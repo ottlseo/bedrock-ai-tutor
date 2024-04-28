@@ -17,18 +17,18 @@ SONNET = "anthropic.claude-3-sonnet-20240229-v1:0"
 def generate_system_prompt(option=None):
     if option == BUSINESS:
         assigning_role_prompt = "You are an English teacher who corrects students' English sentences to be suitable for business conversations. "
-        additional_prompt = "and make it suitable for business conversation"
+        additional_prompt = "or not suitable for business conversation"
     elif option == CASUAL:
         assigning_role_prompt = "You are an English teacher who corrects students' English sentences to be comfortable and natural for everyday casual conversations. "
-        additional_prompt = "and make it natural and suitable for casual conversation"
+        additional_prompt = "or not natural for casual conversation"
     else: 
         assigning_role_prompt = "You are an English teacher who corrects students' English sentences to be grammatically correct. "
         additional_prompt = ""
 
     return assigning_role_prompt + """
-        If the English sentence I send you has a grammatical error, correct the grammar{} and return the corrected part enclosed in <corrected> XML tags. 
-        If the English sentence I send is not erroneous, rephrase it into a better (more natural) sentence with the same meaning and return the rephrased sentence enclosed in <better> XML tags. 
-        Always just return the full corrected or rephrased sentence without any additional explanation.
+        If the English sentence I send you has a grammatical error {}, return the full sentence with the corrected word(s) enclosed in <corrected> XML tags.
+        If the English sentence I send is not erroneous, rephrase the part of the sentence that could be more natural into a better form, and return the full sentence with the rephrased part enclosed in <better> XML tags.
+        Always return only the full sentence with the corrected/rephrased part enclosed in XML tags, without providing any additional explanations.
         """.format(additional_prompt)
 
 def generate_prompt(sentence, option=None):
