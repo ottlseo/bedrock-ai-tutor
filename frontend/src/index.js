@@ -109,4 +109,8 @@ window.clearTranscription = () => {
   transcribedText.innerHTML = "";
   correctedTextByHaiku.innerHTML = "";
   correctedTextBySonnet.innerHTML = "";
+  priceHaiku.innerHTML = "";
+  priceHaikuEasier.innerHTML = "";
+  priceSonnet.innerHTML = "";
+  priceSonnetEasier.innerHTML = "";
 };

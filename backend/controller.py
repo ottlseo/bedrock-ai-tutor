@@ -26,9 +26,9 @@ def generate_system_prompt(option=None):
         additional_prompt = ""
 
     return assigning_role_prompt + """
-        If the English sentence I send you has a grammatical error, correct the grammar {} and return the corrected sentence enclosed in <corrected> XML tags. 
-        If the English sentence I send is not erroneous, rephrase it into a better (more natural) sentence with the same meaning and return it enclosed in <orig> XML tags. 
-        Always just send the corrected sentence without any additional explanation.
+        If the English sentence I send you has a grammatical error, correct the grammar{} and return the corrected part enclosed in <corrected> XML tags. 
+        If the English sentence I send is not erroneous, rephrase it into a better (more natural) sentence with the same meaning and return the rephrased sentence enclosed in <better> XML tags. 
+        Always just return the full corrected or rephrased sentence without any additional explanation.
         """.format(additional_prompt)
 
 def generate_prompt(sentence, option=None):
