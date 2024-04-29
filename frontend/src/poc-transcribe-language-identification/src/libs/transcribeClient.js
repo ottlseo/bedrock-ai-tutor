@@ -1,9 +1,10 @@
+/** Transcribe Client which enables Language Identification **/
 
 import { TranscribeStreamingClient } from "@aws-sdk/client-transcribe-streaming";
 import MicrophoneStream from "microphone-stream";
 import { StartStreamTranscriptionCommand } from "@aws-sdk/client-transcribe-streaming";
 import { Buffer } from "buffer";
-import { REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY } from "./cred.js";
+import { REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY } from "../../../libs/cred.js";
 
 const SAMPLE_RATE = 48000; // Audio sampling rate = 8000(min) ~ 48000(max)
 // const CHUNK_SIZE = 100; // ms
@@ -58,7 +59,9 @@ const createMicrophoneStream = async () => {
 
 const startStreaming = async (callback) => {
   const command = new StartStreamTranscriptionCommand({
-    LanguageCode: "en-US",
+    // LanguageCode: "en-US",
+    IdentifyLanguage: true,
+    LanguageOptions: "en-US,ko-KR",
     MediaEncoding: "pcm",
     MediaSampleRateHertz: SAMPLE_RATE,
     AudioStream: getAudioStream(),
@@ -68,16 +71,28 @@ const startStreaming = async (callback) => {
     for (const result of event.TranscriptEvent.Transcript.Results || []) {
       
       if (result.IsPartial === false) {
-        // Get stream from the response
+
+        // 1) Get LanguageIdentification from response & Calculate final score
+        const languageIdentifications = result.LanguageIdentification;
+        console.log(languageIdentifications); // print main language's code
+          
+        if (!languageIdentifications) {
+          languageIdentifications = [
+            {LanguageCode: 'en-US', Score: 0.0},
+            {LanguageCode: 'ko-KR', Score: 0.0}
+          ];
+        }
+        // 2) Get stream from the response
         const noOfResults = result.Alternatives[0].Items.length;
         let transcriptionResult = "";
         for (let i = 0; i < noOfResults; i++) {
           transcriptionResult = result.Alternatives[0].Items[i].Content;
           console.log(transcriptionResult);
           transcriptionResult += " ";
-          callback(transcriptionResult);
+          callback(transcriptionResult, languageIdentifications);
         }
       }
+      
     }
   }
 }

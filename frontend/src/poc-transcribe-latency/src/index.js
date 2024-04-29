@@ -1,5 +1,5 @@
-import * as TranscribeClient from "../libs/transcribeClient.js";
-import * as BedrockClient from "../libs/bedrockClient.js";
+import * as TranscribeClient from "../../libs/transcribeClient.js";
+import * as BedrockClient from "../../libs/bedrockClient.js";
 
 // language code
 export const EN = "en-US"

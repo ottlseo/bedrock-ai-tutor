@@ -1,5 +1,5 @@
-import * as TranscribeClient from "../libs/transcribeClient.js";
-import * as BedrockClient from "../libs/bedrockClient.js";
+import * as TranscribeClient from "./libs/transcribeClient.js";
+import * as BedrockClient from "../../libs/bedrockClient.js";
 
 // language code
 export const EN = "en-US"
@@ -29,6 +29,11 @@ const priceHaikuEasier = document.getElementById("priceHaikuEasier");
 const priceSonnetEasier = document.getElementById("priceSonnetEasier");
 
 let fullText = "";
+let languageScoresResult = {
+  EN: 0.0,
+  KO: 0.0,
+  // Add something
+};
 let haikuResponse = "";
 let sonnetResponse = "";
 
@@ -43,22 +48,29 @@ window.onRecordPress = () => {
 const resetSetting = () => {
   window.clearTranscription();
   fullText = "";
+  languageScoresResult = {
+    EN: 0.0,
+    KO: 0.0,
+  };
 }
 const startRecording = async() => {
   resetSetting();
   recordButton.setAttribute("class", "recordActive");
   try {
-    await TranscribeClient.startRecording(onTranscriptionDataReceived);
+    await TranscribeClient.startRecording(onTranscriptionDataReceived, true);
   } catch(error) {
     alert("An error occurred while recording: " + error.message);
     stopRecording();
   }
 };
 
-const onTranscriptionDataReceived = (data) => {
+const onTranscriptionDataReceived = (data, languageInfo) => {
   transcribedText.insertAdjacentHTML("beforeend", data);
   // Concat streams to full sentence
   fullText += data;
+  // Calculate scores of each languageCode
+  languageScoresResult.EN += languageInfo[0]["Score"] 
+  languageScoresResult.KO += languageInfo[1]["Score"]
 }
 
 const stopRecording = async () => {
@@ -66,8 +78,10 @@ const stopRecording = async () => {
   TranscribeClient.stopRecording();
   
   console.log("Full sentence:", fullText);
+  console.log("English score: ",languageScoresResult.EN);
+  console.log("Korean score: ", languageScoresResult.KO);
 
-  if (fullText != "") {
+  if (languageScoresResult.EN > languageScoresResult.KO) {
     console.log("=== Calling Bedrock... ===");
     sonnetResponse = await BedrockClient.callApi(fullText, SONNET);
     haikuResponse = await BedrockClient.callApi(fullText, HAIKU);
@@ -92,7 +106,9 @@ const stopRecording = async () => {
     priceSonnetEasier.insertAdjacentHTML("beforeend", `(Total price *1000000 = $ ${totalpriceSonnet*MILLION})`); 
     console.log("Corrected by Sonnet: ", correctedBySonnet); //
     
-  } else  {
+  } else if (languageScoresResult.EN < languageScoresResult.KO) {
+    alert("Please speak in English!");
+  } else {
     console.log("Try again");
   }
 };
