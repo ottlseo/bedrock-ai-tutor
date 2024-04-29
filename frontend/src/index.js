@@ -36,10 +36,6 @@ window.onRecordPress = () => {
 const resetSetting = () => {
   window.clearTranscription();
   fullText = "";
-  languageScoresResult = {
-    EN: 0.0,
-    KO: 0.0,
-  };
 }
 const startRecording = async() => {
   resetSetting();
@@ -52,13 +48,10 @@ const startRecording = async() => {
   }
 };
 
-const onTranscriptionDataReceived = (data, languageInfo) => {
+const onTranscriptionDataReceived = (data) => {
   transcribedText.insertAdjacentHTML("beforeend", data);
   // Concat streams to full sentence
   fullText += data;
-  // Calculate scores of each languageCode
-  languageScoresResult.EN += languageInfo[0]["Score"] 
-  languageScoresResult.KO += languageInfo[1]["Score"]
 }
 
 const stopRecording = async () => {
@@ -66,10 +59,7 @@ const stopRecording = async () => {
   TranscribeClient.stopRecording();
   
   console.log("Full sentence:", fullText);
-  console.log("English score: ",languageScoresResult.EN);
-  console.log("Korean score: ", languageScoresResult.KO);
-
-  if (languageScoresResult.EN > languageScoresResult.KO) {
+  if (fullText != "") {
     console.log("=== Calling Bedrock... ===");
     businessResponse = await BedrockClient.callApi(fullText, BUSINESS);
     casualResponse = await BedrockClient.callApi(fullText, CASUAL);
@@ -82,8 +72,6 @@ const stopRecording = async () => {
     outputByOption2.insertAdjacentHTML("beforeend", businessCorrection);
     console.log("Business correction: ", businessCorrection);
     
-  } else if (languageScoresResult.EN < languageScoresResult.KO) {
-    alert("Please speak in English!");
   } else {
     console.log("Try again");
   }
