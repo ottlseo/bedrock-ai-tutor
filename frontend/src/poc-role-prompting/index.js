@@ -1,5 +1,5 @@
-import * as TranscribeClient from "./libs/transcribeClient.js";
-import * as BedrockClient from "./libs/bedrockClient.js";
+import * as TranscribeClient from "../libs/transcribeClient.js";
+import * as BedrockClient from "../libs/bedrockClient.js";
 
 // language code
 export const EN = "en-US"
@@ -17,11 +17,6 @@ const outputByOption1 = document.getElementById("outputByOption1");
 const outputByOption2 = document.getElementById("outputByOption2");
 
 let fullText = "";
-let languageScoresResult = {
-  EN: 0.0,
-  KO: 0.0,
-  // Add something
-};
 let casualResponse = "";
 let businessResponse = "";
 

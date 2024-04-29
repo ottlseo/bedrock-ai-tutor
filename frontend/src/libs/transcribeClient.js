@@ -15,13 +15,17 @@ const currentCredentials = {
   'secretAccessKey': AWS_SECRET_ACCESS_KEY
 };
 
-export const startRecording = async (callback) => {
+export const startRecording = async (callback, isLanguageIdentifyOn = false) => {
     if (microphoneStream || transcribeClient) {
       stopRecording();
     }
     createTranscribeClient();
     createMicrophoneStream();
-    await startStreaming(callback);
+    if (isLanguageIdentifyOn) {
+      await startStreaming(callback, true);
+    } else {
+      await startStreaming(callback);
+    }
 };
 
 export const stopRecording = () => {
@@ -53,27 +57,54 @@ const createMicrophoneStream = async () => {
   );
 }
 
-const startStreaming = async (callback) => {
-  const command = new StartStreamTranscriptionCommand({
-    LanguageCode: "en-US",
-    // IdentifyLanguage: true,
-    // LanguageOptions: "en-US,ko-KR",
-    MediaEncoding: "pcm",
-    MediaSampleRateHertz: SAMPLE_RATE,
-    AudioStream: getAudioStream(),
-  });
+const startStreaming = async (callback, isLanguageIdentifyOn = false) => {
+  const languageIdentifications = [];
+  const command = isLanguageIdentifyOn ? 
+    new StartStreamTranscriptionCommand({
+      IdentifyLanguage: true,
+      LanguageOptions: "en-US,ko-KR",
+      MediaEncoding: "pcm",
+      MediaSampleRateHertz: SAMPLE_RATE,
+      AudioStream: getAudioStream(),
+    }) : 
+    new StartStreamTranscriptionCommand({
+      LanguageCode: "en-US",
+      MediaEncoding: "pcm",
+      MediaSampleRateHertz: SAMPLE_RATE,
+      AudioStream: getAudioStream(),
+    });
+  
   const data = await transcribeClient.send(command);
   for await (const event of data.TranscriptResultStream) {
     for (const result of event.TranscriptEvent.Transcript.Results || []) {
       
       if (result.IsPartial === false) {
+
+        // Get LanguageIdentification from response & Calculate final score
+        if (isLanguageIdentifyOn) {
+          languageIdentifications = result.LanguageIdentification;
+          console.log(languageIdentifications); // print main language's code
+            
+          if (!languageIdentifications) {
+            languageIdentifications = [
+              {LanguageCode: 'en-US', Score: 0.0},
+              {LanguageCode: 'ko-KR', Score: 0.0}
+            ];
+          }
+        }
+        // Get stream from the response
         const noOfResults = result.Alternatives[0].Items.length;
         let transcriptionResult = "";
         for (let i = 0; i < noOfResults; i++) {
           transcriptionResult = result.Alternatives[0].Items[i].Content;
           console.log(transcriptionResult);
           transcriptionResult += " ";
-          callback(transcriptionResult);
+
+          if (isLanguageIdentifyOn) {
+            callback(transcriptionResult, languageIdentifications);
+          } else {
+            callback(transcriptionResult);
+          }
         }
       }
     }
