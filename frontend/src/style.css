@@ -61,8 +61,8 @@
   border-radius: 15px;
 }
 
-#correctedTextByHaiku,
-#correctedTextBySonnet {
+#outputByOption1,
+#outputByOption2 {
   width: 350px;
   min-height: 150px;
   padding: 20px;
