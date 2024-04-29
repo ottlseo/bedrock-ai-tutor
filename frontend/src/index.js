@@ -11,22 +11,10 @@ export const SONNET = "sonnet";
 export const BUSINESS = "business";
 export const CASUAL = "casual";
 
-// bedrock model pricing($) per token
-const HAIKU_PRICE_PER_INPUT_TOKEN = 0.00000025; // = 0.00025 / 1K
-const HAIKU_PRICE_PER_OUTPUT_TOKEN = 0.00000125; // = 0.00125 / 1K
-const SONNET_PRICE_PER_INPUT_TOKEN = 0.000003; // = 0.003 / 1K
-const SONNET_PRICE_PER_OUTPUT_TOKEN = 0.000015; // = 0.015 / 1K
-const MILLION = 1000000;
-
 const recordButton = document.getElementById("record");
 const transcribedText = document.getElementById("transcribedText");
-const correctedTextByHaiku = document.getElementById("correctedTextByHaiku");
-const correctedTextBySonnet = document.getElementById("correctedTextBySonnet");
-
-const priceHaiku = document.getElementById("priceHaiku");
-const priceSonnet = document.getElementById("priceSonnet");
-const priceHaikuEasier = document.getElementById("priceHaikuEasier");
-const priceSonnetEasier = document.getElementById("priceSonnetEasier");
+const outputByOption1 = document.getElementById("outputByOption1");
+const outputByOption2 = document.getElementById("outputByOption2");
 
 let fullText = "";
 let languageScoresResult = {
@@ -34,8 +22,8 @@ let languageScoresResult = {
   KO: 0.0,
   // Add something
 };
-let haikuResponse = "";
-let sonnetResponse = "";
+let casualResponse = "";
+let businessResponse = "";
 
 window.onRecordPress = () => {
   if (recordButton.getAttribute("class") === "recordInactive") {
@@ -83,28 +71,16 @@ const stopRecording = async () => {
 
   if (languageScoresResult.EN > languageScoresResult.KO) {
     console.log("=== Calling Bedrock... ===");
-    sonnetResponse = await BedrockClient.callApi(fullText, SONNET);
-    haikuResponse = await BedrockClient.callApi(fullText, HAIKU);
+    businessResponse = await BedrockClient.callApi(fullText, BUSINESS);
+    casualResponse = await BedrockClient.callApi(fullText, CASUAL);
 
-    let correctedByHaiku = haikuResponse.data.result.content[0].text ?? "no response";
-    correctedTextByHaiku.insertAdjacentHTML("beforeend", correctedByHaiku);
-    let totalpriceHaiku = (
-      haikuResponse.data.result.usage.input_tokens * HAIKU_PRICE_PER_INPUT_TOKEN +
-      haikuResponse.data.result.usage.output_tokens * HAIKU_PRICE_PER_OUTPUT_TOKEN
-      ).toFixed(8);
-    priceHaiku.insertAdjacentHTML("beforeend", `Total price = $ ${totalpriceHaiku}`); 
-    priceHaikuEasier.insertAdjacentHTML("beforeend", `(Total price *1000000 = $ ${totalpriceHaiku*MILLION})`); 
-    console.log("Corrected by Haiku: ", correctedByHaiku); //
+    let casualCorrection = casualResponse.data.result.content[0].text ?? "no response";
+    outputByOption1.insertAdjacentHTML("beforeend", casualCorrection);
+    console.log("Casual correction: ", casualCorrection);
     
-    let correctedBySonnet = sonnetResponse.data.result.content[0].text ?? "no response";
-    correctedTextBySonnet.insertAdjacentHTML("beforeend", correctedBySonnet);
-    let totalpriceSonnet = (
-      sonnetResponse.data.result.usage.input_tokens * SONNET_PRICE_PER_INPUT_TOKEN + 
-      sonnetResponse.data.result.usage.output_tokens * SONNET_PRICE_PER_OUTPUT_TOKEN
-      ).toFixed(6);
-    priceSonnet.insertAdjacentHTML("beforeend", `Total price = $ ${totalpriceSonnet}`);
-    priceSonnetEasier.insertAdjacentHTML("beforeend", `(Total price *1000000 = $ ${totalpriceSonnet*MILLION})`); 
-    console.log("Corrected by Sonnet: ", correctedBySonnet); //
+    let businessCorrection = businessResponse.data.result.content[0].text ?? "no response";
+    outputByOption2.insertAdjacentHTML("beforeend", businessCorrection);
+    console.log("Business correction: ", businessCorrection);
     
   } else if (languageScoresResult.EN < languageScoresResult.KO) {
     alert("Please speak in English!");
@@ -115,10 +91,6 @@ const stopRecording = async () => {
 
 window.clearTranscription = () => {
   transcribedText.innerHTML = "";
-  correctedTextByHaiku.innerHTML = "";
-  correctedTextBySonnet.innerHTML = "";
-  priceHaiku.innerHTML = "";
-  priceHaikuEasier.innerHTML = "";
-  priceSonnet.innerHTML = "";
-  priceSonnetEasier.innerHTML = "";
+  outputByOption1.innerHTML = "";
+  outputByOption2.innerHTML = "";
 };

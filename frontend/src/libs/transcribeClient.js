@@ -5,10 +5,7 @@ import { StartStreamTranscriptionCommand } from "@aws-sdk/client-transcribe-stre
 import { Buffer } from "buffer";
 import { REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY } from "./cred.js";
 
-const SAMPLE_RATE = 48000; // Audio sampling rate = 8000(min) ~ 48000(max)
-// const CHUNK_SIZE = 100; // ms
-// const CHUNK_LENGTH = (CHUNK_SIZE / 1000) * SAMPLE_RATE * 2; // Byte
-
+const SAMPLE_RATE = 48000; // 24000; // 16000;
 let microphoneStream = undefined;
 let transcribeClient = undefined;
 
@@ -97,6 +94,7 @@ const startStreaming = async (callback) => {
 }
 
 const getAudioStream = async function* () {
+  for await (const chunk of microphoneStream) {
     if (chunk.length <= SAMPLE_RATE) {
       yield {
         AudioEvent: {
@@ -104,6 +102,7 @@ const getAudioStream = async function* () {
         },
       };
     }
+  }
 };
 
 const encodePCMChunk = (chunk) => {
