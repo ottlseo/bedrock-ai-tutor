@@ -66,6 +66,7 @@ const startStreaming = async (callback) => {
     MediaSampleRateHertz: SAMPLE_RATE,
     AudioStream: getAudioStream(),
   });
+  const currentTime = new Date(); // local time before sending the chunk to Transcribe client
   const data = await transcribeClient.send(command);
   for await (const event of data.TranscriptResultStream) {
     for (const result of event.TranscriptEvent.Transcript.Results || []) {
@@ -83,11 +84,21 @@ const startStreaming = async (callback) => {
           ];
         }
         // 2) Get stream from the response
-        const noOfResults = result.Alternatives[0].Items.length;
+        const alternative = result.Alternatives[0];
+        const noOfResults = alternative.Items.length;
+
+        // Calculate a latency from the last chunk
+        const { StartTime, EndTime } = alternative.Items.at(-1);
+        const resultReceivedTime = new Date();
+        console.log(`Transcript: ${alternative.Transcript}`);
+        console.log(`A (Speaking duration): ${EndTime*1000} ms`);
+        console.log(`B (Duration until getting a transcript): ${resultReceivedTime - currentTime} ms`);
+        console.log(`A-B (Latency): ${(resultReceivedTime - currentTime) - EndTime*1000} ms`);
+        console.log(`=======================`);
+
         let transcriptionResult = "";
         for (let i = 0; i < noOfResults; i++) {
           transcriptionResult = result.Alternatives[0].Items[i].Content;
-          console.log(transcriptionResult);
           transcriptionResult += " ";
           callback(transcriptionResult, languageIdentifications);
         }
