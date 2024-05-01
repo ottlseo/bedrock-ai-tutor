@@ -1,9 +1,7 @@
 from flask import Flask, request, json, jsonify
 import boto3
 import botocore
-import logging
 from flask_cors import CORS
-# from bedrock import generate_correction
 
 app = Flask(__name__)
 CORS(app)
