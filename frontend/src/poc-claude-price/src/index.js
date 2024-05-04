@@ -12,7 +12,7 @@ export const BUSINESS = "business";
 export const CASUAL = "casual";
 
 // bedrock model pricing($) per token
-const HAIKU_PRICE_PER_INPUT_TOKEN = 0.00000025; // = 0.00025 / 1K
+const HAIKU_PRICE_PER_INPUT_TOKEN = 0.00000025; // = 0.00025 / 1K 
 const HAIKU_PRICE_PER_OUTPUT_TOKEN = 0.00000125; // = 0.00125 / 1K
 const SONNET_PRICE_PER_INPUT_TOKEN = 0.000003; // = 0.003 / 1K
 const SONNET_PRICE_PER_OUTPUT_TOKEN = 0.000015; // = 0.015 / 1K
