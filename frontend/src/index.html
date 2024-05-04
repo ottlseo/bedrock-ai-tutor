@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>AI Tutor Demo</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+
+  <body>
+    <h1>AI Tutor Demo</h1>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'home')" id="defaultOpen">Home</button>
+        <button class="tablinks" onclick="openTab(event, 'model')">Claude 3.0 model comparison</button>
+        <button class="tablinks" onclick="openTab(event, 'role')">Role prompting (Business/Casual)</button>
+        <button class="tablinks" onclick="openTab(event, 'general')">Transcribe Latency</button>
+    </div>
+
+    <div id="home" class="tabcontent">HI!</div>
+    <div id="model" class="tabcontent">
+        <div id="mainContainer">
+            <div id="recordButtonContainer">
+              <button id="modelTabRecord" class="recordInactive" onclick="onRecordPressAtModelTab()">
+                ◉
+              </button>
+            </div>
+      
+            <div id="transcriptionOutputSection">
+              <div id="headerText">
+                <h2>Transcription</h2>
+              </div>
+              <div id="transcribedTextAtModelTab"></div>
+            </div>
+      
+            <div id="bedrockOutputSection">
+                <div id="outputSection">
+                  <div id="headerText">
+                    <h2>Corrected by Amazon Bedrock (Haiku)</h2>
+                    <div id="priceHaiku"></div>
+                    <div id="priceHaikuEasier"></div>
+                  </div>
+                  <div id="correctedTextByHaiku"></div>
+                </div>
+                <div id="outputSection">
+                  <div id="headerText">
+                    <h2>Corrected by Amazon Bedrock (Sonnet)</h2>
+                    <div id="priceSonnet"></div>
+                    <div id="priceSonnetEasier"></div>
+                  </div>
+                  <div id="correctedTextBySonnet"></div>
+                </div>
+            </div>
+          </div>
+    </div>
+
+    <div id="role" class="tabcontent">
+        <div id="mainContainer">
+            <div id="recordButtonContainer">
+              <button id="roleTabRecord" class="recordInactive" onclick="onRecordPressAtRoleTab()">
+                ◉
+              </button>
+            </div>
+      
+            <div id="transcriptionOutputSection">
+              <div id="headerText">
+                <h2>Transcription</h2>
+              </div>
+              <div id="transcribedTextAtRoleTab"></div>
+            </div>
+      
+            <div id="bedrockOutputSection">
+                <div id="outputSection">
+                  <div id="headerText">
+                    <h2>Casual conversation bot</h2>
+                  </div>
+                  <div id="outputByOption1"></div>
+                </div>
+                <div id="outputSection">
+                  <div id="headerText">
+                    <h2>Business conversation bot</h2>
+                  </div>
+                  <div id="outputByOption2"></div>
+                </div>
+            </div>
+          </div>
+    </div>
+
+    <div id="general" class="tabcontent">
+      <h1> HI! </h1>
+    </div>
+
+    <script type="text/javascript" src="./main.js"></script>
+    <script>
+      function openTab(event, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        event.currentTarget.className += " active";
+      }
+
+      // 페이지 로드 시 기본 탭 설정
+      document.getElementById("defaultOpen").click();
+    </script>
+  </body>
+</html>
