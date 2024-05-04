@@ -1,4 +1,5 @@
-# bedrock-ai-tutor
+# Bedrock AI Tutor
+![image](https://github.com/ottlseo/bedrock-ai-tutor/assets/61778930/022af68c-b925-4c93-9f24-fb6ea7453413)
 
 
 ## Deploy Backend locally
