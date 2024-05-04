@@ -6,6 +6,7 @@ window.onRecordPressAtModelTab = () => {
   const recordButton = document.getElementById("modelTabRecord");
   
   if (recordButton.getAttribute("class") === "recordInactive") {
+    CompareModelHandler.resetSetting();
     CompareModelHandler.startRecording();
   } else {
     recordButton.setAttribute("class", "recordInactive");

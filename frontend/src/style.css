@@ -1,12 +1,26 @@
+
+body {
+  text-align: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.site-title {
+  font-size: 60px;
+  font-weight: 700;
+  padding: 10px 0 25px 0;
+}
+
 .tab {
   overflow: hidden;
   border: 1px solid #ccc;
   background-color: #f1f1f1;
+  justify-content: center;
 }
 
 .tab button {
   background-color: inherit;
-  float: left;
+  float: none;
   border: none;
   outline: none;
   cursor: pointer;
@@ -25,16 +39,14 @@
 .tabcontent {
   display: none;
   padding: 6px 12px;
-  /* border: 1px solid #ccc; */
   border-top: none;
 }
 
-#mainContainer {
+#mainContainer {  
   display: flex;
   flex-direction: column;
-  margin-left: 40px;
   width: 800px;
-  align-items: center;
+  margin: auto;
 }
 
 #recordButtonContainer {
@@ -42,7 +54,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  padding: 20px;
+  padding: 30px 0 20px 0;
   width: 100%;
 }
 
@@ -79,19 +91,35 @@
 }
 
 #headerText {
-  text-align: center;
   margin-top: 20px;
+}
+
+#transcriptionOutputSection {
+  width: 100%;
 }
 
 #transcribedText,
 #transcribedTextAtModelTab,
 #transcribedTextAtRoleTab {
-  width: 600px;
-  min-height: 150px;
+  width: 450px;
+  min-height: 120px;
   padding: 20px;
+  margin: auto;
   background-color: rgb(240, 240, 240);
   border: 1px solid darkgray;
   border-radius: 15px;
+}
+
+#bedrockOutputSection {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+#outputSection {
+  width: 360px;
+  margin: 25px;
 }
 
 #outputByOption1,
@@ -112,18 +140,6 @@
   background-color: rgb(240, 240, 240);
   border: 1px solid darkgray;
   border-radius: 15px;
-}
-
-#bedrockOutputSection {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-#outputSection {
-  width: 360px;
-  margin: 25px;
 }
 
 better {
