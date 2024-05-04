@@ -31,17 +31,15 @@ export const stopRecordingAndSendResult = async () => {
     console.log("Full sentence:", fullText);
     if (fullText != "") {
       console.log("=== Calling Bedrock... ===");
+      
       businessResponse = await BedrockClient.callApi(fullText, BUSINESS);
       casualResponse = await BedrockClient.callApi(fullText, CASUAL);
   
       let casualCorrection = casualResponse.data.result.content[0].text ?? "no response";
       outputByOption1.insertAdjacentHTML("beforeend", casualCorrection);
-      console.log("Casual correction: ", casualCorrection);
       
       let businessCorrection = businessResponse.data.result.content[0].text ?? "no response";
       outputByOption2.insertAdjacentHTML("beforeend", businessCorrection);
-      console.log("Business correction: ", businessCorrection);
-      
     } else {
       console.log("Try again");
     }
