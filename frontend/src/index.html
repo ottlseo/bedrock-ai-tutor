@@ -7,16 +7,62 @@
   </head>
 
   <body>
-    <div class="site-title">AI Tutor Demo</div>
+    <div class="site-title" onclick="openTab(event, 'homeTab')">AI Tutor Demo</div>
     <div class="tab">
-        <button class="tablinks" onclick="openTab(event, 'home')" id="defaultOpen">Home</button>
-        <button class="tablinks" onclick="openTab(event, 'model')">Claude 3.0 model comparison</button>
-        <button class="tablinks" onclick="openTab(event, 'role')">Business/Casual Conversation</button>
-        <button class="tablinks" onclick="openTab(event, 'general')">Transcribe Latency</button>
+        <button class="tablinks" onclick="openTab(event, 'homeTab')" id="defaultOpen">Home</button>
+        <button class="tablinks" onclick="openTab(event, 'modelComparisonTab')">Claude 3.0 model comparison</button>
+        <button class="tablinks" onclick="openTab(event, 'roleTab')">Business/Casual Conversation</button>
+        <button class="tablinks" onclick="openTab(event, 'moreInfoTab')">More Info</button>
     </div>
 
-    <div id="home" class="tabcontent">HI!</div>
-    <div id="model" class="tabcontent">
+    <div id="homeTab" class="tabcontent">
+        <div class="description">
+            <strong>AnyCompany AI Tutor</strong>는 문법적으로 틀린 영어 문장 발화 시 올바른 문장으로 교정해주는 서비스입니다. 
+            <br/><br/>
+            문법 교정에서 더 나아가, 
+            비즈니스 상황이나 캐주얼한 대화에서 사용하기에 적합한 문장으로 변경해주는 기능을 <br/>
+            <strong class="tabredirect" onclick="openTab(event, 'roleTab')">
+                Business/Casual Conversation(↗)
+            </strong> 탭에서 제공하고 있습니다.
+            <br/><br/>
+            이 데모는 Amazon Transcribe 서비스와 Amazon Bedrock에서 지원하는 Foundation Model 중 ANTROPIC의 Claude v3 Haiku 모델을 사용했으며, <br/>
+            별도의 모델 개선 작업 없이 Claude v3 모델에 대한 여러 번의 Prompt Engineering 작업을 통해 구현되었습니다. 
+            <br/><br/>
+            Claude 3.0 모델 중 Haiku와 Sonnet 모델의 결과 차이를 확인하고 싶으시다면 
+            <strong class="tabredirect" onclick="openTab(event, 'modelComparisonTab')">
+                Claude 3.0 model comparison(↗)
+            </strong> 탭을 확인해보세요.
+            <br/><br/>
+            <strong class="tabredirect" onclick="openTab(event, 'moreInfoTab')">
+                More Info(↗)
+            </strong> 탭에서 해당 데모의 아키텍처와 모델에 사용된 프롬프트를 확인하실 수 있습니다. 
+        </div>
+        <div id="mainContainer">
+            <div class="horizontal">
+                <div id="recordButtonContainer">
+                    <button id="homeTabRecord" class="recordInactive" onclick="onRecordPressAtHomeTab()">
+                    ◉
+                    </button>
+                </div>
+                <div> ▶ </div>
+                <div id="outputSection">
+                    <div id="headerText">
+                        <div class="sectionLabel">Transcription</div>
+                      </div>
+                      <div id="transcribedText"></div>
+                </div>
+                <div> ▶ </div>
+                <div id="outputSection">
+                    <div id="headerText">
+                      <div class="sectionLabel">Corrected sentence</div>
+                    </div>
+                    <div id="correctedText"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modelComparisonTab" class="tabcontent">
         <div id="mainContainer">
             <div id="recordButtonContainer">
               <button id="modelTabRecord" class="recordInactive" onclick="onRecordPressAtModelTab()">
@@ -26,15 +72,15 @@
       
             <div id="transcriptionOutputSection">
               <div id="headerText">
-                <h2>Transcription</h2>
+                <div class="sectionLabel">Transcription</div>
               </div>
               <div id="transcribedTextAtModelTab"></div>
             </div>
       
-            <div id="bedrockOutputSection">
+            <div class="horizontal">
                 <div id="outputSection">
                   <div id="headerText">
-                    <h2>Corrected by Amazon Bedrock (Haiku)</h2>
+                    <div class="sectionLabel">Corrected by Amazon Bedrock (Haiku)</div>
                     <div id="priceHaiku"></div>
                     <div id="priceHaikuEasier"></div>
                   </div>
@@ -42,7 +88,7 @@
                 </div>
                 <div id="outputSection">
                   <div id="headerText">
-                    <h2>Corrected by Amazon Bedrock (Sonnet)</h2>
+                    <div class="sectionLabel">Corrected by Amazon Bedrock (Sonnet)</div>
                     <div id="priceSonnet"></div>
                     <div id="priceSonnetEasier"></div>
                   </div>
@@ -52,7 +98,7 @@
           </div>
     </div>
 
-    <div id="role" class="tabcontent">
+    <div id="roleTab" class="tabcontent">
         <div id="mainContainer">
             <div id="recordButtonContainer">
               <button id="roleTabRecord" class="recordInactive" onclick="onRecordPressAtRoleTab()">
@@ -62,21 +108,21 @@
       
             <div id="transcriptionOutputSection">
               <div id="headerText">
-                <h2>Transcription</h2>
+                <div class="sectionLabel">Transcription</div>
               </div>
               <div id="transcribedTextAtRoleTab"></div>
             </div>
       
-            <div id="bedrockOutputSection">
+            <div class="horizontal">
                 <div id="outputSection">
                   <div id="headerText">
-                    <h2>Casual conversation bot</h2>
+                    <div class="sectionLabel">Casual conversation bot</div>
                   </div>
                   <div id="outputByOption1"></div>
                 </div>
                 <div id="outputSection">
                   <div id="headerText">
-                    <h2>Business conversation bot</h2>
+                    <div class="sectionLabel">Business conversation bot</div>
                   </div>
                   <div id="outputByOption2"></div>
                 </div>
@@ -84,28 +130,25 @@
           </div>
     </div>
 
-    <div id="general" class="tabcontent">
-      <h1> HI! </h1>
+    <div id="moreInfoTab" class="tabcontent">
+        <div id="headerText">
+            <div class="sectionLabel">Architecture</div>
+        </div>
+        To be updated
+
+        <div id="headerText">
+            <div class="sectionLabel">Source code</div>
+        </div>
+        <a href="https://github.com/ottlseo/bedrock-ai-tutor" target='_blank'>
+            Github[↗]
+        </a>
+
+        <div id="headerText">
+            <div class="sectionLabel">사용된 Prompt</div>
+        </div>
+        <div id="promptBox"></div>
     </div>
 
     <script type="text/javascript" src="./main.js"></script>
-    <script>
-      function openTab(event, tabName) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-          tabcontent[i].style.display = "none";
-        }
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-          tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-        document.getElementById(tabName).style.display = "block";
-        event.currentTarget.className += " active";
-      }
-
-      // 페이지 로드 시 기본 탭 설정
-      document.getElementById("defaultOpen").click();
-    </script>
   </body>
 </html>

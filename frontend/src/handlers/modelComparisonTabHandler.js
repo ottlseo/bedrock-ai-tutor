@@ -44,26 +44,30 @@ export const stopRecordingAndSendResult = async () => {
         sonnetResponse = await BedrockClient.callApi(fullText, SONNET);
         haikuResponse = await BedrockClient.callApi(fullText, HAIKU);
 
+        /* Getting corrected sentence and price by Haiku */
         let correctedByHaiku = haikuResponse.data.result.content[0].text ?? "no response";
         correctedTextByHaiku.insertAdjacentHTML("beforeend", correctedByHaiku);
+        
         let totalpriceHaiku = (
-        haikuResponse.data.result.usage.input_tokens * HAIKU_PRICE_PER_INPUT_TOKEN +
-        haikuResponse.data.result.usage.output_tokens * HAIKU_PRICE_PER_OUTPUT_TOKEN
+            haikuResponse.data.result.usage.input_tokens * HAIKU_PRICE_PER_INPUT_TOKEN +
+            haikuResponse.data.result.usage.output_tokens * HAIKU_PRICE_PER_OUTPUT_TOKEN
         ).toFixed(8);
+        
         priceHaiku.insertAdjacentHTML("beforeend", `Total price = $ ${totalpriceHaiku}`); 
         priceHaikuEasier.insertAdjacentHTML("beforeend", `(Total price *1000000 = $ ${totalpriceHaiku*MILLION})`); 
-        console.log("Corrected by Haiku: ", correctedByHaiku); //
-        
+    
+        /* Getting corrected sentence and price by Sonnet */
         let correctedBySonnet = sonnetResponse.data.result.content[0].text ?? "no response";
         correctedTextBySonnet.insertAdjacentHTML("beforeend", correctedBySonnet);
+        
         let totalpriceSonnet = (
-        sonnetResponse.data.result.usage.input_tokens * SONNET_PRICE_PER_INPUT_TOKEN + 
-        sonnetResponse.data.result.usage.output_tokens * SONNET_PRICE_PER_OUTPUT_TOKEN
+            sonnetResponse.data.result.usage.input_tokens * SONNET_PRICE_PER_INPUT_TOKEN + 
+            sonnetResponse.data.result.usage.output_tokens * SONNET_PRICE_PER_OUTPUT_TOKEN
         ).toFixed(6);
+        
         priceSonnet.insertAdjacentHTML("beforeend", `Total price = $ ${totalpriceSonnet}`);
         priceSonnetEasier.insertAdjacentHTML("beforeend", `(Total price *1000000 = $ ${totalpriceSonnet*MILLION})`); 
-        console.log("Corrected by Sonnet: ", correctedBySonnet); //
-
+        
     } else {
       console.log("Try again");
     }

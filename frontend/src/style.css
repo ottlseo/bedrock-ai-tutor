@@ -3,18 +3,79 @@ body {
   text-align: center;
   justify-content: center;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #efe8e3;
+}
+
+.horizontal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .site-title {
   font-size: 60px;
   font-weight: 700;
   padding: 10px 0 25px 0;
+  color: #000036;
+}
+
+.site-title:hover {
+  color: #B98253;
+}
+
+.description {
+  padding: 10px;
+  margin: 20px;
+  font-weight: 300;
+  font-size: 16px;
+}
+
+a {
+  color: #B98253;
+  /* text-decoration: none; */
+  font-weight: 500;
+}
+
+a:visited {
+  color: #B98253;
+}
+
+a:hover {
+  color: #000036;
+}
+
+.button {
+  height: 40px;
+  margin-left: 5px;
+  padding: 0 20px;
+  border: 1px solid darkgray;
+  background-color: white;
+  border-radius: 15px;
+}
+
+.button:hover {
+  background-color: rgb(240, 240, 240);
+}
+
+.button:active {
+  background-color: white;
+}
+
+/* ======= Tab ui ======= */ 
+.tabredirect {
+  color: #b07038;
+}
+.tabredirect:hover {
+  color: #302217;
+  font-style: italic;
 }
 
 .tab {
   overflow: hidden;
   border: 1px solid #ccc;
-  background-color: #f1f1f1;
+  background-color: #000036;
   justify-content: center;
 }
 
@@ -26,14 +87,16 @@ body {
   cursor: pointer;
   padding: 14px 16px;
   transition: 0.3s;
+  color: #ccc;
+  font-weight: 600;
 }
 
 .tab button:hover {
-  background-color: #ddd;
+  background-color: #aeaeae;
 }
 
 .tab button.active {
-  background-color: #ccc;
+  background-color: #B98253;
 }
 
 .tabcontent {
@@ -42,6 +105,7 @@ body {
   border-top: none;
 }
 
+/* ======= common ui ======= */ 
 #mainContainer {  
   display: flex;
   flex-direction: column;
@@ -49,6 +113,15 @@ body {
   margin: auto;
 }
 
+#headerText {
+  margin: 18px;
+}
+.sectionLabel {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* ======= transcribe record ui ======= */ 
 #recordButtonContainer {
   display: flex;
   align-items: center;
@@ -90,31 +163,38 @@ body {
   background-color: white;
 }
 
-#headerText {
-  margin-top: 20px;
-}
-
 #transcriptionOutputSection {
   width: 100%;
 }
 
-#transcribedText,
 #transcribedTextAtModelTab,
 #transcribedTextAtRoleTab {
-  width: 450px;
-  min-height: 120px;
+  width: 440px;
+  min-height: 130px;
   padding: 20px;
   margin: auto;
   background-color: rgb(240, 240, 240);
   border: 1px solid darkgray;
   border-radius: 15px;
 }
+#homeTabRecord {
+  width: 100px;
+  min-height: 300px;
+  background-color: rgb(240, 240, 240);
+  margin-top: 32px;
+  margin: 32px 25px 0 42px;
+}
 
-#bedrockOutputSection {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin-bottom: 20px;
+/* ======= Corrected text ui ======= */ 
+#transcribedText,
+#correctedText {
+  width: 300px;
+  min-height: 240px;
+  padding: 20px;
+  margin: auto;
+  background-color: rgb(240, 240, 240);
+  border: 1px solid darkgray;
+  border-radius: 15px;
 }
 
 #outputSection {
@@ -150,19 +230,16 @@ corrected {
   color: red;
 }
 
-.button {
-  height: 40px;
-  margin-left: 5px;
-  padding: 0 20px;
-  border: 1px solid darkgray;
-  background-color: white;
+/* ======= More info tab ui ======= */ 
+#promptBox {
+  border: solid 3px gray;
   border-radius: 15px;
+  width: 80%;
+  margin: auto;
+  overflow-x: auto;
+  text-align: left;
+  padding: 0 15px;
 }
-
-.button:hover {
-  background-color: rgb(240, 240, 240);
-}
-
-.button:active {
-  background-color: white;
+#promptBox pre {
+  white-space: pre-wrap;
 }

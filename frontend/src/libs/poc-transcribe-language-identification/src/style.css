@@ -71,7 +71,7 @@
   border-radius: 15px;
 }
 
-#bedrockOutputSection {
+#horizontal {
   display: flex;
   justify-content: center;
   width: 100%;
