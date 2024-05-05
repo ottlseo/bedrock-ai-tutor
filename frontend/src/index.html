@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>AI Tutor Demo</title>
+    <link rel="icon" href="favicon.ico">
     <link rel="stylesheet" type="text/css" href="style.css" />
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   </head>
@@ -11,8 +12,8 @@
     <div class="site-title" onclick="openTab(event, 'homeTab')">AI Tutor Demo</div>
     <div class="tab">
         <button class="tablinks" onclick="openTab(event, 'homeTab')" id="defaultOpen">Home</button>
-        <button class="tablinks" onclick="openTab(event, 'modelComparisonTab')">Claude 3.0 model comparison</button>
-        <button class="tablinks" onclick="openTab(event, 'roleTab')">Business/Casual Conversation</button>
+        <button class="tablinks" onclick="openTab(event, 'modelComparisonTab')">Claude 3.0 모델 비교</button>
+        <button class="tablinks" onclick="openTab(event, 'roleTab')">Business/Casual 대화 교정</button>
         <button class="tablinks" onclick="openTab(event, 'moreInfoTab')">More Info</button>
     </div>
 
@@ -23,15 +24,15 @@
             문법 교정에서 더 나아가, 
             비즈니스 상황이나 캐주얼한 대화에서 사용하기에 적합한 문장으로 변경해주는 기능을 <br/>
             <strong class="tabredirect" onclick="openTab(event, 'roleTab')">
-                Business/Casual Conversation(↗)
+                Business/Casual 대화 교정(↗)
             </strong> 탭에서 제공하고 있습니다.
             <br/><br/>
             이 데모는 Amazon Transcribe 서비스와 Amazon Bedrock에서 지원하는 Foundation Model 중 ANTROPIC의 Claude v3 Haiku 모델을 사용했으며, <br/>
             별도의 모델 개선 작업 없이 Claude v3 모델에 대한 여러 번의 Prompt Engineering 작업을 통해 구현되었습니다. 
             <br/><br/>
-            Claude 3.0 모델 중 Haiku와 Sonnet 모델의 결과 차이를 확인하고 싶으시다면 
+            Claude 3.0 모델 중 Haiku와 Sonnet 모델의 결과 및 비용 차이를 확인하고 싶으시다면 
             <strong class="tabredirect" onclick="openTab(event, 'modelComparisonTab')">
-                Claude 3.0 model comparison(↗)
+                Claude 3.0 모델 비교(↗)
             </strong> 탭을 확인해보세요.
             <br/><br/>
             <strong class="tabredirect" onclick="openTab(event, 'moreInfoTab')">
@@ -39,25 +40,30 @@
             </strong> 탭에서 해당 데모의 아키텍처와 모델에 사용된 프롬프트를 확인하실 수 있습니다. 
         </div>
         <div id="mainContainer">
-            <div class="horizontal">
-                <div id="recordButtonContainer">
-                    <button id="homeTabRecord" class="recordInactive" onclick="onRecordPressAtHomeTab()">
+            <div class="horizontal home-tab">
+                <div id="outputSection">
+                  <div class="sectionDescription record-desc">
+                    버튼을 누르고<br/>영어 문장을 말해보세요.<br/>
+                  </div>
+                  <button id="homeTabRecord" class="recordInactive" onclick="onRecordPressAtHomeTab()">
                     ◉
-                    </button>
+                  </button>
                 </div>
                 <div class="arrowIcon"> ▶ </div>
                 <div id="outputSection">
                     <div id="headerText">
                         <div class="sectionLabel">Transcription</div>
+                        <div class="sectionDescription transcription-desc">음성으로 들어온 문장이 아래에 텍스트로 표시됩니다.</div>
                       </div>
-                      <div id="transcribedText"></div>
+                      <div id="transcribedText" class="text-box"></div>
                 </div>
                 <div class="arrowIcon"> ▶ </div>
                 <div id="outputSection">
                     <div id="headerText">
                       <div class="sectionLabel">Corrected sentence</div>
+                      <div class="sectionDescription">Claude v3 Haiku 모델을 통해 교정된 문장이<br/>아래에 표시됩니다.</div>
                     </div>
-                    <div id="correctedText"></div>
+                    <div id="correctedText" class="text-box"></div>
                 </div>
             </div>
         </div>
@@ -75,7 +81,7 @@
               <div id="headerText">
                 <div class="sectionLabel">Transcription</div>
               </div>
-              <div id="transcribedTextAtModelTab"></div>
+              <div id="transcribedTextAtModelTab" class="text-box"></div>
             </div>
       
             <div class="horizontal">
@@ -85,7 +91,7 @@
                     <div id="priceHaiku"></div>
                     <div id="priceHaikuEasier"></div>
                   </div>
-                  <div id="correctedTextByHaiku"></div>
+                  <div id="correctedTextByHaiku" class="text-box"></div>
                 </div>
                 <div id="outputSection">
                   <div id="headerText">
@@ -93,7 +99,7 @@
                     <div id="priceSonnet"></div>
                     <div id="priceSonnetEasier"></div>
                   </div>
-                  <div id="correctedTextBySonnet"></div>
+                  <div id="correctedTextBySonnet" class="text-box"></div>
                 </div>
             </div>
           </div>
@@ -111,7 +117,7 @@
               <div id="headerText">
                 <div class="sectionLabel">Transcription</div>
               </div>
-              <div id="transcribedTextAtRoleTab"></div>
+              <div id="transcribedTextAtRoleTab" class="text-box"></div>
             </div>
       
             <div class="horizontal">
@@ -119,13 +125,13 @@
                   <div id="headerText">
                     <div class="sectionLabel">Casual conversation bot</div>
                   </div>
-                  <div id="outputByOption1"></div>
+                  <div id="outputByOption1" class="text-box"></div>
                 </div>
                 <div id="outputSection">
                   <div id="headerText">
                     <div class="sectionLabel">Business conversation bot</div>
                   </div>
-                  <div id="outputByOption2"></div>
+                  <div id="outputByOption2" class="text-box"></div>
                 </div>
             </div>
           </div>
@@ -133,19 +139,19 @@
 
     <div id="moreInfoTab" class="tabcontent">
         <div id="headerText">
-            <div class="sectionLabel">Architecture</div>
+            <div class="sectionLabel more-info-tab">Architecture</div>
         </div>
         To be updated
 
         <div id="headerText">
-            <div class="sectionLabel">Source code</div>
+            <div class="sectionLabel more-info-tab">Source code</div>
         </div>
         <a href="https://github.com/ottlseo/bedrock-ai-tutor" target='_blank'>
             Github[↗]
         </a>
 
         <div id="headerText">
-            <div class="sectionLabel">사용된 Prompt</div>
+            <div class="sectionLabel more-info-tab">사용된 Prompt</div>
         </div>
         <div id="promptBox"></div>
     </div>

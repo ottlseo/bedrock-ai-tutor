@@ -1,3 +1,4 @@
+/* ======= common ui ======= */ 
 
 body {
   text-align: center;
@@ -6,14 +7,28 @@ body {
   background-color: #efe8e3;
 }
 
+#mainContainer {  
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+  margin: auto;
+}
+
+#headerText {
+  margin: 18px;
+  margin-top: 0;
+}
+
 .horizontal {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
-
+.home-tab {
+  margin: 20px 0 20px 20px;
+}
 .site-title {
   font-size: 60px;
   font-weight: 700;
@@ -28,8 +43,32 @@ body {
 .description {
   padding: 10px;
   margin: 20px;
+  margin-bottom: 0px;
   font-weight: 400;
   font-size: 16px;
+}
+
+.sectionLabel {
+  font-size: 20px;
+  font-weight: 600;
+}
+.more-info-tab {
+  padding-top: 20px;
+}
+
+.sectionDescription {
+  font-weight: 400;
+  font-size: 14px;
+  margin-top: 6px;
+  margin-bottom: 2px;
+  color: #535353;
+}
+.record-desc {
+  margin-top: 35px;
+  margin-bottom: 5px;
+}
+.transcription-desc {
+  margin: 14px 0;
 }
 
 .arrowIcon {
@@ -89,10 +128,11 @@ a:hover {
   border: none;
   outline: none;
   cursor: pointer;
-  padding: 14px 16px;
+  padding: 14px 20px;
   transition: 0.3s;
   color: #ccc;
   font-weight: 600;
+  font-size: 14px;
 }
 
 .tab button:hover {
@@ -109,29 +149,13 @@ a:hover {
   border-top: none;
 }
 
-/* ======= common ui ======= */ 
-#mainContainer {  
-  display: flex;
-  flex-direction: column;
-  width: 800px;
-  margin: auto;
-}
-
-#headerText {
-  margin: 18px;
-}
-.sectionLabel {
-  font-size: 20px;
-  font-weight: 600;
-}
-
 /* ======= transcribe record ui ======= */ 
 #recordButtonContainer {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  padding: 30px 0 20px 0;
+  padding: 35px 0 20px 0;
   width: 100%;
 }
 
@@ -178,14 +202,18 @@ a:hover {
   border-radius: 15px;
 }
 #homeTabRecord {
-  width: 100px;
-  min-height: 300px;
+  width: 120px;
+  min-height: 280px;
   background-color: rgb(240, 240, 240);
   margin-top: 32px;
-  margin: 32px 25px 0 60px;
+  margin: 10px 13px 0 13px;
 }
 
 /* ======= Corrected text ui ======= */ 
+.text-box {
+  font-size: 17px;
+  font-weight: 400;
+}
 #transcribedText,
 #correctedText {
   width: 300px;
@@ -199,7 +227,9 @@ a:hover {
 
 #outputSection {
   width: 360px;
-  margin: 25px;
+  margin: 5px 25px;
+  justify-content: center;
+  text-align: center;
 }
 
 #outputByOption1,
