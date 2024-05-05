@@ -27,7 +27,7 @@ body {
   margin: 20px 0;
 }
 .home-tab {
-  margin: 20px 0 20px 20px;
+  margin: 10px 0 20px 20px;
 }
 .site-title {
   font-size: 60px;
@@ -64,7 +64,7 @@ body {
   color: #535353;
 }
 .record-desc {
-  margin-top: 35px;
+  margin-top: 10px;
   margin-bottom: 5px;
 }
 .transcription-desc {
@@ -203,7 +203,7 @@ a:hover {
 }
 #homeTabRecord {
   width: 120px;
-  min-height: 280px;
+  min-height: 270px;
   background-color: rgb(240, 240, 240);
   margin-top: 32px;
   margin: 10px 13px 0 13px;
@@ -227,7 +227,7 @@ a:hover {
 
 #outputSection {
   width: 360px;
-  margin: 5px 25px;
+  margin: 15px 25px;
   justify-content: center;
   text-align: center;
 }
