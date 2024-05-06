@@ -1,0 +1,275 @@
+/* ======= common ui ======= */ 
+
+body {
+  text-align: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #efe8e3;
+}
+
+#mainContainer {  
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+  margin: auto;
+}
+
+#headerText {
+  margin: 18px;
+  margin-top: 0;
+}
+
+.horizontal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 20px 0;
+}
+.home-tab {
+  margin: 10px 0 20px 20px;
+}
+.site-title {
+  font-size: 60px;
+  font-weight: 700;
+  padding: 10px 0 25px 0;
+  color: #000036;
+}
+
+.site-title:hover {
+  color: #B98253;
+}
+
+.description {
+  padding: 10px;
+  margin: 20px;
+  margin-bottom: 0px;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.sectionLabel {
+  font-size: 20px;
+  font-weight: 600;
+}
+.more-info-tab {
+  padding-top: 20px;
+}
+
+.sectionDescription {
+  font-weight: 400;
+  font-size: 14px;
+  margin-top: 6px;
+  margin-bottom: 2px;
+  color: #535353;
+}
+.record-desc {
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+.transcription-desc {
+  margin: 14px 0;
+}
+
+.arrowIcon {
+  font-size: 25px;
+}
+
+a {
+  color: #B98253;
+  font-weight: 500;
+  /* text-decoration: none; */
+}
+
+a:visited {
+  color: #B98253;
+}
+
+a:hover {
+  color: #000036;
+}
+
+.button {
+  height: 40px;
+  margin-left: 5px;
+  padding: 0 20px;
+  border: 1px solid darkgray;
+  background-color: white;
+  border-radius: 15px;
+}
+
+.button:hover {
+  background-color: rgb(240, 240, 240);
+}
+
+.button:active {
+  background-color: white;
+}
+
+/* ======= Tab ui ======= */ 
+.tabredirect {
+  color: #b07038;
+}
+.tabredirect:hover {
+  color: #302217;
+  font-style: italic;
+}
+
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #000036;
+  justify-content: center;
+}
+
+.tab button {
+  background-color: inherit;
+  float: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 20px;
+  transition: 0.3s;
+  color: #ccc;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.tab button:hover {
+  background-color: #aeaeae;
+}
+
+.tab button.active {
+  background-color: #B98253;
+}
+
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border-top: none;
+}
+
+/* ======= transcribe record ui ======= */ 
+#recordButtonContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  padding: 35px 0 20px 0;
+  width: 100%;
+}
+
+.recordActive {
+  font-size: 50px;
+  background-color: red;
+  padding-bottom: 10px;
+  cursor: pointer;
+  width: 400px;
+  height: 75px;
+  border: 1px solid darkgray;
+  border-radius: 15px;
+  color: white;
+}
+
+.recordInactive {
+  font-size: 50px;
+  background-color: white;
+  padding-bottom: 10px;
+  cursor: pointer;
+  width: 400px;
+  height: 75px;
+  border: 1px solid darkgray;
+  border-radius: 15px;
+  color: red;
+}
+
+.recordInactive:hover {
+  background-color: rgb(240, 240, 240);
+}
+
+#transcriptionOutputSection {
+  width: 100%;
+}
+
+#transcribedTextAtModelTab,
+#transcribedTextAtRoleTab {
+  width: 440px;
+  min-height: 130px;
+  padding: 20px;
+  margin: auto;
+  background-color: rgb(240, 240, 240);
+  border: 1px solid darkgray;
+  border-radius: 15px;
+}
+#homeTabRecord {
+  width: 120px;
+  min-height: 270px;
+  background-color: rgb(240, 240, 240);
+  margin-top: 32px;
+  margin: 10px 13px 0 13px;
+}
+
+/* ======= Corrected text ui ======= */ 
+.text-box {
+  font-size: 17px;
+  font-weight: 400;
+}
+#transcribedText,
+#correctedText {
+  width: 300px;
+  min-height: 240px;
+  padding: 20px;
+  margin: auto;
+  background-color: rgb(240, 240, 240);
+  border: 1px solid darkgray;
+  border-radius: 15px;
+}
+
+#outputSection {
+  width: 360px;
+  margin: 15px 25px;
+  justify-content: center;
+  text-align: center;
+}
+
+#outputByOption1,
+#outputByOption2 {
+  width: 350px;
+  min-height: 150px;
+  padding: 20px;
+  background-color: rgb(240, 240, 240);
+  border: 1px solid darkgray;
+  border-radius: 15px;
+}
+
+#correctedTextByHaiku,
+#correctedTextBySonnet {
+  width: 350px;
+  min-height: 150px;
+  padding: 20px;
+  background-color: rgb(240, 240, 240);
+  border: 1px solid darkgray;
+  border-radius: 15px;
+}
+
+better {
+  color: green;
+}
+
+corrected {
+  color: red;
+}
+
+/* ======= More info tab ui ======= */ 
+#promptBox {
+  border: solid 3px gray;
+  border-radius: 15px;
+  width: 80%;
+  margin: auto;
+  overflow-x: auto;
+  text-align: left;
+  padding: 0 15px;
+}
+#promptBox pre {
+  white-space: pre-wrap;
+}

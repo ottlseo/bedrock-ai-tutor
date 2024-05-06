@@ -10,7 +10,9 @@
 
 # production
 /frontend/build
-/frontend/src/**/main.js
+/frontend/**/main.js
+/cdk/cdk.out
+/cdk/**/main.js
 
 # credential
 /frontend/src/libs/cred.js
