@@ -38,7 +38,7 @@ export const startRecording = async () => {
 
 export const stopRecordingAndSendResult = async () => {
     console.log("Full sentence:", fullText);
-    if (fullText != "") {
+    if (fullText.length > 10) {
         console.log("=== Calling Bedrock... ===");
       
         sonnetResponse = await BedrockClient.callApi(fullText, SONNET);
@@ -69,7 +69,8 @@ export const stopRecordingAndSendResult = async () => {
         priceSonnetEasier.insertAdjacentHTML("beforeend", `(Total price *1000000 = $ ${totalpriceSonnet*MILLION})`); 
         
     } else {
-      console.log("Try again");
+      alert("너무 짧은 문장에서는 문법 교정의 단서를 찾기 어려워요. 최소 10자 이상의 문장으로 얘기해보세요!");
+      console.log("TRY AGAIN");
     }
   };
   

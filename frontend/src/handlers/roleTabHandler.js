@@ -29,7 +29,7 @@ export const startRecording = async () => {
 
 export const stopRecordingAndSendResult = async () => {
     console.log("Full sentence:", fullText);
-    if (fullText != "") {
+    if (fullText.length > 10) {
       console.log("=== Calling Bedrock... ===");
       
       businessResponse = await BedrockClient.callApi(fullText, BUSINESS);
@@ -41,7 +41,8 @@ export const stopRecordingAndSendResult = async () => {
       let businessCorrection = businessResponse.data.result.content[0].text ?? "no response";
       outputByOption2.insertAdjacentHTML("beforeend", businessCorrection);
     } else {
-      console.log("Try again");
+      alert("너무 짧은 문장에서는 문법 교정의 단서를 찾기 어려워요. 최소 10자 이상의 문장으로 얘기해보세요!");
+      console.log("TRY AGAIN");
     }
   };
   
