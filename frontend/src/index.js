@@ -2,7 +2,7 @@ import * as TranscribeClient from "./libs/transcribeClient.js";
 import * as RoleTabHandler from './handlers/roleTabHandler.js';
 import * as ModelComparisonTabHandler from './handlers/modelComparisonTabHandler.js';
 import * as HomeTabHandler from './handlers/homeTabHandler.js';
-import { getCurrentPrompt } from "./handlers/moreInfoTabHandler.js";
+import { getHaikuPrompt, getSonnetPrompt } from "./handlers/moreInfoTabHandler.js";
 
 // Set default Tab when loading page
 const defaultTab = document.getElementById("defaultOpen");
@@ -72,6 +72,7 @@ window.onRecordPressAtRoleTab = () => {
   };
 
 // Show current prompt in More Info tab
-const promptBox = document.getElementById("promptBox");
-promptBox.innerHTML = getCurrentPrompt();
-  
+const promptBox1 = document.getElementById("promptBox1");
+const promptBox2 = document.getElementById("promptBox2");
+promptBox1.innerHTML = getHaikuPrompt();
+promptBox2.innerHTML = getSonnetPrompt();

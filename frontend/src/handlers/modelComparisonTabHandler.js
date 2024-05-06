@@ -26,6 +26,7 @@ const onTranscriptionDataReceived = (data) => {
   }
   
 export const startRecording = async () => {
+    fullText = "";
     recordButton.setAttribute("class", "recordActive");
     try {
       await TranscribeClient.startRecording(onTranscriptionDataReceived);

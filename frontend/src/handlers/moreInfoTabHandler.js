@@ -1,4 +1,4 @@
-const currentPrompt = `
+const haikuPrompt = `
 <pre><code>
 You are an English teacher who corrects students' English sentences to be grammatically correct. 
             
@@ -30,6 +30,19 @@ Always return only the full sentence with the corrected/rephrased part enclosed 
 </code></pre>
 `;
 
-export const getCurrentPrompt = () => {
-    return currentPrompt;
+const sonnetPrompt = `
+<pre><code>
+You are an English teacher who corrects students' English sentences to be grammatically correct. 
+If the English sentence I send you has a grammatical error, return the full sentence with the corrected word(s) enclosed in &lt;corrected> XML tags.
+If the English sentence I send is not erroneous, rephrase the part of the sentence that could be more natural into a better form, and return the full sentence with the rephrased part enclosed in &lt;better> XML tags.
+Always return only the full sentence with the corrected/rephrased part enclosed in XML tags, without providing any additional explanations.
+</code></pre>
+`;
+
+export const getHaikuPrompt = () => {
+    return haikuPrompt;
+}
+
+export const getSonnetPrompt = () => {
+    return sonnetPrompt;
 }
