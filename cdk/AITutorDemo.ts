@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import * as cdk from "aws-cdk-lib";
-import { UserInterfaceStack } from "./user-interface-stack";
+import { WebStack } from "./WebStack";
 
 const app = new cdk.App();
-new UserInterfaceStack(app, "UserInterfaceStack"
+new WebStack(app, "WebStack"
     // {
     // env: {
     //     account: app.node.tryGetContext('aws:accountId'),
