@@ -3,7 +3,7 @@
 
 | Business/Casual conversation recommendation | Claude 3.0 model comparison | 
 | - | - |
-| ![image](https://github.com/ottlseo/bedrock-ai-tutor/assets/61778930/134de61f-d089-4348-bdb4-6ae0ccbabf6e) | ![image](https://github.com/ottlseo/bedrock-ai-tutor/assets/61778930/80707710-b8ec-4b36-85f4-99360cf3c706) |
+| <img width="805" alt="image" src="https://github.com/ottlseo/bedrock-ai-tutor/assets/61778930/b9e98136-ea14-4f68-b260-c5b0f01ee3ab"> | <img width="841" alt="image" src="https://github.com/ottlseo/bedrock-ai-tutor/assets/61778930/63def459-73fa-499c-9642-04b1cd184970"> |
 
 ## Deploy Backend locally
 0. Enable Anthropic Claude v3 model access on the [Amazon Bedrock console](https://console.aws.amazon.com/bedrock).   
