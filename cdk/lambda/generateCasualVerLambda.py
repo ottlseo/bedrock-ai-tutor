@@ -17,7 +17,7 @@ def generate_prompt(sentence):
     return "System: "+ system_prompt + "\n\nHuman: "+ sentence +"\n\nAssistant: "
     
 
-def call_claude_v3(prompt, model=SONNET35):
+def call_claude_v3(prompt, model=HAIKU):
     body = json.dumps({
         "max_tokens": 2000,
         "messages": [{"role": "user", "content": generate_prompt(prompt)}],
