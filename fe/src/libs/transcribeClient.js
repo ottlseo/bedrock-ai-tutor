@@ -63,7 +63,6 @@ const startStreaming = async (callback) => {
     MediaSampleRateHertz: SAMPLE_RATE,
     AudioStream: getAudioStream(),
   });
-  const speakingStartedTime = new Date(); // local time before sending the chunk to Transcribe client
   const data = await transcribeClient.send(command);
   for await (const event of data.TranscriptResultStream) {
     for (const result of event.TranscriptEvent.Transcript.Results || []) {
@@ -72,15 +71,6 @@ const startStreaming = async (callback) => {
         // Get stream from the response
         const alternative = result.Alternatives[0];
         const noOfResults = alternative.Items.length;
-
-        // Calculate a latency from the last chunk
-        const { StartTime, EndTime } = alternative.Items.at(-1);
-        const resultReceivedTime = new Date();
-        console.log(`Transcript: ${alternative.Transcript}`);
-        console.log(`A (해당 문장을 말하는 데 걸린 시간): ${EndTime*1000} ms`);
-        console.log(`B (발화 시작한 시점으로부터 Transcript를 받아오기까지 걸린 시간): ${resultReceivedTime - speakingStartedTime} ms`);
-        console.log(`A-B (Latency): ${(resultReceivedTime - speakingStartedTime) - EndTime*1000} ms`);
-        console.log(`=======================`);
 
         let transcriptionResult = "";
         for (let i = 0; i < noOfResults; i++) {
