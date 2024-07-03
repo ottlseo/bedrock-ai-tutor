@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ChatMessage from '../chat/ChatMessage';
 const HomeTab = () => {
 
     return (
@@ -18,6 +19,7 @@ const HomeTab = () => {
                     HOW TO BUILD(↗)
                 </strong> 탭에서 해당 데모의 아키텍처와 모델에 사용된 프롬프트를 확인하실 수 있습니다. 
             </div>
+            <ChatMessage message="Hello bot!" is_user={true} />
         </div>
     )
 };

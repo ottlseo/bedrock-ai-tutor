@@ -7,30 +7,30 @@ import CodeBlock from '../CodeBlock';
 const HowToBuildTab = () => {
 
     return (
-        <div>
-            <div id="headerText">
-                <div class="sectionLabel more-info-tab">Source code</div>
+        <div class="more-info-tab">
+            <div class="wrapper">
+                <div class="headerText">
+                    <h2 class="sectionLabel">Source code</h2>
+                </div>
+                <div id="code-redirect">
+                    <a href="https://github.com/ottlseo/bedrock-ai-tutor" target='_blank'>
+                        Github[↗]
+                    </a>
+                </div>
             </div>
-            <div class="">
-            <a href="https://github.com/ottlseo/bedrock-ai-tutor" target='_blank'>
-                Github[↗]
-            </a>
+            <div class="wrapper">
+                <div id="arch-redirect" class="headerText">
+                    <h2 class="sectionLabel">Architecture</h2>
+                </div>
+                <img src={ArchitectureImage} width="70%" />
             </div>
-
-            <div id="headerText">
-                <div class="sectionLabel more-info-tab">Architecture</div>
-            </div>
-            <div class="architecture-img">
-                <img src={ArchitectureImage} />
-            </div>
-
-            <div id="headerText">
-                <div class="sectionLabel more-info-tab">사용된 Prompt</div>
-            </div>
-            <div>
+            <div class="wrapper">
+                <div id="prompt-redirect" class="headerText">
+                    <h2 class="sectionLabel">사용된 Prompt</h2>
+                </div>
+                <h4>Haiku 3.0</h4>
                 <CodeBlock code={haikuPrompt} />
-            </div>
-            <div>
+                <h4>Sonnet 3.5</h4>
                 <CodeBlock code={sonnetPrompt} />
             </div>
         </div>

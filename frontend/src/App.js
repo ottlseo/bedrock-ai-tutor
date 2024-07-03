@@ -40,7 +40,7 @@ const App = () => {
         <img src={bedrockLogo} alt="Bedrock Logo" width="40" height="40" />
       </PoweredByContainer>
       <div className="site-title" onClick={() => handleTabChange('homeTab')}>
-        AI Tutor Demo
+        Bedrock AI Tutor
       </div>
       <TabNavigator activeTab={activeTab} onTabChange={handleTabChange} />
       <div>

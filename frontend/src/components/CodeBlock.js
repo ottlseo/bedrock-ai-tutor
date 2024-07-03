@@ -13,7 +13,7 @@ const CodeBlock = ({code}) => {
             padding={10}
             highlight={(code) => highlight(code, languages.js)}
             style={{
-                width: '70%',
+                width: '60%',
                 // height: "20rem",
                 // overflowY: true,
                 fontFamily: "monospace",
@@ -23,6 +23,7 @@ const CodeBlock = ({code}) => {
                 margin: '2rem 8rem',
                 padding: '1rem',
                 backgroundColor: '#eee',
+                color: "rgb(63, 63, 63)"
             }}
         />
     );
