@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import '../../App.css';
 import Chat from '../Chat';
+import { isEnglishSentence } from '../utils/validateInput';
 import { Radio } from 'antd';
 
 const HomeTab = () => {
     const [userMessage, setUserMessage] = useState('');
     const [tutorMessage, setTutorMessage] = useState('');
-    
+    const [tutorGuideMessage, setTutorGuideMessage] = useState('');
+
     const [modelOption, setModelOption] = useState('both');
     const handleModelChange = (event) => {
         setModelOption(event.target.value);
@@ -16,11 +18,19 @@ const HomeTab = () => {
         setUserMessage(event.target.value);
     };
     const handleSendMessage = () => {
-        if (userMessage.trim() !== '') {
+        // if (userMessage.trim() !== '') {
+        if (!isEnglishSentence(userMessage)) {
+            setTutorMessage('');
+            setTutorGuideMessage("문장을 영어로 입력해주세요.");
+        // }
+        } else if (userMessage.length < 10) {
+            setTutorMessage('');
+            setTutorGuideMessage(`너무 짧은 문장에서는 문법 교정의 단서를 찾기가 어려워요.\n10자 이상의 문장으로 시작해보세요!`);
+        } else {
             setTutorMessage(userMessage);
+            setTutorGuideMessage("이렇게 말해보면 어떨까요?");
             // const aiResponse = fetchSonnetAPI(userMessage);
             // setTutorMessage(aiResponse);
-        // }
         }
     };
     const handleKeyDown = (event) => {
@@ -68,6 +78,7 @@ const HomeTab = () => {
                     <Chat
                         userMessage={userMessage}
                         tutorMessage={tutorMessage}
+                        tutorGuideMessage={tutorGuideMessage}
                         handleUserMessageChange={handleUserMessageChange}
                         handleSendMessage={handleSendMessage}
                         handleKeyDown={handleKeyDown}

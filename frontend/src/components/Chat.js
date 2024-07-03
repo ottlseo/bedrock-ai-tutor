@@ -18,7 +18,7 @@ const BubbleContainer = styled.div`
 
 const UserBubble = styled.div`
   background-color: #e0e0e0;
-  padding: 16px;
+  padding: 1.2rem;
   border-radius: 24px 24px 0 24px;
   margin-bottom: 16px;
   align-self: flex-end;
@@ -74,6 +74,7 @@ const TutorGuideText = styled.div`
 const Chat = ({
     userMessage,
     tutorMessage,
+    tutorGuideMessage,
     handleUserMessageChange,
     handleSendMessage,
     handleKeyDown
@@ -91,7 +92,12 @@ const Chat = ({
                     <button onClick={handleSendMessage}>Send</button>
                 </UserBubble>
                 <TutorBubble>
-                    <TutorGuideText>이렇게 말해보면 어떨까요?</TutorGuideText>
+                    { tutorGuideMessage 
+                        ? <TutorGuideText>
+                                {tutorGuideMessage}
+                            </TutorGuideText> 
+                        : <></> 
+                    }
                     {tutorMessage}
                 </TutorBubble>
             </BubbleContainer>
