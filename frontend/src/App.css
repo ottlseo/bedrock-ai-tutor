@@ -57,6 +57,34 @@ code {
   color: #e2e2e2;
 }
 
+
+.ant-radio-button-wrapper {
+  font-weight: 600;
+  /* font-size: 1rem; */
+  margin: 2rem 0;
+  /* padding: 10px; */
+}
+
+.ant-radio-button-wrapper:hover {
+  color: green;
+  background-color: greenyellow;
+}
+
+.ant-radio-button:hover, .ant-radio-button-input {
+  color: green;
+  background-color: green;
+}
+
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+  color: white;
+}
+
+.ant-radio-button-checked, .ant-radio-button-wrapper-checked {
+  color: white;
+  background-color: green;
+
+}
+
 .sectionLabel {
   font-size: 20px;
   font-weight: 600;
