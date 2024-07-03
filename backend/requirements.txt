@@ -1,8 +1,0 @@
-flask
-boto3
-langchain==0.0.343
-botocore
-boto3
-awscli
-anthropic
-# streamlit
