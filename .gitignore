@@ -1,20 +1,20 @@
 /.git
 
 # dependencies
-/frontend/node_modules
-/frontend/.pnp
+/**/node_modules
+/**/.pnp
 /frontend.pnp.js
 
 # testing
 /frontend/coverage
 
 # production
-/frontend/build
+/**/build
 **/main.js
 **/cdk.out
 
 # credential
-/frontend/src/libs/cred.js
+/fe/src/libs/cred.js
 
 # misc
 .DS_Store
