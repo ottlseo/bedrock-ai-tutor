@@ -1,16 +1,33 @@
 import React, { useState } from 'react';
 import '../../App.css';
-import { haikuPrompt, sonnetPrompt } from '../static/Prompt';
-import CodeBlock from '../CodeBlock';
+import Chat from '../Chat';
 import { Radio } from 'antd';
 
 const HomeTab = () => {
+    const [userMessage, setUserMessage] = useState('');
+    const [tutorMessage, setTutorMessage] = useState('');
+    
     const [modelOption, setModelOption] = useState('both');
-
     const handleModelChange = (event) => {
         setModelOption(event.target.value);
-        console.log(event.target.value);
-    }
+    };
+
+    const handleUserMessageChange = (event) => {
+        setUserMessage(event.target.value);
+    };
+    const handleSendMessage = () => {
+        if (userMessage.trim() !== '') {
+            setTutorMessage(userMessage);
+            // const aiResponse = fetchSonnetAPI(userMessage);
+            // setTutorMessage(aiResponse);
+        // }
+        }
+    };
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            handleSendMessage();
+        }
+    };
 
     return (
         <div>
@@ -29,40 +46,35 @@ const HomeTab = () => {
                     HOW TO BUILD(↗)
                 </strong> 탭에서 해당 데모의 아키텍처와 모델에 사용된 프롬프트를 확인하실 수 있습니다.
                 
-                <div>
+                {/* <div>
                     <Radio.Group
-                        size="medium"
+                        size="large"
                         onChange={handleModelChange} 
                         defaultValue="both"
                         >
                         <Radio.Button value="haiku">
-                            Haiku(3.0) 모델로 이용하기
+                            Haiku 3.0 모델로 이용하기
                         </Radio.Button>
                         <Radio.Button value="sonnet">
-                            Sonnet(3.5) 모델로 이용하기
+                            Sonnet 3.5 모델로 이용하기
                         </Radio.Button>
                         <Radio.Button value="both">
                             비교 모드
                         </Radio.Button>
                     </Radio.Group>
-                </div>
+                </div> */}
                 <div>
-                {modelOption === 'haiku' && (
-                    <div className="prompt-text">
-                        <CodeBlock code={haikuPrompt} />
-                    </div>
-                )}
-                {modelOption === 'sonnet' && (
-                    <div className="prompt-text">
-                        <CodeBlock code={sonnetPrompt} />
-                    </div>
-                )}
                 {modelOption === 'both' && (
-                    <div className="prompt-text">
-                        <CodeBlock code={haikuPrompt} />
-                        <CodeBlock code={sonnetPrompt} />
-                    </div>
+                    <Chat
+                        userMessage={userMessage}
+                        tutorMessage={tutorMessage}
+                        handleUserMessageChange={handleUserMessageChange}
+                        handleSendMessage={handleSendMessage}
+                        handleKeyDown={handleKeyDown}
+                    />
                 )}
+                {modelOption === 'sonnet' && ( <div></div> )}
+                {modelOption === 'haiku' && ( <div></div> )}
                 </div>
                 
             </div>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../../App.css';
 import ArchitectureImage from '../../assets/architecture.png';
-import { haikuPrompt, sonnetPrompt } from '../static/Prompt';
+import { haikuPrompt, sonnetPrompt } from '../utils/getPrompts';
 import CodeBlock from '../CodeBlock';
 
 const HowToBuildTab = () => {
