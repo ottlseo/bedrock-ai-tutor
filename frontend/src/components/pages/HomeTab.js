@@ -18,10 +18,9 @@ const HomeTab = () => {
         setUserMessage(event.target.value);
     };
     const handleSendMessage = () => {
-        // if (userMessage.trim() !== '') {
         if (!isEnglishSentence(userMessage)) {
             setTutorMessage('');
-            setTutorGuideMessage("문장을 영어로 입력해주세요.");
+            setTutorGuideMessage("문장은 영어로 입력해주세요.");
         // }
         } else if (userMessage.length < 10) {
             setTutorMessage('');
@@ -87,7 +86,6 @@ const HomeTab = () => {
                 {modelOption === 'sonnet' && ( <div></div> )}
                 {modelOption === 'haiku' && ( <div></div> )}
                 </div>
-                
             </div>
         </div>
     )
