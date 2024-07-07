@@ -38,6 +38,7 @@ export class WebStack extends Stack {
             behaviors: [{ isDefaultBehavior: true }],
           },
         ],
+        viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.HTTPS_ONLY, // HTTP 요청 차단
       }
     );
 

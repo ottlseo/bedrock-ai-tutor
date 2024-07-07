@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 import * as cdk from "aws-cdk-lib";
-import { WebStack } from "../lib/webStack/webStack";
-import { ApiStack } from "../lib/apiStack/apiStack";
+import { ApiStack } from "../lib/apiStack/apiStack"
+import { WebStack } from "../lib/webStack/webStack";;
 
 const app = new cdk.App();
 
-new WebStack(app, "WebStack");
-
 new ApiStack(app, "ApiStack");
+
+new WebStack(app, "WebStack");
 
 app.synth();
