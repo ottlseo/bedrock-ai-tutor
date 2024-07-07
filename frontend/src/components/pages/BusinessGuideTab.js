@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { getBusinessCorrection } from '../utils/api';
+
 const BusinessGuideTab = () => {
 
     return (

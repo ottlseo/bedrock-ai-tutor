@@ -3,6 +3,7 @@ import '../../App.css';
 import Chat from '../Chat';
 import { isEnglishSentence } from '../utils/validateInput';
 import { Radio } from 'antd';
+import { getSonnetCorrection, getHaikuCorrection } from '../utils/api';
 
 const HomeTab = () => {
     const [userMessage, setUserMessage] = useState('');
@@ -17,7 +18,7 @@ const HomeTab = () => {
     const handleUserMessageChange = (event) => {
         setUserMessage(event.target.value);
     };
-    const handleSendMessage = () => {
+    const handleSendMessage = async () => {
         if (!isEnglishSentence(userMessage)) {
             setTutorMessage('');
             setTutorGuideMessage("문장은 영어로 입력해주세요.");
@@ -28,8 +29,8 @@ const HomeTab = () => {
         } else {
             setTutorMessage(userMessage);
             setTutorGuideMessage("이렇게 말해보면 어떨까요?");
-            // const aiResponse = fetchSonnetAPI(userMessage);
-            // setTutorMessage(aiResponse);
+            const aiResponse = await getSonnetCorrection(userMessage);
+            setTutorMessage(aiResponse);
         }
     };
     const handleKeyDown = (event) => {
