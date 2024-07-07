@@ -29,7 +29,8 @@ const HomeTab = () => {
         } else {
             setTutorMessage(userMessage);
             setTutorGuideMessage("이렇게 말해보면 어떨까요?");
-            const aiResponse = await getSonnetCorrection(userMessage);
+            const aiResponse = await getHaikuCorrection(userMessage);
+            console.log(aiResponse);
             setTutorMessage(aiResponse);
         }
     };

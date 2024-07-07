@@ -12,7 +12,7 @@ const callApi = async (prompt, option) => {
             "prompt": prompt
         };
         const response = await axios.post(apiUrl, request);
-        return response
+        return response.data.result.content[0].text ?? "no response";
         
     } catch {
         console.log("error");
