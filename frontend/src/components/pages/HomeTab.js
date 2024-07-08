@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import '../../App.css';
-import Chat from '../Chat';
-import { isEnglishSentence } from '../utils/validateInput';
 import { Radio } from 'antd';
+import Chats from '../Chats';
+import { isEnglishSentence } from '../utils/validateInput';
 import { getSonnetCorrection, getHaikuCorrection } from '../utils/api';
 
 const HomeTab = () => {
     const [userMessage, setUserMessage] = useState('');
-    const [tutorMessage, setTutorMessage] = useState('');
+    const [haikuTutorMessage, setHaikuTutorMessage] = useState('');
+    const [sonnetTutorMessage, setSonnetTutorMessage] = useState('');
     const [tutorGuideMessage, setTutorGuideMessage] = useState('');
 
     const [modelOption, setModelOption] = useState('both');
@@ -15,23 +16,43 @@ const HomeTab = () => {
         setModelOption(event.target.value);
     };
 
+    const handleTutorMessageChange = async () => {
+        if (modelOption == 'both') {
+            const haikuResponse = await getHaikuCorrection(userMessage);
+            const sonnetResponse = await getSonnetCorrection(userMessage);
+            console.log(haikuResponse);
+            console.log(sonnetResponse);
+
+            setHaikuTutorMessage(haikuResponse);
+            setSonnetTutorMessage(sonnetResponse);
+            
+        } else if (modelOption == 'haiku') {
+            const haikuResponse = await getHaikuCorrection(userMessage);
+            console.log(haikuResponse);
+            setHaikuTutorMessage(haikuResponse);
+        } else {
+            const sonnetResponse = await getSonnetCorrection(userMessage);
+            console.log(sonnetResponse);
+            setSonnetTutorMessage(sonnetResponse);
+        }
+    };
+
     const handleUserMessageChange = (event) => {
         setUserMessage(event.target.value);
     };
     const handleSendMessage = async () => {
         if (!isEnglishSentence(userMessage)) {
-            setTutorMessage('');
+            setHaikuTutorMessage('');
+            setSonnetTutorMessage('');
             setTutorGuideMessage("문장은 영어로 입력해주세요.");
         // }
         } else if (userMessage.length < 10) {
-            setTutorMessage('');
+            setHaikuTutorMessage('');
+            setSonnetTutorMessage('');
             setTutorGuideMessage(`너무 짧은 문장에서는 문법 교정의 단서를 찾기가 어려워요.\n10자 이상의 문장으로 시작해보세요!`);
         } else {
-            setTutorMessage(userMessage);
             setTutorGuideMessage("이렇게 말해보면 어떨까요?");
-            const aiResponse = await getHaikuCorrection(userMessage);
-            console.log(aiResponse);
-            setTutorMessage(aiResponse);
+            
         }
     };
     const handleKeyDown = (event) => {
@@ -76,17 +97,36 @@ const HomeTab = () => {
                 </div> */}
                 <div>
                 {modelOption === 'both' && (
-                    <Chat
+                    <Chats
                         userMessage={userMessage}
-                        tutorMessage={tutorMessage}
+                        tutorMessage={haikuTutorMessage}
+                        tutorMessage2={sonnetTutorMessage}
                         tutorGuideMessage={tutorGuideMessage}
                         handleUserMessageChange={handleUserMessageChange}
                         handleSendMessage={handleSendMessage}
                         handleKeyDown={handleKeyDown}
                     />
                 )}
-                {modelOption === 'sonnet' && ( <div></div> )}
-                {modelOption === 'haiku' && ( <div></div> )}
+                {modelOption === 'sonnet' && (
+                    <Chats
+                        userMessage={userMessage}
+                        tutorMessage2={sonnetTutorMessage}
+                        tutorGuideMessage={tutorGuideMessage}
+                        handleUserMessageChange={handleUserMessageChange}
+                        handleSendMessage={handleSendMessage}
+                        handleKeyDown={handleKeyDown}
+                    />
+                )}
+                {modelOption === 'haiku' && (
+                    <Chats
+                        userMessage={userMessage}
+                        tutorMessage={haikuTutorMessage}
+                        tutorGuideMessage={tutorGuideMessage}
+                        handleUserMessageChange={handleUserMessageChange}
+                        handleSendMessage={handleSendMessage}
+                        handleKeyDown={handleKeyDown}
+                    />
+                )}
                 </div>
             </div>
         </div>

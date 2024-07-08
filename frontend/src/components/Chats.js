@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import botIcon1 from '../assets/bot1.png';
-import botIcon2 from '../assets/bot2.png';
+import TutorChat from './TutorChat';
 
 const ChatContainer = styled.div`
   display: flex;
@@ -53,41 +52,14 @@ const UserBubble = styled.div`
   }
 `;
 
-const TutorBubble = styled.div`
-  background-color: #60aef7;
-  padding: 1rem;
-  border-radius: 24px 24px 24px 0;
-  margin-bottom: 1rem;
-  max-width: 75%;
-  font-size: 1rem;
-  color: black;
-  width: 70%;
-  height: 10rem;
-  min-height: 16rem;
-  display: flex; /* 이미지와 텍스트를 가로로 정렬하기 위해 추가 */
-  align-items: flex-end; /* 아래 기준선에 맞춤 */
-`;
+const SONNET_UI="green";
+const HAIKU_UI="blue";
 
-const TutorGuideText = styled.div`
-    color: white;
-    margin: 0 2rem 1rem 2rem;
-    font-size: .87rem;
-    font-weight: 700;
-    padding-bottom: .5rem;
-    border-bottom: 1.5px solid white;
-`;
-
-const BotIcon = styled.img`
-  width: 50px; /* 이미지 크기 조절 */
-  height: 50px;
-  margin-right: 1rem; /* TutorBubble과의 간격 */
-  align-self: flex-end; /* 아래 기준선에 맞춤 */
-`;
-
-const Chat = ({
+const Chats = ({
     userMessage,
-    tutorMessage,
-    tutorGuideMessage,
+    tutorMessage='',
+    tutorMessage2='',
+    tutorGuideMessage='',
     handleUserMessageChange,
     handleSendMessage,
     handleKeyDown
@@ -104,19 +76,41 @@ const Chat = ({
                     />
                     <button onClick={handleSendMessage}>Send</button>
                 </UserBubble>
-                <TutorBubble>
-                    <BotIcon src={botIcon2} alt="Bot Image" /> 
-                    { tutorGuideMessage 
-                        ? <TutorGuideText>
-                                {tutorGuideMessage}
-                            </TutorGuideText> 
-                        : <></> 
-                    }
-                    {tutorMessage}
-                </TutorBubble>
+                {
+                  tutorMessage && tutorMessage2 ?
+                    <>    
+                      <TutorChat 
+                        guideMessage={tutorGuideMessage}
+                        message={tutorMessage}
+                        ui={HAIKU_UI}
+                      />
+                      <TutorChat 
+                        guideMessage={tutorGuideMessage}
+                        message={tutorMessage2}
+                        ui={SONNET_UI}
+                      />
+                    </>
+                    : tutorMessage ? 
+                      <>
+                        <TutorChat 
+                          guideMessage={tutorGuideMessage}
+                          message={tutorMessage}
+                          ui={HAIKU_UI}
+                        />
+                      </> 
+                      : tutorMessage2 ? 
+                      <>
+                        <TutorChat 
+                          guideMessage={tutorGuideMessage}
+                          message={tutorMessage2}
+                          ui={SONNET_UI}
+                        />
+                      </> 
+                      : <></>
+                }
             </BubbleContainer>
         </ChatContainer>
     );
 }
 
-export default Chat;
+export default Chats;

@@ -64,7 +64,7 @@ export class ApiStack extends Stack {
       endpointTypes: [apigw.EndpointType.REGIONAL], // endpoint 유형을 Regional로 설정
     });
 
-    // Lambda proxy 설정 - 통합 응답, 메서드 응답 정의
+    // 통합 응답, 메서드 응답 정의
     const integrationResponse = {
       proxy: false,
       integrationResponses: [

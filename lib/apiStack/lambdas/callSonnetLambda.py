@@ -4,7 +4,7 @@ import botocore
 
 HAIKU = "anthropic.claude-3-haiku-20240307-v1:0" 
 SONNET30 = "anthropic.claude-3-sonnet-20240229-v1:0"
-SONNET35 = "anthropic.claude-3-5-sonnet-20240620-v1:0"
+SONNET30 = "anthropic.claude-3-5-sonnet-20240620-v1:0"
 
 def generate_prompt(sentence):
     system_prompt = """
