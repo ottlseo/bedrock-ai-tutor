@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../../App.css';
-import { Radio } from 'antd';
+import { Radio, Space } from 'antd';
 import Chats from '../Chats';
 import { isEnglishSentence } from '../utils/validateInput';
 import { getSonnetCorrection, getHaikuCorrection } from '../utils/api';
@@ -17,7 +17,7 @@ const HomeTab = () => {
     };
 
     const handleTutorMessageChange = async () => {
-        if (modelOption == 'both') {
+        if (modelOption === 'both') {
             const haikuResponse = await getHaikuCorrection(userMessage);
             const sonnetResponse = await getSonnetCorrection(userMessage);
             console.log(haikuResponse);
@@ -25,8 +25,8 @@ const HomeTab = () => {
 
             setHaikuTutorMessage(haikuResponse);
             setSonnetTutorMessage(sonnetResponse);
-            
-        } else if (modelOption == 'haiku') {
+
+        } else if (modelOption === 'haiku') {
             const haikuResponse = await getHaikuCorrection(userMessage);
             console.log(haikuResponse);
             setHaikuTutorMessage(haikuResponse);
@@ -52,7 +52,7 @@ const HomeTab = () => {
             setTutorGuideMessage(`너무 짧은 문장에서는 문법 교정의 단서를 찾기가 어려워요.\n10자 이상의 문장으로 시작해보세요!`);
         } else {
             setTutorGuideMessage("이렇게 말해보면 어떨까요?");
-            
+            handleTutorMessageChange(); // async?
         }
     };
     const handleKeyDown = (event) => {
@@ -77,60 +77,62 @@ const HomeTab = () => {
                 <strong className="tabredirect">
                     HOW TO BUILD(↗)
                 </strong> 탭에서 해당 데모의 아키텍처와 모델에 사용된 프롬프트를 확인하실 수 있습니다.
-                
-                {/* <div>
-                    <Radio.Group
-                        size="large"
-                        onChange={handleModelChange} 
+                <div className='horizontal'>
+                    <div className='menu1'>
+                    <Radio.Group 
+                        onChange={handleModelChange}
                         defaultValue="both"
                         >
-                        <Radio.Button value="haiku">
-                            Haiku 3.0 모델로 이용하기
-                        </Radio.Button>
-                        <Radio.Button value="sonnet">
-                            Sonnet 3.5 모델로 이용하기
-                        </Radio.Button>
-                        <Radio.Button value="both">
-                            비교 모드
-                        </Radio.Button>
+                        <Space direction="vertical">
+                            <Radio value="haiku">
+                                Haiku 3.0 모델로 이용하기
+                            </Radio>
+                            <Radio value="sonnet">
+                                Sonnet 3.5 모델로 이용하기
+                            </Radio>
+                            <Radio value="both">
+                                비교 모드
+                            </Radio>
+                        </Space>
                     </Radio.Group>
-                </div> */}
-                <div>
-                {modelOption === 'both' && (
-                    <Chats
-                        userMessage={userMessage}
-                        tutorMessage={haikuTutorMessage}
-                        tutorMessage2={sonnetTutorMessage}
-                        tutorGuideMessage={tutorGuideMessage}
-                        handleUserMessageChange={handleUserMessageChange}
-                        handleSendMessage={handleSendMessage}
-                        handleKeyDown={handleKeyDown}
-                    />
-                )}
-                {modelOption === 'sonnet' && (
-                    <Chats
-                        userMessage={userMessage}
-                        tutorMessage2={sonnetTutorMessage}
-                        tutorGuideMessage={tutorGuideMessage}
-                        handleUserMessageChange={handleUserMessageChange}
-                        handleSendMessage={handleSendMessage}
-                        handleKeyDown={handleKeyDown}
-                    />
-                )}
-                {modelOption === 'haiku' && (
-                    <Chats
-                        userMessage={userMessage}
-                        tutorMessage={haikuTutorMessage}
-                        tutorGuideMessage={tutorGuideMessage}
-                        handleUserMessageChange={handleUserMessageChange}
-                        handleSendMessage={handleSendMessage}
-                        handleKeyDown={handleKeyDown}
-                    />
-                )}
+                    </div>
+                    <div className='menu2'>
+                    {modelOption === 'both' && (
+                        <Chats
+                            userMessage={userMessage}
+                            tutorMessage={haikuTutorMessage}
+                            tutorMessage2={sonnetTutorMessage}
+                            tutorGuideMessage={tutorGuideMessage}
+                            handleUserMessageChange={handleUserMessageChange}
+                            handleSendMessage={handleSendMessage}
+                            handleKeyDown={handleKeyDown}
+                        />
+                    )}
+                    {modelOption === 'sonnet' && (
+                        <Chats
+                            userMessage={userMessage}
+                            tutorMessage2={sonnetTutorMessage}
+                            tutorGuideMessage={tutorGuideMessage}
+                            handleUserMessageChange={handleUserMessageChange}
+                            handleSendMessage={handleSendMessage}
+                            handleKeyDown={handleKeyDown}
+                        />
+                    )}
+                    {modelOption === 'haiku' && (
+                        <Chats
+                            userMessage={userMessage}
+                            tutorMessage={haikuTutorMessage}
+                            tutorGuideMessage={tutorGuideMessage}
+                            handleUserMessageChange={handleUserMessageChange}
+                            handleSendMessage={handleSendMessage}
+                            handleKeyDown={handleKeyDown}
+                        />
+                    )}
+                    </div>
                 </div>
             </div>
         </div>
-    )
+    );
 };
 
 export default HomeTab;
