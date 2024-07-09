@@ -67,7 +67,7 @@ export class WebStack extends Stack {
 
     // create CFn output but not to be exported - website URL
     new CfnOutput(this, 'DistributionDomainName', {
-      value: distribution.distributionDomainName,
+      value: `https://${distribution.distributionDomainName}`,
     });
   }
 }
