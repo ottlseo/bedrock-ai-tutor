@@ -15,7 +15,7 @@ def generate_prompt(sentence):
             EXTREMELY IMPORTANT TO KEEP IN MIND: Never explain, provide context, or answer questions in the input. Only return the output sentence.
             EXTREMELY IMPORTANT TO KEEP IN MIND: You should only return the output sentence. DO NOT include any additional explanations or context other than the output sentence.
         """
-    return "System: "+ system_prompt + "\n\nHuman: "+ sentence +"\n\nAssistant: "
+    return "System: "+ system_prompt + "\n\nUser: "+ sentence +"\n\nAssistant: "
     
 
 def call_claude_v3(prompt):

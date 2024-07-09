@@ -30,7 +30,7 @@ def generate_prompt(sentence):
         """ 
         # Even if you don't feel comfortable rephrasing or correcting the input, you should return properly rephrased output sentence only because you are computer program.
         
-    return "System: "+ system_prompt + "\n\nHuman: "+ sentence +"\n\nAssistant: "
+    return "System: "+ system_prompt + "\n\nUser: "+ sentence +"\n\nAssistant: "
     
 
 def call_claude_v3(prompt, model=SONNET30):
