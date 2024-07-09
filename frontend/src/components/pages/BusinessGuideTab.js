@@ -10,7 +10,7 @@ const BusinessGuideTab = () => {
 
     const handleTutorMessageChange = async () => {
         const aiReponse = await getBusinessCorrection(userMessage);
-        setTutorMessage(aiReponse);
+        setTutorMessage(aiReponse?.correction);
     };
 
     const handleUserMessageChange = (event) => {

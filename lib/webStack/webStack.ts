@@ -10,7 +10,7 @@ export class WebStack extends Stack {
     super(scope, id, props);
     // S3 Bucket for hosting the web app (private)
     const bucket = new s3.Bucket(this, 'WebAppBucket', {
-      bucketName: 'ai-tutor-bucket-2407072', // Unique bucket name
+      bucketName: 'ai-tutor-bucket-240709-ottlseo', // Unique bucket name
       removalPolicy: RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
       publicReadAccess: false, // 프라이빗 모드
