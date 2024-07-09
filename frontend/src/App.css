@@ -21,25 +21,20 @@ code {
   justify-content: space-between;
 }
 
-.menu1 {
-  flex: 0 0 30%;
-  flex-direction: column;
-  margin: 15rem 0 0 7rem;
-}
-
-.menu2 {
-  flex: 0 0 70%;
-  /* margin-left: 2%; */
-}
-
 .custom-radio-group {
   width: 14rem;
-  background-color: rgb(251, 251, 251);
-  border: 4px rgb(85, 140, 174) solid;
-  border-radius: 15px;
-  padding: 1.3rem 0;
-  font-size: .9rem;
+  /* background-color: rgb(251, 251, 251);
   color: rgb(36, 36, 36);
+  border: 4px rgb(85, 140, 174) solid; 
+  */
+  border: 2px #e2e2e2 solid; 
+  border-radius: 15px;
+  padding: .9rem 2rem;
+  /* margin: 3rem 0 0 5rem; */
+  margin: auto;
+  margin-top: 1.8rem;
+  font-size: .9rem;
+  color: #e2e2e2;
 }
 
 .custom-radio {

@@ -88,40 +88,38 @@ const HomeTab = () => {
                 <strong className="tabredirect">
                     HOW TO BUILD(↗)
                 </strong> 탭에서 해당 데모의 아키텍처와 모델에 사용된 프롬프트를 확인하실 수 있습니다.
-                <div className='horizontal'>
-                    <div className='menu1'>
-                        <div className='custom-radio-group'>
-                            <label>
-                                <input 
-                                    type="radio" 
-                                    className='custom-radio'
-                                    value="haiku"
-                                    checked={modelOption === "haiku"}
-                                    onChange={handleModelChange}
-                                /> Haiku 3.0 모델로 이용하기 <br/>
-                            </label>
-                            <label>
-                                <input 
-                                    type="radio" 
-                                    className='custom-radio'
-                                    value="sonnet"
-                                    checked={modelOption === "sonnet"}
-                                    onChange={handleModelChange}
-                                /> Sonnet 3.5 모델로 이용하기 <br/>
-                            </label>
-                            <label>
-                                <input 
-                                    type='radio'
-                                    className='custom-radio'
-                                    value="both"
-                                    defaultChecked
-                                    checked={modelOption === "both"}
-                                    onChange={handleModelChange}
-                                /> 비교 모드 <br/>
-                            </label>
-                        </div>
+                <div>
+                    <div className='custom-radio-group'>
+                        <label>
+                            <input 
+                                type="radio" 
+                                className='custom-radio'
+                                value="haiku"
+                                checked={modelOption === "haiku"}
+                                onChange={handleModelChange}
+                            /> Haiku 3.0 모델로 이용하기 <br/>
+                        </label>
+                        <label>
+                            <input 
+                                type="radio" 
+                                className='custom-radio'
+                                value="sonnet"
+                                checked={modelOption === "sonnet"}
+                                onChange={handleModelChange}
+                            /> Sonnet 3.5 모델로 이용하기 <br/>
+                        </label>
+                        <label>
+                            <input 
+                                type='radio'
+                                className='custom-radio'
+                                value="both"
+                                defaultChecked
+                                checked={modelOption === "both"}
+                                onChange={handleModelChange}
+                            /> 비교 모드 <br/>
+                        </label>
                     </div>
-                    <div className='menu2'>
+                    <div>
                     {modelOption === 'both' && (
                         <Chats
                             userMessage={userMessage}
