@@ -43,7 +43,7 @@ def call_claude_v3(prompt, model=HAIKU):
     metadata = "application/json"
 
     try:
-        client = boto3.client("bedrock-runtime", region_name="us-east-1")
+        client = boto3.client("bedrock-runtime", region_name="us-west-2")
         response = client.invoke_model(
             body=body, modelId=modelId, accept=metadata, contentType=metadata
         )

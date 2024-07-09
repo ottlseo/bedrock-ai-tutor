@@ -1,6 +1,5 @@
 import json
 import boto3
-import botocore
 
 HAIKU = "anthropic.claude-3-haiku-20240307-v1:0" 
 
@@ -52,7 +51,7 @@ def call_claude_v3(prompt, model=HAIKU):
     metadata = "application/json"
 
     try:
-        client = boto3.client("bedrock-runtime", region_name="us-east-1")
+        client = boto3.client("bedrock-runtime", region_name="us-west-2")
         response = client.invoke_model(
             body=body, modelId=modelId, accept=metadata, contentType=metadata
         )
