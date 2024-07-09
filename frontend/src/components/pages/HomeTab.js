@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import '../../App.css';
-import { Radio, Space } from 'antd';
 import Chats from '../Chats';
 import { isEnglishSentence } from '../utils/validateInput';
 import { getSonnetCorrection, getHaikuCorrection } from '../utils/api';
 
 const HomeTab = () => {
     const [userMessage, setUserMessage] = useState('');
+
+    const [tutorGuideMessage, setTutorGuideMessage] = useState('');
     const [haikuTutorMessage, setHaikuTutorMessage] = useState('');
     const [sonnetTutorMessage, setSonnetTutorMessage] = useState('');
-    const [tutorGuideMessage, setTutorGuideMessage] = useState('');
-
+    
+    const [haikuPrice, setHaikuPrice] = useState(0.0);
+    const [sonnetPrice, setSonnetPrice] = useState(0.0);
+    
     const [modelOption, setModelOption] = useState('both');
     const handleModelChange = (event) => {
         setModelOption(event.target.value);
@@ -23,17 +26,25 @@ const HomeTab = () => {
             console.log(haikuResponse);
             console.log(sonnetResponse);
 
-            setHaikuTutorMessage(haikuResponse);
-            setSonnetTutorMessage(sonnetResponse);
+            setHaikuTutorMessage(haikuResponse?.correction ?? "");
+            setHaikuPrice(haikuResponse?.price ?? 0.0);
+
+            setSonnetTutorMessage(sonnetResponse?.correction ?? "");
+            setSonnetPrice(sonnetResponse?.price ?? 0.0);
 
         } else if (modelOption === 'haiku') {
             const haikuResponse = await getHaikuCorrection(userMessage);
             console.log(haikuResponse);
-            setHaikuTutorMessage(haikuResponse);
+
+            setHaikuTutorMessage(haikuResponse?.correction ?? "");
+            setHaikuPrice(haikuResponse?.price ?? 0.0);
+
         } else {
             const sonnetResponse = await getSonnetCorrection(userMessage);
             console.log(sonnetResponse);
-            setSonnetTutorMessage(sonnetResponse);
+
+            setSonnetTutorMessage(sonnetResponse?.correction ?? "");
+            setSonnetPrice(sonnetResponse?.price ?? 0.0);
         }
     };
 
@@ -52,7 +63,7 @@ const HomeTab = () => {
             setTutorGuideMessage(`너무 짧은 문장에서는 문법 교정의 단서를 찾기가 어려워요.\n10자 이상의 문장으로 시작해보세요!`);
         } else {
             setTutorGuideMessage("이렇게 말해보면 어떨까요?");
-            handleTutorMessageChange(); // async?
+            handleTutorMessageChange(); // async
         }
     };
     const handleKeyDown = (event) => {
@@ -79,22 +90,36 @@ const HomeTab = () => {
                 </strong> 탭에서 해당 데모의 아키텍처와 모델에 사용된 프롬프트를 확인하실 수 있습니다.
                 <div className='horizontal'>
                     <div className='menu1'>
-                    <Radio.Group 
-                        onChange={handleModelChange}
-                        defaultValue="both"
-                        >
-                        <Space direction="vertical">
-                            <Radio value="haiku">
-                                Haiku 3.0 모델로 이용하기
-                            </Radio>
-                            <Radio value="sonnet">
-                                Sonnet 3.5 모델로 이용하기
-                            </Radio>
-                            <Radio value="both">
-                                비교 모드
-                            </Radio>
-                        </Space>
-                    </Radio.Group>
+                        <div className='custom-radio-group'>
+                            <label>
+                                <input 
+                                    type="radio" 
+                                    className='custom-radio'
+                                    value="haiku"
+                                    checked={modelOption === "haiku"}
+                                    onChange={handleModelChange}
+                                /> Haiku 3.0 모델로 이용하기 <br/>
+                            </label>
+                            <label>
+                                <input 
+                                    type="radio" 
+                                    className='custom-radio'
+                                    value="sonnet"
+                                    checked={modelOption === "sonnet"}
+                                    onChange={handleModelChange}
+                                /> Sonnet 3.5 모델로 이용하기 <br/>
+                            </label>
+                            <label>
+                                <input 
+                                    type='radio'
+                                    className='custom-radio'
+                                    value="both"
+                                    defaultChecked
+                                    checked={modelOption === "both"}
+                                    onChange={handleModelChange}
+                                /> 비교 모드 <br/>
+                            </label>
+                        </div>
                     </div>
                     <div className='menu2'>
                     {modelOption === 'both' && (
@@ -102,6 +127,8 @@ const HomeTab = () => {
                             userMessage={userMessage}
                             tutorMessage={haikuTutorMessage}
                             tutorMessage2={sonnetTutorMessage}
+                            haikuPrice={haikuPrice}
+                            sonnetPrice={sonnetPrice}
                             tutorGuideMessage={tutorGuideMessage}
                             handleUserMessageChange={handleUserMessageChange}
                             handleSendMessage={handleSendMessage}

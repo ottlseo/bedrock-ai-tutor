@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import TutorChat from './TutorChat';
+import { HAIKU_UI, SONNET_UI } from './utils/variables';
 
 const ChatContainer = styled.div`
   display: flex;
@@ -52,13 +53,15 @@ const UserBubble = styled.div`
   }
 `;
 
-const SONNET_UI="green";
-const HAIKU_UI="blue";
+const haikuGuideMessage = "Haiku 모델이 교정한 문장입니다.";
+const sonnetGuideMessage = "Sonnet 모델이 교정한 문장입니다.";
 
 const Chats = ({
     userMessage,
     tutorMessage='',
     tutorMessage2='',
+    haikuPrice=0.0, // optional
+    sonnetPrice=0.0, // optional
     tutorGuideMessage='',
     handleUserMessageChange,
     handleSendMessage,
@@ -80,13 +83,15 @@ const Chats = ({
                   tutorMessage && tutorMessage2 ?
                     <>    
                       <TutorChat 
-                        guideMessage={tutorGuideMessage}
+                        guideMessage={haikuGuideMessage}
                         message={tutorMessage}
+                        price={haikuPrice}
                         ui={HAIKU_UI}
                       />
                       <TutorChat 
-                        guideMessage={tutorGuideMessage}
+                        guideMessage={sonnetGuideMessage}
                         message={tutorMessage2}
+                        price={sonnetPrice}
                         ui={SONNET_UI}
                       />
                     </>

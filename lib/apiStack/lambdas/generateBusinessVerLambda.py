@@ -1,5 +1,6 @@
 import json
 import boto3
+import botocore
 
 HAIKU = "anthropic.claude-3-haiku-20240307-v1:0" 
 SONNET30 = "anthropic.claude-3-sonnet-20240229-v1:0"
@@ -32,7 +33,7 @@ def generate_prompt(sentence):
     return "System: "+ system_prompt + "\n\nHuman: "+ sentence +"\n\nAssistant: "
     
 
-def call_claude_v3(prompt, model=HAIKU):
+def call_claude_v3(prompt, model=SONNET30):
     body = json.dumps({
         "max_tokens": 2000,
         "messages": [{"role": "user", "content": generate_prompt(prompt)}],

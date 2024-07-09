@@ -22,16 +22,29 @@ code {
 }
 
 .menu1 {
-  flex: 0 0 20%;
-  background-color: white;
-  border: 4px lightskyblue solid;
-  border-radius: 15px;
-  padding: 3.5rem .5rem;
+  flex: 0 0 30%;
+  flex-direction: column;
+  margin: 15rem 0 0 7rem;
 }
 
 .menu2 {
-  flex: 0 0 78%;
-  margin-left: 2%;
+  flex: 0 0 70%;
+  /* margin-left: 2%; */
+}
+
+.custom-radio-group {
+  width: 14rem;
+  background-color: rgb(251, 251, 251);
+  border: 4px rgb(85, 140, 174) solid;
+  border-radius: 15px;
+  padding: 1.3rem 0;
+  font-size: .9rem;
+  color: rgb(36, 36, 36);
+}
+
+.custom-radio {
+  /* padding: .5rem 0; */
+  margin: .5rem 0;
 }
 
 .headerText {
