@@ -27,7 +27,7 @@ export class ApiStack extends Stack {
       code: lambda.Code.fromAsset("./lib/apiStack/lambdas"),
       handler: "callHaikuLambda.lambda_handler",
       layers: [layer],
-      timeout: Duration.minutes(10), // 제한 시간 10분으로 설정
+      timeout: Duration.minutes(5), // 제한 시간 5분으로 설정
       memorySize: 512, // 메모리 할당량 512MB로 설정
       initialPolicy: [bedrockAccessPolicy], // Bedrock 액세스 권한 부여
     });
@@ -37,7 +37,7 @@ export class ApiStack extends Stack {
       code: lambda.Code.fromAsset("./lib/apiStack/lambdas"),
       handler: "callSonnetLambda.lambda_handler",
       layers: [layer],
-      timeout: Duration.minutes(10),
+      timeout: Duration.minutes(5),
       memorySize: 512,
       initialPolicy: [bedrockAccessPolicy],
     });
@@ -47,7 +47,7 @@ export class ApiStack extends Stack {
       code: lambda.Code.fromAsset("./lib/apiStack/lambdas"),
       handler: "generateBusinessVerLambda.lambda_handler",
       layers: [layer],
-      timeout: Duration.minutes(10),
+      timeout: Duration.minutes(5),
       memorySize: 512,
       initialPolicy: [bedrockAccessPolicy],
     });
@@ -64,7 +64,7 @@ export class ApiStack extends Stack {
       endpointTypes: [apigw.EndpointType.REGIONAL], // endpoint 유형을 Regional로 설정
     });
 
-    // 통합 응답, 메서드 응답 정의
+    // CORS 허용 관련 설정 (통합 응답, 메서드 응답 정의)
     const integrationResponse = {
       proxy: false,
       integrationResponses: [
