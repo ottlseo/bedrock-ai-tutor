@@ -45,7 +45,7 @@ cdk deploy ApiStack
 
 Copy the API Endpoint that came out as output in step2, find the `INSERT_YOUR_API_GW_ENDPOINT` string in lib/WebStack/fe/index.html and replace it with the copied API URL.
 
-<img width="600" alt="image" src="https://github.com/ottlseo/bedrock-ai-tutor/assets/61778930/f0d662b1-1613-4b1f-a21f-60da9c8486e7">
+<img width="650" alt="image" src="https://github.com/user-attachments/assets/54bb30f3-0258-4bb5-a1c5-1f534b46ee60">
 
 
 ### 4. Deploy WebStack
