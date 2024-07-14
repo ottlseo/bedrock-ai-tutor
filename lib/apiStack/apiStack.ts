@@ -107,6 +107,7 @@ export class ApiStack extends Stack {
     new CfnOutput(this, "ApiGatewayUrl", {
       value: `${api.url}`,
       description: "AI Tutor API Gateway endpoint URL for Prod stage",
+      exportName: "ApiGatewayUrlOutput",
     });
   }
 }

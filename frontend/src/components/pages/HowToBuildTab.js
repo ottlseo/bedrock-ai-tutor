@@ -30,7 +30,7 @@ const HowToBuildTab = () => {
                 </div>
                 <h4>Haiku 3.0</h4>
                 <CodeBlock code={haikuPrompt} />
-                <h4>Sonnet 3.5</h4>
+                <h4>Sonnet 3.0</h4>
                 <CodeBlock code={sonnetPrompt} />
             </div>
         </div>
