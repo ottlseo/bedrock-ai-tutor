@@ -1,5 +1,6 @@
 // TabsBar.js
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const TabBar = styled.div`
@@ -38,24 +39,38 @@ const TabNavigator = ({ activeTab, onTabChange }) => {
 
   return (
     <TabBar>
-      <TabButton
-        isActive={activeTab === 'homeTab'}
-        onClick={() => handleTabClick('homeTab')}
-      >
-        틀린 문법 교정
-      </TabButton>
-      <TabButton
-        isActive={activeTab === 'roleTab'}
-        onClick={() => handleTabClick('roleTab')}
-      >
-        비즈니스 영어 교정
-      </TabButton>
-      <TabButton
-        isActive={activeTab === 'moreInfoTab'}
-        onClick={() => handleTabClick('moreInfoTab')}
-      >
-        HOW TO BUILD
-      </TabButton>
+      <Link to="/">
+        <TabButton
+          isActive={activeTab === 'homeTab'}
+          onClick={() => handleTabClick('homeTab')}
+        >
+          틀린 문법 교정
+        </TabButton>
+      </Link>
+      <Link to="/business">
+        <TabButton
+          isActive={activeTab === 'roleTab'}
+          onClick={() => handleTabClick('roleTab')}
+        >
+          비즈니스 영어 교정
+        </TabButton>
+      </Link>
+      <Link to="/info">
+        <TabButton
+          isActive={activeTab === 'moreInfoTab'}
+          onClick={() => handleTabClick('moreInfoTab')}
+        >
+          HOW TO BUILD
+        </TabButton>
+      </Link>
+      <Link to="/test">
+        <TabButton
+          isActive={activeTab === ''}
+          onClick={() => handleTabClick('')}
+        >
+          ADMIN
+        </TabButton>
+      </Link>
     </TabBar>
   );
 };

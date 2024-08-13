@@ -23,12 +23,29 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>Bedrock AI Tutor</title>
+    <title>Bedrock AI Tutor (test)</title>
+    <script>
+      (function(n,i,v,r,s,c,x,z){x=window.AwsRumClient={q:[],n:n,i:i,v:v,r:r,c:c};window[n]=function(c,p){x.q.push({c:c,p:p});};z=document.createElement('script');z.async=true;z.src=s;document.head.insertBefore(z,document.head.getElementsByTagName('script')[0]);})(
+        'cwr',
+        '3472d680-cacf-41b1-a9c4-5d61570c54e0',
+        '1.0.0',
+        'us-east-1',
+        'https://client.rum.us-east-1.amazonaws.com/1.18.0/cwr.js',
+        {
+          sessionSampleRate: 1,
+          identityPoolId: "us-east-1:fb9245f1-bcb1-4146-848b-26fe66b0ceb6",
+          endpoint: "https://dataplane.rum.us-east-1.amazonaws.com",
+          telemetries: ["performance","errors","http"],
+          allowCookies: true,
+          enableXRay: false
+        }
+      );
+    </script>
   </head>
   <body>
     <script>
       window.env = {
-        REACT_APP_API_ENDPOINT: "INSERT_YOUR_API_GW_ENDPOINT"
+        REACT_APP_API_ENDPOINT: "https://9h75tu2d50.execute-api.us-west-2.amazonaws.com/prod/"
       }
     </script>
     <div id="root"></div>
