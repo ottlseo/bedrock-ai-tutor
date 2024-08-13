@@ -24,7 +24,7 @@ def call_claude_v3(prompt):
         "messages": [{"role": "user", "content": generate_prompt(prompt)}],
         "anthropic_version": "bedrock-2023-05-31"
     })
-    modelId = SONNET30
+    modelId = SONNET35
     metadata = "application/json"
 
     try:

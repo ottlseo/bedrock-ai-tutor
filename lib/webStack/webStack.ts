@@ -9,8 +9,9 @@ export class WebStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
     // S3 Bucket for hosting the web app (private)
+    const randomstr = Math.random().toString(36).substring(2,8);
     const bucket = new s3.Bucket(this, 'WebAppBucket', {
-      bucketName: 'ai-tutor-bucket-240709-ottlseo', // Unique bucket name
+      bucketName: `ai-tutor-bucket-${randomstr}`, // Unique bucket name
       removalPolicy: RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
       publicReadAccess: false, // 프라이빗 모드
