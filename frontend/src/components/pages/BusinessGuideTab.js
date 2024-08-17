@@ -1,16 +1,40 @@
 import React, { useState } from 'react';
 import Chats from '../Chats';
 import { isEnglishSentence } from '../utils/validateInput';
-import { getBusinessCorrection } from '../utils/api';
+import { getBusinessCorrection, getCasualCorrection } from '../utils/api';
 
 const BusinessGuideTab = () => {
     const [userMessage, setUserMessage] = useState('');
     const [tutorMessage, setTutorMessage] = useState('');
+
     const [tutorGuideMessage, setTutorGuideMessage] = useState('');
+    const [businessCorrectionMessage, setBusinessCorrectionMessage] = useState('');
+    const [casualCorrectionMessage, setCasualCorrectionMessage] = useState('');
+    
+    const [correctionOption, setCorrectionOption] = useState('both');
+    const handleModelChange = (event) => {
+        setCorrectionOption(event.target.value);
+    };
 
     const handleTutorMessageChange = async () => {
-        const aiReponse = await getBusinessCorrection(userMessage);
-        setTutorMessage(aiReponse?.correction);
+        if (correctionOption === 'both') {
+            const businessResponse = await getBusinessCorrection(userMessage);
+            const casualResponse = await getCasualCorrection(userMessage);
+            console.log(businessResponse);
+            console.log(casualResponse);
+            setBusinessCorrectionMessage(businessResponse?.correction ?? "");
+            setCasualCorrectionMessage(casualResponse?.correction ?? "");
+
+        } else if (correctionOption === 'business') {
+            const businessResponse = await getBusinessCorrection(userMessage);
+            console.log(businessResponse);
+            setBusinessCorrectionMessage(businessResponse?.correction ?? "");
+
+        } else {
+            const casualResponse = await getCasualCorrection(userMessage);
+            console.log(casualResponse);
+            setCasualCorrectionMessage(casualResponse?.correction ?? "");
+        }
     };
 
     const handleUserMessageChange = (event) => {
@@ -41,14 +65,71 @@ const BusinessGuideTab = () => {
               이 섹션의 데모는 Input으로 들어온 문장에 대해 틀린 문법 교정은 물론, <strong>Casual한 대화</strong> 및 <strong>Business 상황에 사용하기 적합</strong>한 각각의 문장으로 바꾸어줍니다. <br/><br/>
               해당 데모에는 Claude 3.5 Sonnet 모델이 사용되었습니다. 
             </div> 
-            <Chats
-                userMessage={userMessage}
-                tutorMessage={tutorMessage}
-                tutorGuideMessage={tutorGuideMessage}
-                handleUserMessageChange={handleUserMessageChange}
-                handleSendMessage={handleSendMessage}
-                handleKeyDown={handleKeyDown}
-            />
+            <div>
+                <div className='custom-radio-group'>
+                    <label>
+                        <input 
+                            type="radio" 
+                            className='custom-radio'
+                            value='business'
+                            checked={correctionOption === 'business'}
+                            onChange={handleModelChange}
+                        /> 비즈니스 상황에 적합한 문장 보기 <br/>
+                    </label>
+                    <label>
+                        <input 
+                            type="radio" 
+                            className='custom-radio'
+                            value='casual'
+                            checked={correctionOption === 'casual'}
+                            onChange={handleModelChange}
+                        /> 일상 대화에 적합한 문장 보기 <br/>
+                    </label>
+                    <label>
+                        <input 
+                            type='radio'
+                            className='custom-radio'
+                            value="both"
+                            defaultChecked
+                            checked={correctionOption === "both"}
+                            onChange={handleModelChange}
+                        /> 비교 모드 <br/>
+                    </label>
+                </div>
+                <div>
+                {correctionOption === 'both' && (
+                    <Chats
+                        userMessage={userMessage}
+                        tutorMessage={businessCorrectionMessage}
+                        tutorMessage2={casualCorrectionMessage}
+                        tutorGuideMessage={tutorGuideMessage}
+                        handleUserMessageChange={handleUserMessageChange}
+                        handleSendMessage={handleSendMessage}
+                        handleKeyDown={handleKeyDown}
+                    />
+                )}
+                {correctionOption === 'casual' && (
+                    <Chats
+                        userMessage={userMessage}
+                        tutorMessage2={casualCorrectionMessage}
+                        tutorGuideMessage={tutorGuideMessage}
+                        handleUserMessageChange={handleUserMessageChange}
+                        handleSendMessage={handleSendMessage}
+                        handleKeyDown={handleKeyDown}
+                    />
+                )}
+                {correctionOption === 'business' && (
+                    <Chats
+                        userMessage={userMessage}
+                        tutorMessage={businessCorrectionMessage}
+                        tutorGuideMessage={tutorGuideMessage}
+                        handleUserMessageChange={handleUserMessageChange}
+                        handleSendMessage={handleSendMessage}
+                        handleKeyDown={handleKeyDown}
+                    />
+                )}
+                </div>
+            </div>
         </div>
     )
 };

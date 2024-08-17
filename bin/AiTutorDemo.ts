@@ -3,7 +3,7 @@ import * as cdk from "aws-cdk-lib";
 import { ApiStack } from "../lib/apiStack/apiStack";
 import { WebStack } from "../lib/webStack/webStack";
 
-const STACK_PREFIX = "AITutor"; // 여기를 변경해주세요
+const STACK_PREFIX = "BCD-AITutor";
 const DEFAULT_REGION = "us-west-2";
 const envSetting = {
   env: {

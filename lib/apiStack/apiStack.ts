@@ -52,6 +52,16 @@ export class ApiStack extends Stack {
       initialPolicy: [bedrockAccessPolicy],
     });
 
+    const casualLambdaFunction = new lambda.Function(this, "generateCasualVerLambda", {
+      runtime: lambda.Runtime.PYTHON_3_9,
+      code: lambda.Code.fromAsset("./lib/apiStack/lambdas"),
+      handler: "generateCasualVerLambda.lambda_handler",
+      layers: [layer],
+      timeout: Duration.minutes(5),
+      memorySize: 512,
+      initialPolicy: [bedrockAccessPolicy],
+    });
+
     // API Gateway 생성
     const api = new apigw.RestApi(this, "AiTutorAPI", {
       restApiName: "AiTutorAPI",
@@ -98,10 +108,12 @@ export class ApiStack extends Stack {
     const haikuLambdaIntegration = new apigw.LambdaIntegration(haikuLambdaFunction, integrationResponse);
     const sonnetLambdaIntegration = new apigw.LambdaIntegration(sonnetLambdaFunction, integrationResponse);
     const businessLambdaIntegration = new apigw.LambdaIntegration(businessLambdaFunction, integrationResponse);
+    const casualLambdaIntegration = new apigw.LambdaIntegration(casualLambdaFunction, integrationResponse);
 
     api.root.addResource("haiku").addMethod("POST", haikuLambdaIntegration, methodResponse);
     api.root.addResource("sonnet").addMethod("POST", sonnetLambdaIntegration, methodResponse);
     api.root.addResource("business").addMethod("POST", businessLambdaIntegration, methodResponse);
+    api.root.addResource("casual").addMethod("POST", casualLambdaIntegration, methodResponse);
 
     // API Gateway URL 출력
     new CfnOutput(this, "ApiGatewayUrl", {

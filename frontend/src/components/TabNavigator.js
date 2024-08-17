@@ -48,7 +48,7 @@ const TabNavigator = ({ activeTab, onTabChange }) => {
         isActive={activeTab === 'roleTab'}
         onClick={() => handleTabClick('roleTab')}
       >
-        비즈니스 영어 교정
+        상황별 영어 교정
       </TabButton>
       <TabButton
         isActive={activeTab === 'moreInfoTab'}

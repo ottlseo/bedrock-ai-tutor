@@ -14,7 +14,7 @@ const HomeTab = () => {
     const [haikuPrice, setHaikuPrice] = useState(0.0);
     const [sonnetPrice, setSonnetPrice] = useState(0.0);
     
-    const [modelOption, setModelOption] = useState('both');
+    const [modelOption, setModelOption] = useState('sonnet');
     const handleModelChange = (event) => {
         setModelOption(event.target.value);
     };
@@ -82,14 +82,14 @@ const HomeTab = () => {
                     비즈니스 영어 교정(↗)
                 </strong> 탭에서 제공하고 있습니다.
                 <br /><br />
-                이 데모는 Amazon Transcribe 서비스와 Amazon Bedrock에서 지원하는 Foundation Model 중 ANTROPIC의 Claude Haiku(3.0), Sonnet(3.5) 모델을 사용했으며, <br />
+                이 데모는 Amazon Transcribe 서비스와 Amazon Bedrock에서 지원하는 Foundation Model 중 ANTROPIC의 Claude Sonnet(3.5) 모델을 사용했으며, <br />
                 별도의 모델 개선 작업 없이 Claude 모델에 대한 여러 번의 Prompt Engineering 작업을 통해 구현되었습니다.
                 <br /><br />
                 <strong className="tabredirect">
                     HOW TO BUILD(↗)
                 </strong> 탭에서 해당 데모의 아키텍처와 모델에 사용된 프롬프트를 확인하실 수 있습니다.
                 <div>
-                    <div className='custom-radio-group'>
+                    {/* <div className='custom-radio-group'>
                         <label>
                             <input 
                                 type="radio" 
@@ -118,9 +118,9 @@ const HomeTab = () => {
                                 onChange={handleModelChange}
                             /> 비교 모드 <br/>
                         </label>
-                    </div>
+                    </div> */}
                     <div>
-                    {modelOption === 'both' && (
+                    {/* {modelOption === 'both' && (
                         <Chats
                             userMessage={userMessage}
                             tutorMessage={haikuTutorMessage}
@@ -133,7 +133,7 @@ const HomeTab = () => {
                             handleKeyDown={handleKeyDown}
                         />
                     )}
-                    {modelOption === 'sonnet' && (
+                    {modelOption === 'sonnet' && ( */}
                         <Chats
                             userMessage={userMessage}
                             tutorMessage2={sonnetTutorMessage}
@@ -142,7 +142,7 @@ const HomeTab = () => {
                             handleSendMessage={handleSendMessage}
                             handleKeyDown={handleKeyDown}
                         />
-                    )}
+                    {/* )}
                     {modelOption === 'haiku' && (
                         <Chats
                             userMessage={userMessage}
@@ -152,7 +152,7 @@ const HomeTab = () => {
                             handleSendMessage={handleSendMessage}
                             handleKeyDown={handleKeyDown}
                         />
-                    )}
+                    )} */}
                     </div>
                 </div>
             </div>

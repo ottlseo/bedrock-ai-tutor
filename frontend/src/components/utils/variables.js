@@ -6,6 +6,7 @@ export const KO = "ko-KR"
 export const HAIKU = "haiku"; 
 export const SONNET = "sonnet"; 
 export const BUSINESS = "business";
+export const CASUAL = "casual";
 
 // UI options
 export const SONNET_UI="green";
