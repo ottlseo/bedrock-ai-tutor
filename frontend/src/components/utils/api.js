@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API_URL } from "./apiConfig.js";
-import { HAIKU, SONNET, BUSINESS,
+import { HAIKU, SONNET, BUSINESS, CASUAL,
     HAIKU_PRICE_PER_INPUT_TOKEN, HAIKU_PRICE_PER_OUTPUT_TOKEN, 
     SONNET_PRICE_PER_INPUT_TOKEN, SONNET_PRICE_PER_OUTPUT_TOKEN } from './variables.js';
 
@@ -40,3 +40,9 @@ export const getBusinessCorrection = async (prompt) => {
     const response = await callApi(prompt, BUSINESS);
     return response;
 };
+
+export const getCasualCorrection = async (prompt) => {
+    const response = await callApi(prompt, CASUAL);
+    return response;
+};
+

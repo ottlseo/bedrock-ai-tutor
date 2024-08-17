@@ -55,6 +55,8 @@ const UserBubble = styled.div`
 
 const haikuGuideMessage = "Haiku 모델이 교정한 문장입니다.";
 const sonnetGuideMessage = "Sonnet 모델이 교정한 문장입니다.";
+const businessGuideMessage = "비즈니스 상황에서는 이렇게 얘기해보세요.";
+const casualGuideMessage = "캐주얼한 상황에서는 이렇게 얘기해보세요.";
 
 const Chats = ({
     userMessage,
@@ -83,15 +85,15 @@ const Chats = ({
                   tutorMessage && tutorMessage2 ?
                     <>    
                       <TutorChat 
-                        guideMessage={haikuGuideMessage}
+                        guideMessage={businessGuideMessage}
                         message={tutorMessage}
-                        price={haikuPrice}
+                        // price={haikuPrice}
                         ui={HAIKU_UI}
                       />
                       <TutorChat 
-                        guideMessage={sonnetGuideMessage}
+                        guideMessage={casualGuideMessage}
                         message={tutorMessage2}
-                        price={sonnetPrice}
+                        // price={sonnetPrice}
                         ui={SONNET_UI}
                       />
                     </>
