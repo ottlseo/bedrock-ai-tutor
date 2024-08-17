@@ -17,13 +17,13 @@ def generate_prompt(sentence):
     return "System: "+ system_prompt + "\n\nUser: "+ sentence +"\n\nAssistant: "
     
 
-def call_claude_v3(prompt, model=HAIKU):
+def call_claude_v3(prompt):
     body = json.dumps({
         "max_tokens": 2000,
         "messages": [{"role": "user", "content": generate_prompt(prompt)}],
         "anthropic_version": "bedrock-2023-05-31"
     })
-    modelId = model
+    modelId = SONNET35
     metadata = "application/json"
 
     try:
