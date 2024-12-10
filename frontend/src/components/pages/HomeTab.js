@@ -79,7 +79,7 @@ const HomeTab = () => {
                 <br />
                 문법 교정에서 더 나아가, 비즈니스 상황이나 캐주얼한 대화에서 사용하기에 적합한 문장으로 변경해주는 기능을&nbsp;
                 <strong className="tabredirect">
-                    비즈니스 영어 교정(↗)
+                    상황별 영어 교정(↗)
                 </strong> 탭에서 제공하고 있습니다.
                 <br /><br />
                 이 데모는 Amazon Transcribe 서비스와 Amazon Bedrock에서 지원하는 Foundation Model 중 ANTROPIC의 Claude Sonnet(3.5) 모델을 사용했으며, <br />
