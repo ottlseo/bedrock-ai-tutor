@@ -3,6 +3,9 @@ import boto3
 import botocore
 
 HAIKU = "anthropic.claude-3-haiku-20240307-v1:0" 
+SONNET30 = "anthropic.claude-3-sonnet-20240229-v1:0"
+SONNET35 = "anthropic.claude-3-5-sonnet-20240620-v1:0"
+REGION = "ap-northeast-2"
 
 def generate_prompt(sentence):
     system_prompt = """
@@ -51,7 +54,7 @@ def call_claude_v3(prompt, model=HAIKU):
     metadata = "application/json"
 
     try:
-        client = boto3.client("bedrock-runtime", region_name="us-west-2")
+        client = boto3.client("bedrock-runtime", region_name=REGION)
         response = client.invoke_model(
             body=body, modelId=modelId, accept=metadata, contentType=metadata
         )
