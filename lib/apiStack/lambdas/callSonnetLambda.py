@@ -2,9 +2,10 @@ import json
 import boto3
 import botocore
 
-HAIKU = "anthropic.claude-3-haiku-20240307-v1:0" 
+HAIKU30 = "anthropic.claude-3-haiku-20240307-v1:0" 
+HAIKU35 = "anthropic.claude-3-5-haiku-20241022-v1:0"
 SONNET30 = "anthropic.claude-3-sonnet-20240229-v1:0"
-SONNET35 = "anthropic.claude-3-5-sonnet-20240620-v1:0"
+SONNET35 = "anthropic.claude-3-5-sonnet-20241022-v2:0"
 REGION = "ap-northeast-2"
 
 def generate_prompt(sentence):
